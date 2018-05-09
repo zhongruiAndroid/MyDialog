@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    >
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:divider="@android:drawable/divider_horizontal_textfield"
+        app:showDividers="middle"
+        >
+        <TextView
+            android:id="@+id/tv_mydialog_top"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="mydialog_top"
+            />
+        <TextView
+            android:id="@+id/tv_mydialog_center"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="1px"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="mydialog_center"
+            />
+        <TextView
+            android:id="@+id/tv_mydialog_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="1px"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="mydialog_bottom"
+            />
+    </android.support.v7.widget.LinearLayoutCompat>
+</android.support.v4.widget.NestedScrollView>
