@@ -1,9 +1,15 @@
 package com.github.mydialog;
 
 import android.content.DialogInterface;
+import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AlertDialog;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -53,5 +59,39 @@ public class DialogUtil {
         }else{
             win.getAttributes().alpha= (float) alpha;
         }
+    }
+
+
+
+    private static final int sheetDialogDefaultParam=-100;
+    public static void setBottomSheetDialogWH(BottomSheetDialog bottomSheetDialog,int width,int height){
+        try {
+            View design_bottom_sheet = bottomSheetDialog.findViewById(android.support.design.R.id.design_bottom_sheet);
+            if(design_bottom_sheet!=null){
+                FrameLayout bottomSheet= (FrameLayout) design_bottom_sheet;
+                CoordinatorLayout.LayoutParams layoutParams;
+                if(width!=sheetDialogDefaultParam&&height!=sheetDialogDefaultParam){
+                    layoutParams = new CoordinatorLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    layoutParams.width=width;
+                    layoutParams.height=height;
+                }else if(width!=sheetDialogDefaultParam){
+                    layoutParams = new CoordinatorLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    layoutParams.width=width;
+                }else{
+                    layoutParams = new CoordinatorLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    layoutParams.height=height;
+                }
+                layoutParams.gravity= Gravity.BOTTOM;
+                bottomSheet.setLayoutParams(layoutParams);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public static void setBottomSheetDialogWidth(BottomSheetDialog bottomSheetDialog,int width){
+        setBottomSheetDialogWH(bottomSheetDialog,width,sheetDialogDefaultParam);
+    }
+    public static void setBottomSheetDialogHeight(BottomSheetDialog bottomSheetDialog,int height){
+        setBottomSheetDialogWH(bottomSheetDialog,sheetDialogDefaultParam,height);
     }
 }
