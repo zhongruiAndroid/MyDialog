@@ -1,6 +1,5 @@
 package com.test.mydialog;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -79,17 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
             case R.id.tv_bottomsheetdialogfragment:
-                SheetDialogFragment sheetDialogFragment = SheetDialogFragment.newInstance(new DialogInter() {
-                    @Override
-                    public void view(View view, Dialog dialog) {
-                        View touch_outside = dialog.findViewById(android.support.design.R.id.touch_outside);
-                        if (touch_outside != null) {
-                            touch_outside.setPadding(0, 0, 0, 0);
-                            Log("===touch_outside");
-                            //不是fragment如何去除outside
-                        }
-                    }
-                });
+                SheetDialogFragment sheetDialogFragment = SheetDialogFragment.newInstance();
                 sheetDialogFragment.show(getSupportFragmentManager(), "tag");
 
 
