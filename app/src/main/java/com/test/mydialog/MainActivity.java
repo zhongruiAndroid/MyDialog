@@ -1,5 +1,6 @@
 package com.test.mydialog;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.tv_dragging).setOnClickListener(this);
         findViewById(R.id.tv_settling).setOnClickListener(this);
         findViewById(R.id.tv_expanded).setOnClickListener(this);
+        findViewById(R.id.tv_list).setOnClickListener(this);
         bottomSheets();
     }
 
@@ -116,6 +118,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.tv_expanded:
                 behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                break;
+            case R.id.tv_list:
+                Intent intent=new Intent(this,Main2Activity.class);
+                startActivity(intent);
                 break;
         }
     }
