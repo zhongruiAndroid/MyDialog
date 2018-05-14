@@ -1,5 +1,6 @@
 package com.test.mydialog;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -16,11 +17,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private MyDialog dialog;
     private BottomSheetBehavior behavior;
-    private boolean behaviorFlag=true;
+    private boolean behaviorFlag = true;
     private int peekHeight;
 
     CheckBox cb_bottomsheets;
     CheckBox cb_bottomsheets_setting;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.tv_mydialog_center).setOnClickListener(this);
         findViewById(R.id.tv_mydialog_bottom).setOnClickListener(this);
         findViewById(R.id.tv_bottomsheetdialog).setOnClickListener(this);
+        findViewById(R.id.tv_bottomsheetdialogfragment).setOnClickListener(this);
 
         cb_bottomsheets = (CheckBox) findViewById(R.id.cb_bottomsheets);
         cb_bottomsheets.setOnClickListener(this);
@@ -67,27 +70,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 dialog.show();
                 break;
             case R.id.tv_bottomsheetdialog:
-                View bottomDialogView = getLayoutInflater().inflate(R.layout.dialog, null);
-                BottomSheetDialog bottomSheetDialog=new BottomSheetDialog(this);
+                View bottomDialogView = getLayoutInflater().inflate(R.layout.dialog2, null);
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
                 bottomSheetDialog.setContentView(bottomDialogView);
                 bottomSheetDialog.show();
 //                DialogUtil.setBottomSheetDialogHeight(bottomSheetDialog,300);
 
 
                 break;
+            case R.id.tv_bottomsheetdialogfragment:
+                SheetDialogFragment sheetDialogFragment = SheetDialogFragment.newInstance(new DialogInter() {
+                    @Override
+                    public void view(View view, Dialog dialog) {
+                        View touch_outside = dialog.findViewById(android.support.design.R.id.touch_outside);
+                        if (touch_outside != null) {
+                            touch_outside.setPadding(0, 0, 0, 0);
+                            Log("===touch_outside");
+                            //不是fragment如何去除outside
+                        }
+                    }
+                });
+                sheetDialogFragment.show(getSupportFragmentManager(), "tag");
+
+
+//
+
+                break;
             case R.id.cb_bottomsheets:
-                if(cb_bottomsheets.isChecked()){
+                if (cb_bottomsheets.isChecked()) {
                     cb_bottomsheets.setText("peekHeight-45dp");
                     behavior.setPeekHeight(135);
-                }else{
+                } else {
                     cb_bottomsheets.setText("peekHeight-0dp");
                     behavior.setPeekHeight(0);
                 }
                 break;
             case R.id.cb_bottomsheets_setting:
-                if(cb_bottomsheets_setting.isChecked()){
+                if (cb_bottomsheets_setting.isChecked()) {
                     cb_bottomsheets_setting.setText("hideable-true");
-                }else{
+                } else {
                     cb_bottomsheets_setting.setText("hideable-false");
                 }
                 behavior.setHideable(cb_bottomsheets_setting.isChecked());
@@ -117,19 +138,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 //这里是bottomSheet状态的改变
-                Log("***"+newState);
+                Log("***" + newState);
             }
 
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
                 //这里是拖拽中的回调，根据slideOffset可以做一些动画
-                Log("&&&"+slideOffset);
+                Log("&&&" + slideOffset);
             }
         });
     }
 
-    public void Log(String log){
-        Log.i("===",log);
+    public void Log(String log) {
+        Log.i("===", log);
     }
 
     public void showDialog() {
