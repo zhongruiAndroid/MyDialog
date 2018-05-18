@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 break;
             case R.id.tv_list:
-                Intent intent=new Intent(this,Main2Activity.class);
+                Intent intent=new Intent(this,MyViewActivity.class);
                 startActivity(intent);
                 break;
         }
