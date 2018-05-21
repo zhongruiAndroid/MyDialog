@@ -53,7 +53,8 @@ public class MyView extends View {
     Paint mPaint;
     int mRadius=500;
     int mPadding=20;
-
+    int keDuWidth=3;
+    int keDuZhengWidth=6;
     private void init() {
         mPaint=new Paint();
         mPaint.setAntiAlias(true);
@@ -75,6 +76,7 @@ public class MyView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
         paintCircle(canvas);
         paintLine(canvas);
 //        test(canvas);
@@ -86,7 +88,7 @@ public class MyView extends View {
         int zhengDianLength=35;
         for (int i = 0; i < 60; i++) {
             if(i%5==0){
-                mPaint.setStrokeWidth(5);
+                mPaint.setStrokeWidth(keDuZhengWidth);
                 mPaint.setColor(ContextCompat.getColor(getContext(), R.color.gray_33));
                 canvas.drawLine(mRadius-zhengDianLength-mPadding,0,mRadius-mPadding,0,mPaint);
                 if(i==0){
@@ -108,7 +110,12 @@ public class MyView extends View {
                 canvas.save();
                 canvas.translate(mRadius-textStartX+rect.width()/2,0);
                 canvas.rotate(i*-6);
-                canvas.drawText(keduStr,-textWidth/2,textHeight/2,mPaint);
+                float textY = mPaint.getFontMetrics().ascent + mPaint.getFontMetrics().leading;
+//                mPaint.setColor(ContextCompat.getColor(getContext(),R.color.c_press));
+//                canvas.drawRect(rect,mPaint);
+//                mPaint.setColor(ContextCompat.getColor(getContext(),R.color.blue_00));
+//                canvas.drawText(keduStr,0,0,mPaint);
+                canvas.drawText(keduStr,-textWidth/2-keDuZhengWidth/2,textHeight/2,mPaint);
                 canvas.restore();
             }else{
                 mPaint.setStrokeWidth(3);
