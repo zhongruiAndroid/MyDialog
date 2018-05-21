@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -14,7 +15,12 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
+import com.test.mydialog.AndroidUtils;
 import com.test.mydialog.R;
+
+import java.util.Calendar;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Administrator on 2018/5/16.
@@ -52,9 +58,30 @@ public class MyView extends View {
 
     Paint mPaint;
     int mRadius=500;
+    int mPoint=22;//圆点半径
     int mPadding=20;
-    int keDuWidth=3;
-    int keDuZhengWidth=6;
+    int keDuWidth=3;//刻度宽度
+    int keDuZhengWidth=6;//整点刻度宽度
+
+    int keDuLength=25;//刻度长度
+    int zhengDianLength=35;//整点刻度长度
+
+
+    int shiZhenLength=mRadius-zhengDianLength*6-mPadding;//时针长度
+    int fenZhenLength= mRadius-zhengDianLength*4-mPadding;//分针长度
+    int miaoZhenLength=mRadius-mPadding-zhengDianLength;//秒针长度
+
+    int shiZhenLengthD=zhengDianLength*3/2;//第二段时针长度
+    int fenZhenLengthD= zhengDianLength*3/2;//第二段分针长度
+    int miaoZhenLengthD=zhengDianLength*3/2;//第二段秒针长度
+
+
+    int shiZhenWidth=26;//时针宽度
+    int fenZhenWidth= 16;//分针宽度
+    int miaoZhenWidth=10;//秒针宽度
+
+    int timeFlag=1000;
+
     private void init() {
         mPaint=new Paint();
         mPaint.setAntiAlias(true);
@@ -76,23 +103,128 @@ public class MyView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
+        mPaint.setColor(Color.WHITE);
+        canvas.save();
+        canvas.translate(getWidth()/2,getHeight()/2);
         paintCircle(canvas);
         paintLine(canvas);
+        drawShiZhen(canvas);
+        drawfenZhen(canvas);
+        drawMiaoZhen(canvas);
+        drawYuanDian(canvas);
+        canvas.restore();
+        postInvalidateDelayed(timeFlag-System.currentTimeMillis()%1000);
+        /*new Handler().postDelayed(new Runnable() {
+            public void run() {
+                invalidate();
+            }
+        }, 1 * 1000-System.currentTimeMillis()%1000);*/
+//        drawYuanDian(canvas);
 //        test(canvas);
 
     }
-    int kedu=0;
+
+    private void drawMiaoZhen(Canvas canvas) {
+        mPaint.setColor(ContextCompat.getColor(getContext(),R.color.red));
+        canvas.save();
+        Calendar calendar=Calendar.getInstance();
+        float second = calendar.get(Calendar.SECOND);
+        float millisecond = calendar.get(Calendar.MILLISECOND);
+        Log.i(TAG+"===","3====="+second+"===="+millisecond);
+        float v = (float) (AndroidUtils.chuFa(millisecond, 1000, 2) * 6);
+        float miaoZhen=(second-15)*6+v;
+        RectF r2 = new RectF();
+        r2.left = 0;
+        r2.right = miaoZhenLength;
+        r2.top = -miaoZhenWidth/2;
+        r2.bottom = miaoZhenWidth/2;
+        canvas.rotate(miaoZhen);
+        canvas.drawRoundRect(r2,miaoZhenWidth/2,miaoZhenWidth/2,mPaint);
+
+        canvas.rotate(180);
+        r2 = new RectF();
+        r2.left = 0;
+        r2.right = miaoZhenLengthD;
+        r2.top = -miaoZhenWidth/2;
+        r2.bottom = miaoZhenWidth/2;
+        canvas.drawRoundRect(r2,miaoZhenWidth/2,miaoZhenWidth/2,mPaint);
+        canvas.restore();
+
+    }
+
+    private void drawfenZhen(Canvas canvas) {
+        mPaint.setColor(ContextCompat.getColor(getContext(),R.color.gray_33));
+        canvas.save();
+        Calendar calendar=Calendar.getInstance();
+        int minute = calendar.get(Calendar.MINUTE);
+        int second = calendar.get(Calendar.SECOND);
+        Log.i(TAG+"===","2====="+minute);
+        double v =   (AndroidUtils.chuFa(second, 60) * 6);
+        float fenZhen = (float) ((minute-15)*6+v);
+        RectF r2 = new RectF();
+        r2.left = 0;
+        r2.right = fenZhenLength;
+        r2.top = -fenZhenWidth/2;
+        r2.bottom = fenZhenWidth/2;
+        canvas.rotate(fenZhen);
+        canvas.drawRoundRect(r2,fenZhenWidth/2,fenZhenWidth/2,mPaint);
+
+        canvas.rotate(180);
+        r2 = new RectF();
+        r2.left = 0;
+        r2.right = fenZhenLengthD;
+        r2.top = -fenZhenWidth/2;
+        r2.bottom = fenZhenWidth/2;
+        canvas.drawRoundRect(r2,fenZhenWidth/2,fenZhenWidth/2,mPaint);
+        canvas.restore();
+    }
+
+    private void drawShiZhen(Canvas canvas) {
+        mPaint.setColor(ContextCompat.getColor(getContext(),R.color.gray_33));
+        canvas.save();
+        Calendar calendar=Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR);
+        Log.i(TAG+"===","1====="+hour);
+        int minute = calendar.get(Calendar.MINUTE);
+        double v =   AndroidUtils.chengFa(AndroidUtils.chuFa(minute,60),30);
+        float shizhen = (float) ((hour - 3) * 30+v);//每一个小时间隔30度,减3是因为从刻度3开始绘制，分针也是
+        RectF r2 = new RectF();
+        r2.left = 0;
+        r2.right = shiZhenLength;
+        r2.top = -shiZhenWidth/2;
+        r2.bottom = shiZhenWidth/2;
+        canvas.rotate(shizhen);
+        canvas.drawRoundRect(r2,shiZhenWidth/2,shiZhenWidth/2,mPaint);
+
+        canvas.rotate(180);
+        r2 = new RectF();
+        r2.left = 0;
+        r2.right = shiZhenLengthD;
+        r2.top = -shiZhenWidth/2;
+        r2.bottom = shiZhenWidth/2;
+        canvas.drawRoundRect(r2,shiZhenWidth/2,shiZhenWidth/2,mPaint);
+        canvas.restore();
+    }
+
+    private void drawYuanDian(Canvas canvas) {
+        canvas.save();
+
+        mPaint.setColor(ContextCompat.getColor(getContext(),R.color.red));
+        canvas.drawCircle(0, 0, mPoint, mPaint);
+        canvas.restore();
+        mPaint.setColor(ContextCompat.getColor(getContext(),R.color.gray_33));
+    }
+
     private void paintLine(Canvas canvas) {
-        int keDuLength=25;
-        int zhengDianLength=35;
+        canvas.save();
+        int kedu=0;
         for (int i = 0; i < 60; i++) {
             if(i%5==0){
                 mPaint.setStrokeWidth(keDuZhengWidth);
                 mPaint.setColor(ContextCompat.getColor(getContext(), R.color.gray_33));
                 canvas.drawLine(mRadius-zhengDianLength-mPadding,0,mRadius-mPadding,0,mPaint);
                 if(i==0){
-                    kedu=kedu+3;
+                    kedu=kedu+3;//从刻度3开始绘制
                 }else{
                     if(kedu==12){
                         kedu=1;
@@ -116,6 +248,7 @@ public class MyView extends View {
 //                mPaint.setColor(ContextCompat.getColor(getContext(),R.color.blue_00));
 //                canvas.drawText(keduStr,0,0,mPaint);
                 canvas.drawText(keduStr,-textWidth/2-keDuZhengWidth/2,textHeight/2,mPaint);
+                Log("kedu="+kedu);
                 canvas.restore();
             }else{
                 mPaint.setStrokeWidth(3);
@@ -124,9 +257,9 @@ public class MyView extends View {
             }
             canvas.rotate(6);
         }
+        canvas.restore();
     }
     private void paintCircle(Canvas canvas) {
-        canvas.translate(getWidth()/2,getHeight()/2);
 //        Log("==="+getWidth());
 //        Log("==="+getHeight());
         canvas.drawCircle(0, 0, mRadius, mPaint);
