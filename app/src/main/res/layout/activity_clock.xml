@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.test.mydialog.ClockActivity">
+
+    <com.test.mydialog.view.ClockView
+        android:id="@+id/clock_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        app:clockBorderColor="@color/orange_0"
+        app:clockColor="@color/white"
+        app:timeInterval="10"
+        app:keduColor="@color/common_line"
+        app:zhengkeduColor="@color/active_fanxian2"
+        app:clockTextColor="@color/red"
+        app:shiZhenColor="@color/press_theme_color"
+        app:fenZhenColor="@color/active_lipin1"
+        app:clockPointColor="@color/background_f2"
+        app:miaoZhenColor="@color/black"
+        app:clockBorderWidth="2px"
+        app:clockTextSize="19sp"
+        app:zhengkeduWidth="5dp"
+        app:keduWidth="2dp"
+        app:clockPadding="12dp"
+        app:clockPointRadius="10dp"
+        app:clockRadius="190dp"
+        app:clockTextDistance="30dp"
+        app:fenZhenLength="130dp"
+        app:fenZhenLengthD="40dp"
+        app:fenZhenWidth="10dp"
+        app:keduLength="30dp"
+        app:miaoZhenLength="190dp"
+        app:miaoZhenLengthD="90dp"
+        app:miaoZhenWidth="10dp"
+        app:shiZhenLength="110dp"
+        app:shiZhenLengthD="70dp"
+        app:shiZhenWidth="20dp"
+        app:zhengkeduLength="4dp"
+    />
+
+
+</LinearLayout>

@@ -94,11 +94,7 @@ public class MyView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        Log("===onMeasure");
     }
-
-
-
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -109,7 +105,7 @@ public class MyView extends View {
         paintCircle(canvas);
         paintLine(canvas);
         drawShiZhen(canvas);
-        drawfenZhen(canvas);
+        drawFenZhen(canvas);
         drawMiaoZhen(canvas);
         drawYuanDian(canvas);
         canvas.restore();
@@ -152,7 +148,7 @@ public class MyView extends View {
 
     }
 
-    private void drawfenZhen(Canvas canvas) {
+    private void drawFenZhen(Canvas canvas) {
         mPaint.setColor(ContextCompat.getColor(getContext(),R.color.gray_33));
         canvas.save();
         Calendar calendar=Calendar.getInstance();
