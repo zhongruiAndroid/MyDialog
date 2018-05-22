@@ -59,7 +59,9 @@
         <attr name="timeInterval" format="integer"/>
         <!--刻度数字大小-->
         <attr name="clockTextSize" format="dimension"/>
+        <!--刻度数字颜色-->
         <attr name="clockTextColor" format="color"/>
+        <!--刻度数字与刻度的间隔-->
         <attr name="clockTextDistance" format="dimension"/>
 
     </declare-styleable>
