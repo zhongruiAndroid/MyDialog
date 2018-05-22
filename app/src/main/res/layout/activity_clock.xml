@@ -42,7 +42,12 @@
         app:shiZhenLengthD="70dp"
         app:shiZhenWidth="20dp"
         app:zhengkeduLength="4dp"
+        android:visibility="gone"
     />
+<com.test.mydialog.view.CircleProgress
+    android:layout_width="match_parent"
+    android:layout_height="400dp"
 
+    />
 
 </LinearLayout>
