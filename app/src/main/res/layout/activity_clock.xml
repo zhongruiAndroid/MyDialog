@@ -45,7 +45,14 @@
         android:visibility="gone"
     />
 <com.test.mydialog.view.CircleProgress
-    android:layout_width="match_parent"
-    android:layout_height="400dp"
+    android:id="@+id/circleprogress"
+    android:layout_width="200dp"
+    android:layout_height="200dp"
     />
+    <android.support.v7.widget.AppCompatSeekBar
+        android:id="@+id/seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="1000"
+        />
 </LinearLayout>

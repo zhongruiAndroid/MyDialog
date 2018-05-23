@@ -1,16 +1,23 @@
 package com.test.mydialog.view;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Shader;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 
+import com.test.mydialog.AndroidUtils;
 import com.test.mydialog.BuildConfig;
 import com.test.mydialog.R;
 
@@ -74,25 +81,139 @@ public class CircleProgress extends View {
     private int ringColor;
     //圆环进度颜色
     private int ringProgressColor;
+    //圆环进度过度颜色
+    private int ringProgressSecondColor;
+    //开始角度
+    private int startAngle=120;
+    //是否顺时针
+    private boolean isClockwise=true;
+    //当前进度
+    private int progress=10;
+    //总进度
+    private int maxProgress=1000;
+    //不绘制的度数
+    private int disableAngle=60;
+    //圆环进度是否为圆角
+    private boolean isRound=true;
+    //是否设置动画
+    private boolean useAnimation =true;
+    //动画执行时间
+    private int duration =1000;
+
+    //进度百分比
+    private double progressPercent;
+    //进度百分比数值是否是小数
+    private boolean isDecimal=true;
+    //小数点后几位
+    private int decimalPointLength=1;
+    //是否显示百分比
+    private boolean isShowPercentText=true;
+    private int textColor;
+    private int textSize;
+
+    //显示百分比还是具体数量
+    private int percentOrText;
 
     private void initData() {
-        neiYuanColor=ContextCompat.getColor(getContext(),R.color.white);
-        ringRadius =300;
+        neiYuanColor=ContextCompat.getColor(getContext(),R.color.transparent);
+        ringRadius =-1;
         ringWidth=30;
         ringColor=ContextCompat.getColor(getContext(),R.color.gray_99);
         ringProgressColor=ContextCompat.getColor(getContext(),R.color.green1);
+        ringProgressSecondColor=ContextCompat.getColor(getContext(),R.color.blue_00);
+        textSize=dip2px(getContext(),17);
+        textColor=ContextCompat.getColor(getContext(),R.color.green1);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+        int mWidth =200;
+        int mHeight = 200;
+        if(getLayoutParams().width== ViewGroup.LayoutParams.WRAP_CONTENT&&getLayoutParams().height== ViewGroup.LayoutParams.WRAP_CONTENT){
+            setMeasuredDimension(mWidth,mHeight);
+        }else if(getLayoutParams().width== ViewGroup.LayoutParams.WRAP_CONTENT){
+            setMeasuredDimension(mWidth,heightSize);
+        }else if(getLayoutParams().height== ViewGroup.LayoutParams.WRAP_CONTENT){
+            setMeasuredDimension(widthSize,mHeight);
+        }
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        int WH=Math.min(getWidth()-getPaddingLeft()-getPaddingRight(),getHeight()-getPaddingTop()-getPaddingBottom());
+        if(ringRadius<0){
+            ringRadius=(WH-ringWidth)/2;
+        }
         centerX = getWidth()/2;
         centerY = getHeight()/2;
         //绘制圆环
-        drawRing(canvas);
+//        drawRing(canvas);
+        drawRing2(canvas);
+        //绘制内圆
         drawNeiYuan(canvas);
         //绘制进度圆环
         drawProgressRing(canvas);
+        //绘制进度百分比
+        if(isShowPercentText){
+            drawProgressText(canvas);
+        }
+    }
+    public int getEffectiveDegree(){
+        return 360-disableAngle;
+    }
+    public int getProgress() {
+        return progress;
+    }
+
+    public void setProgress(int progress) {
+        setProgress(progress,useAnimation);
+    }
+    public void setProgress(int progress,boolean useAnimation) {
+        int beforeProgress=this.progress;
+        if(progress>maxProgress){
+            this.progress=maxProgress;
+        }else if(progress<0){
+            this.progress=0;
+        }else{
+            this.progress = progress;
+        }
+        if(useAnimation){
+            ValueAnimator valueAnimator =ValueAnimator.ofInt(beforeProgress,progress);
+            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    CircleProgress.this.progress = (int) animation.getAnimatedValue();
+                    invalidate();
+                }
+            });
+            valueAnimator.setInterpolator(new DecelerateInterpolator());
+            valueAnimator.setDuration(duration);
+            valueAnimator.start();
+        }else{
+            invalidate();
+        }
+    }
+
+    private void drawProgressText(Canvas canvas) {
+        mPaint.reset();
+        mPaint.setAntiAlias(true);
+        mPaint.setDither(true);
+        progressPercent  = AndroidUtils.chuFa(progress * 100, maxProgress, decimalPointLength);
+        String percentStr=progressPercent+"%";
+        if(!isDecimal){
+            percentStr=((int)progressPercent)+"%";
+        }
+        Rect rect=new Rect();
+        mPaint.setTextSize(textSize);
+        mPaint.setColor(textColor);
+        mPaint.getTextBounds(percentStr,0,percentStr.length(),rect);
+        float baseLineHeight = Math.abs(mPaint.getFontMetrics().ascent);
+        canvas.drawText(percentStr+"",centerX-rect.width()/2,centerY+baseLineHeight/2,mPaint);
+
     }
 
     private void drawNeiYuan(Canvas canvas) {
@@ -103,50 +224,57 @@ public class CircleProgress extends View {
     }
 
     private void drawProgressRing(Canvas canvas) {
-
         mPaint.setColor(ringProgressColor);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeWidth(ringWidth);
-//        canvas.drawCircle(centerX,centerY, ringRadius,mPaint);
-       /* *//**
-         * 画弧形
-         * float left：表示弧形呈360度显示时，对应的最左边那个端点所对应的 x 坐标
-         * float top：表示弧形呈360度显示时，对应的最上边那个端点所对应的 y 坐标
-         * float right：表示弧形呈360度显示时，对应的最右边那个端点所对应的 x 坐标
-         * float bottom：表示弧形呈360度显示时，对应的最下边那个端点所对应的 y 坐标
-         * float startAngle：
-         * 表示与水平方向呈多少角度开始绘制弧形，顺时针的角度记为正
-         * float sweepAngle：
-         * 表示绘制弧形时所对应的扇形角度，数值为正，则表示从顺时针方向开始绘制
-         * boolean useCenter：
-         * true表示扇形需要中间那一部分三角形，
-         * false表示显示的是：从扇形中出去中间那个三角形之后的一小部分的弧形
-         * Paint paint：表示我们所用的画笔
-         *//*
-        mPaint.setStrokeJoin(Paint.Join.MITER);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            canvas.drawArc(200,200,500,500,30,90,true,mPaint);
-        }*/
+        mPaint.setShader(null);
 
-//        canvas.drawArc(oval, -90, alphaAngle, false, circlePaint);
         RectF rectF=new RectF(centerX-ringRadius,centerY-ringRadius,centerX+ringRadius,centerY+ringRadius);
-        mPaint.setShadowLayer(1000,1000,1000,ContextCompat.getColor(getContext(),R.color.blue_00));
+//        mPaint.setShadowLayer(1000,1000,1000,ContextCompat.getColor(getContext(),R.color.blue_00));
+        LinearGradient linearGradient = new LinearGradient(0,0,
+                getMeasuredWidth(),getMeasuredHeight(),
+                ringProgressColor,ringProgressSecondColor,
+                Shader.TileMode.MIRROR);
+        mPaint.setShader(linearGradient);
 
-        mPaint.setStrokeCap(Paint.Cap.ROUND);
-        canvas.drawArc(rectF,-90,145,false,mPaint);
+        if(isRound){
+            mPaint.setStrokeCap(Paint.Cap.ROUND);
+        }
+        float angle = (float) AndroidUtils.chuFa(progress*getEffectiveDegree(),maxProgress,2);
+        if(!isClockwise){
+            angle=-1*angle;
+        }
+        canvas.drawArc(rectF,startAngle,angle,false,mPaint);
     }
-//    @SuppressLint("NewApi")
-//    @Override
-//    public void setLayerType(int layerType, @Nullable Paint paint) {
-//        super.setLayerType(LAYER_TYPE_SOFTWARE, paint);
-//        setLayerType( LAYER_TYPE_SOFTWARE , null);
-//        //this.setLayerType(LAYER_TYPE_SOFTWARE,null);
-//    }
 
+    private void drawRing2(Canvas canvas) {
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStrokeWidth(ringWidth);
+        mPaint.setColor(ringColor);
+        RectF rectF=new RectF(centerX-ringRadius,centerY-ringRadius,centerX+ringRadius,centerY+ringRadius);
+        if(isRound){
+            mPaint.setStrokeCap(Paint.Cap.ROUND);
+        }
+        float angle = getEffectiveDegree();
+
+        if(!isClockwise){
+            angle=-1*angle;
+        }
+        canvas.drawArc(rectF,startAngle,angle,false,mPaint);
+    }
     private void drawRing(Canvas canvas) {
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeWidth(ringWidth);
         mPaint.setColor(ringColor);
         canvas.drawCircle(centerX,centerY, ringRadius,mPaint);
+    }
+    private int px2dip(Context context, float pxValue) {
+        float scale = context.getResources().getDisplayMetrics().density;
+        return (int)(pxValue / scale + 0.5F);
+    }
+
+    private int dip2px(Context context, float dipValue) {
+        float scale = context.getResources().getDisplayMetrics().density;
+        return (int)(dipValue * scale + 0.5F);
     }
 }
