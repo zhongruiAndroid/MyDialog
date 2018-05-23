@@ -11,3 +11,5 @@ gradle/
 gradle.properties
 *.apk
 .svn
+gradlew
+gradlew.bat

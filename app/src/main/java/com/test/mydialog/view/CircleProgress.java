@@ -2,6 +2,7 @@ package com.test.mydialog.view;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
@@ -9,6 +10,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -27,49 +29,18 @@ import com.test.mydialog.R;
 
 public class CircleProgress extends View {
     public boolean isDebug=true;
-    private int centerX;
-    private int centerY;
-
+    private OnCircleProgressInter onCircleProgressInter;
+    public interface OnCircleProgressInter {
+        void progress(int progress,int max);
+    }
     public void Log(String log) {
         if(BuildConfig.DEBUG&&isDebug){
             Log.i("ClockView===", log);
         }
     }
+    private int centerX;
+    private int centerY;
     private Paint mPaint;
-
-    public CircleProgress(Context context) {
-        super(context);
-        initAttr(null);
-    }
-
-    public CircleProgress(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        initAttr(attrs);
-    }
-
-    public CircleProgress(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        initAttr(attrs);
-    }
-
-    private void initAttr(AttributeSet attrs) {
-        if (attrs == null) {
-            return;
-        }
-
-
-        initData();
-        initPaint();
-    }
-
-    private void initPaint() {
-        mPaint=new Paint();
-        mPaint.setAntiAlias(true);
-        mPaint.setDither(true);
-        mPaint.setColor(Color.WHITE);
-        mPaint.setStyle(Paint.Style.FILL);
-    }
-
 
     //内圆颜色
     private int neiYuanColor;
@@ -84,15 +55,21 @@ public class CircleProgress extends View {
     //圆环进度过度颜色
     private int ringProgressSecondColor;
     //开始角度
-    private int startAngle=120;
+    private int startAngle=-90;
     //是否顺时针
     private boolean isClockwise=true;
     //当前进度
     private int progress=10;
     //总进度
-    private int maxProgress=1000;
+    private int maxProgress=100;
+
+    //用与逻辑计算的总进度(主要使动画效果更平滑)
+    private final int viewMax=3600;
+    //用与逻辑计算的当前进度(主要使动画效果更平滑)
+    private int viewProgress=progress*viewMax/maxProgress;
+
     //不绘制的度数
-    private int disableAngle=60;
+    private int disableAngle=0;
     //圆环进度是否为圆角
     private boolean isRound=true;
     //是否设置动画
@@ -108,11 +85,72 @@ public class CircleProgress extends View {
     private int decimalPointLength=1;
     //是否显示百分比
     private boolean isShowPercentText=true;
+    //文字颜色
     private int textColor;
+    //文字大小
     private int textSize;
 
-    //显示百分比还是具体数量
-    private int percentOrText;
+    public CircleProgress(Context context) {
+        super(context);
+        initAttr(null);
+    }
+    public CircleProgress(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+        initAttr(attrs);
+    }
+    public CircleProgress(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        initAttr(attrs);
+    }
+    private void initAttr(AttributeSet attrs) {
+        if (attrs == null) {
+            return;
+        }
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.CircleProgress);
+        neiYuanColor = typedArray.getColor(R.styleable.CircleProgress_neiYuanColor,getTransparentColor());
+        ringRadius = (int) typedArray.getDimension(R.styleable.CircleProgress_ringRadius, -1);
+        ringWidth = (int) typedArray.getDimension(R.styleable.CircleProgress_ringWidth, 30);
+        ringColor = typedArray.getColor(R.styleable.CircleProgress_ringColor, ContextCompat.getColor(getContext(),R.color.top_color2));
+        ringProgressColor = typedArray.getColor(R.styleable.CircleProgress_ringProgressColor,ContextCompat.getColor(getContext(),R.color.green1));
+        ringProgressSecondColor = typedArray.getColor(R.styleable.CircleProgress_ringProgressSecondColor, ringProgressColor);
+        startAngle = typedArray.getInteger(R.styleable.CircleProgress_startAngle, -90);
+        isClockwise = typedArray.getBoolean(R.styleable.CircleProgress_isClockwise, true);
+        progress = typedArray.getInteger(R.styleable.CircleProgress_progress, 10);
+        maxProgress = typedArray.getInteger(R.styleable.CircleProgress_maxProgress, 100);
+
+
+        viewProgress=progress*viewMax/maxProgress;
+
+        disableAngle = typedArray.getInteger(R.styleable.CircleProgress_disableAngle, 0);
+        isRound = typedArray.getBoolean(R.styleable.CircleProgress_isRound, true);
+        useAnimation = typedArray.getBoolean(R.styleable.CircleProgress_useAnimation, true);
+        duration = typedArray.getInteger(R.styleable.CircleProgress_duration, 1000);
+        isDecimal = typedArray.getBoolean(R.styleable.CircleProgress_isDecimal, true);
+        decimalPointLength = typedArray.getInteger(R.styleable.CircleProgress_decimalPointLength, 1);
+        isShowPercentText = typedArray.getBoolean(R.styleable.CircleProgress_isShowPercentText,true);
+        textColor = typedArray.getColor(R.styleable.CircleProgress_textColor,ContextCompat.getColor(getContext(),R.color.green1));
+        textSize = (int) typedArray.getDimension(R.styleable.CircleProgress_textSize, getDef_TextSize());
+        typedArray.recycle();
+//        initData();
+        initPaint();
+    }
+    private int getTransparentColor(){
+        return ContextCompat.getColor(getContext(),R.color.transparent);
+    }
+
+    private int getDef_TextSize(){
+        return dip2px(getContext(),17);
+    }
+
+    private void initPaint() {
+        mPaint=new Paint();
+        mPaint.setAntiAlias(true);
+        mPaint.setDither(true);
+        mPaint.setColor(Color.WHITE);
+        mPaint.setStyle(Paint.Style.FILL);
+    }
+
+
 
     private void initData() {
         neiYuanColor=ContextCompat.getColor(getContext(),R.color.transparent);
@@ -162,41 +200,6 @@ public class CircleProgress extends View {
             drawProgressText(canvas);
         }
     }
-    public int getEffectiveDegree(){
-        return 360-disableAngle;
-    }
-    public int getProgress() {
-        return progress;
-    }
-
-    public void setProgress(int progress) {
-        setProgress(progress,useAnimation);
-    }
-    public void setProgress(int progress,boolean useAnimation) {
-        int beforeProgress=this.progress;
-        if(progress>maxProgress){
-            this.progress=maxProgress;
-        }else if(progress<0){
-            this.progress=0;
-        }else{
-            this.progress = progress;
-        }
-        if(useAnimation){
-            ValueAnimator valueAnimator =ValueAnimator.ofInt(beforeProgress,progress);
-            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    CircleProgress.this.progress = (int) animation.getAnimatedValue();
-                    invalidate();
-                }
-            });
-            valueAnimator.setInterpolator(new DecelerateInterpolator());
-            valueAnimator.setDuration(duration);
-            valueAnimator.start();
-        }else{
-            invalidate();
-        }
-    }
 
     private void drawProgressText(Canvas canvas) {
         mPaint.reset();
@@ -217,13 +220,16 @@ public class CircleProgress extends View {
     }
 
     private void drawNeiYuan(Canvas canvas) {
-
+        mPaint.setAntiAlias(true);
+        mPaint.setDither(true);
         mPaint.setColor(neiYuanColor);
         mPaint.setStyle(Paint.Style.FILL);
         canvas.drawCircle(centerX,centerY,ringRadius-ringWidth/2,mPaint);
     }
 
     private void drawProgressRing(Canvas canvas) {
+        mPaint.setAntiAlias(true);
+        mPaint.setDither(true);
         mPaint.setColor(ringProgressColor);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeWidth(ringWidth);
@@ -240,14 +246,19 @@ public class CircleProgress extends View {
         if(isRound){
             mPaint.setStrokeCap(Paint.Cap.ROUND);
         }
-        float angle = (float) AndroidUtils.chuFa(progress*getEffectiveDegree(),maxProgress,2);
+
+        float angle = (float) AndroidUtils.chuFa(viewProgress*getEffectiveDegree(),viewMax,2);
+        Log("angle==="+angle);
         if(!isClockwise){
             angle=-1*angle;
         }
         canvas.drawArc(rectF,startAngle,angle,false,mPaint);
+        mPaint.reset();//如果不reset，setShader导致设置进度无效果
     }
 
     private void drawRing2(Canvas canvas) {
+        mPaint.setAntiAlias(true);
+        mPaint.setDither(true);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeWidth(ringWidth);
         mPaint.setColor(ringColor);
@@ -268,6 +279,268 @@ public class CircleProgress extends View {
         mPaint.setColor(ringColor);
         canvas.drawCircle(centerX,centerY, ringRadius,mPaint);
     }
+    /*******************************get*set********************************************/
+    public int getEffectiveDegree(){
+        return 360-disableAngle;
+    }
+    public int getProgress() {
+        return progress;
+    }
+
+    public void setProgress(int progress) {
+        setProgress(progress,useAnimation);
+    }
+
+    public int getDisableAngle() {
+        return disableAngle;
+    }
+
+    public void setDisableAngle(int disableAngle) {
+        int beforeDisableAngle=this.disableAngle;
+        if(disableAngle>360){
+            this.disableAngle=360;
+        }else if(disableAngle<0){
+            this.disableAngle=0;
+        }else{
+            this.disableAngle = disableAngle;
+        }
+        if(useAnimation){
+            ValueAnimator valueAnimator =ValueAnimator.ofInt(beforeDisableAngle,disableAngle);
+            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    CircleProgress.this.disableAngle= (int) animation.getAnimatedValue();
+                    invalidate();
+                }
+            });
+            valueAnimator.setInterpolator(new DecelerateInterpolator());
+            valueAnimator.setDuration(duration);
+            valueAnimator.start();
+        }else{
+            invalidate();
+        }
+    }
+
+    public int getStartAngle() {
+        return startAngle;
+    }
+
+    public void setStartAngle(int startAngle) {
+        this.startAngle = startAngle;
+    }
+
+    public void setProgress(int progress, boolean useAnimation) {
+        int beforeProgress=viewProgress;
+        if(progress>maxProgress){
+            this.progress=maxProgress;
+        }else if(progress<0){
+            this.progress=0;
+        }else{
+            this.progress = progress;
+        }
+        viewProgress = progress * viewMax / maxProgress;
+        if(useAnimation){
+            ValueAnimator valueAnimator =ValueAnimator.ofInt(beforeProgress,viewProgress);
+            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    CircleProgress.this.viewProgress = (int) animation.getAnimatedValue();
+                    CircleProgress.this.progress = CircleProgress.this.viewProgress*CircleProgress.this.maxProgress/viewMax;
+                    invalidate();
+                    setCircleProgress(CircleProgress.this.progress,CircleProgress.this.maxProgress);
+                }
+            });
+            valueAnimator.setInterpolator(new DecelerateInterpolator());
+            valueAnimator.setDuration(duration);
+            valueAnimator.start();
+        }else{
+            invalidate();
+            setCircleProgress(CircleProgress.this.progress,CircleProgress.this.maxProgress);
+        }
+    }
+
+    public int getNeiYuanColor() {
+        return neiYuanColor;
+    }
+
+    public CircleProgress setNeiYuanColor(@ColorInt int neiYuanColor) {
+        this.neiYuanColor = neiYuanColor;
+        invalidateCircleProgress();
+        return this;
+    }
+
+    public int getRingRadius() {
+        return ringRadius;
+    }
+
+    public CircleProgress setRingRadius(int ringRadius) {
+        this.ringRadius = ringRadius;
+        invalidateCircleProgress();
+        return this;
+    }
+
+    public int getRingWidth() {
+        return ringWidth;
+    }
+
+    public CircleProgress setRingWidth(int ringWidth) {
+        this.ringWidth = ringWidth;
+        invalidateCircleProgress();
+        return this;
+    }
+
+    public int getRingColor() {
+        return ringColor;
+    }
+
+    public CircleProgress setRingColor(@ColorInt int ringColor) {
+        this.ringColor = ringColor;
+        invalidateCircleProgress();
+        return this;
+    }
+
+    public int getRingProgressColor() {
+        return ringProgressColor;
+    }
+
+    public CircleProgress setRingProgressColor(@ColorInt int ringProgressColor) {
+        this.ringProgressColor = ringProgressColor;
+        invalidateCircleProgress();
+        return this;
+    }
+
+    public int getRingProgressSecondColor() {
+        return ringProgressSecondColor;
+    }
+
+    public CircleProgress setRingProgressSecondColor(@ColorInt int ringProgressSecondColor) {
+        this.ringProgressSecondColor = ringProgressSecondColor;
+        invalidateCircleProgress();
+        return this;
+    }
+
+
+    public boolean isClockwise() {
+        return isClockwise;
+    }
+
+    public CircleProgress setClockwise(boolean clockwise) {
+        isClockwise = clockwise;
+        invalidateCircleProgress();
+        return this;
+    }
+
+    public int getMaxProgress() {
+        return maxProgress;
+    }
+
+    public CircleProgress setMaxProgress(int maxProgress) {
+        this.maxProgress = maxProgress;
+        invalidateCircleProgress();
+        return this;
+    }
+
+    public boolean isRound() {
+        return isRound;
+    }
+
+    public CircleProgress setRound(boolean round) {
+        isRound = round;
+        invalidateCircleProgress();
+        return this;
+    }
+
+    public boolean isUseAnimation() {
+        return useAnimation;
+    }
+
+    public CircleProgress setUseAnimation(boolean useAnimation) {
+        this.useAnimation = useAnimation;
+        invalidateCircleProgress();
+        return this;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public CircleProgress setDuration(int duration) {
+        this.duration = duration;
+        invalidateCircleProgress();
+        return this;
+    }
+
+    public double getProgressPercent() {
+        return progressPercent;
+    }
+
+    public boolean isDecimal() {
+        return isDecimal;
+    }
+
+    public CircleProgress setDecimal(boolean decimal) {
+        isDecimal = decimal;
+        invalidateCircleProgress();
+        return this;
+    }
+
+    public int getDecimalPointLength() {
+        return decimalPointLength;
+    }
+
+    public CircleProgress setDecimalPointLength(int decimalPointLength) {
+        this.decimalPointLength = decimalPointLength;
+        invalidateCircleProgress();
+        return this;
+    }
+
+    public boolean isShowPercentText() {
+        return isShowPercentText;
+    }
+
+    public CircleProgress setShowPercentText(boolean showPercentText) {
+        isShowPercentText = showPercentText;
+        invalidateCircleProgress();
+        return this;
+    }
+
+    public int getTextColor() {
+        return textColor;
+    }
+
+    public CircleProgress setTextColor(@ColorInt int textColor) {
+        this.textColor = textColor;
+        invalidateCircleProgress();
+        return this;
+    }
+
+    public int getTextSize() {
+        return textSize;
+    }
+
+    public CircleProgress setTextSize(int textSize) {
+        this.textSize = textSize;
+        invalidateCircleProgress();
+        return this;
+    }
+
+    public OnCircleProgressInter getOnCircleProgressInter() {
+        return onCircleProgressInter;
+    }
+    public CircleProgress setOnCircleProgressInter(OnCircleProgressInter onCircleProgressInter) {
+        this.onCircleProgressInter = onCircleProgressInter;
+        return this;
+    }
+    private void setCircleProgress(int progress,int max) {
+        Log(progress+"=setCircleProgress=="+max);
+        if(onCircleProgressInter !=null){
+            onCircleProgressInter.progress(progress,max);
+        }
+    }
+    private void invalidateCircleProgress(){
+        invalidate();
+    }
+
     private int px2dip(Context context, float pxValue) {
         float scale = context.getResources().getDisplayMetrics().density;
         return (int)(pxValue / scale + 0.5F);
