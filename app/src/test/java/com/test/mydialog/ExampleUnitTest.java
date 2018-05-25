@@ -14,4 +14,12 @@ public class ExampleUnitTest {
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
     }
+    @Test
+    public void asdf() throws Exception {
+
+        double oldPrice=1;
+        double oldNum=1;
+
+        AndroidUtils.chuFa(oldPrice,oldNum);
+    }
 }

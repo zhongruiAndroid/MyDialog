@@ -11,6 +11,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
+import com.test.mydialog.BuildConfig;
 import com.test.mydialog.R;
 
 /**
@@ -18,6 +19,12 @@ import com.test.mydialog.R;
  */
 
 public class TestView extends View {
+    public boolean isDebug=true;
+    public void Log(String log) {
+        if(BuildConfig.DEBUG&&isDebug){
+            Log.i("ClockView===", log);
+        }
+    }
     public TestView(Context context) {
         super(context);
         init();
@@ -49,6 +56,12 @@ public class TestView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        mPaint.setAntiAlias(true);
+        mPaint.setDither(true);
+        mPaint.setStrokeWidth(strokeWidth);
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setColor(ContextCompat.getColor(getContext(), R.color.blue));
+        Log("===onDraw");
         canvas.translate(getWidth()/2,getHeight()/2);
         canvas.save();
        /* RectF rectF=new RectF(-radiusLeft-strokeWidth/2,-radiusTop-strokeWidth/2,radiusLeft+strokeWidth/2,radiusTop+strokeWidth/2);
