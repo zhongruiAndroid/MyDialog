@@ -119,10 +119,8 @@
                     />
                 <com.test.mydialog.view.XMView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-
+                    android:layout_height="240dp"
                     />
-
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 

@@ -44,6 +44,7 @@
     <color name="orange_ff">#ff712b</color>
     <color name="orange_ff2">#FFF2EB</color>
     <color name="blue_00">#419BF3</color>
+    <color name="xm">#099e8c</color>
     <color name="hint_color">#FFC8C8C8</color>
 
 
@@ -53,7 +54,11 @@
     <color name="colorPrimaryAlpha">#70000000</color>
     <color name="colorPrimaryAlpha1">#BF58C2F7</color>
     <color name="white">#ffffff</color>
-    <color name="white_half">#86FFFFFF</color>
+    <color name="white_half9">#25ffffff</color>
+    <color name="white_half">#70ffffff</color>
+    <color name="white_half4">#40ffffff</color>
+    <color name="white_half3">#38ffffff</color>
+    <color name="white_half2">#20ffffff</color>
     <color name="gray_AB">#616161</color>
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
