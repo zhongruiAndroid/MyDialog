@@ -122,6 +122,7 @@
                     android:layout_height="240dp"
                     />
             </LinearLayout>
+
         </android.support.v4.widget.NestedScrollView>
 
 

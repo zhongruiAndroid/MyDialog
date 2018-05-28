@@ -21,7 +21,7 @@ import java.util.Calendar;
  * Created by Administrator on 2018/5/25.
  */
 
-public class XMView extends View {
+public class XMView4 extends View {
     public boolean isDebug=true;
     private float dangQianAngle;
     private double meiDuanAngle;
@@ -32,16 +32,16 @@ public class XMView extends View {
             Log.i("ClockView===", log);
         }
     }
-    public XMView(Context context) {
+    public XMView4(Context context) {
         super(context);
         init(null);
     }
 
-    public XMView(Context context, @Nullable AttributeSet attrs) {
+    public XMView4(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(attrs);
     }
-    public XMView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public XMView4(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(attrs);
     }
@@ -63,8 +63,8 @@ public class XMView extends View {
         mPaint.setColor(ContextCompat.getColor(getContext(), R.color.white_half3));
         zhouChang = 2 * mRadius * Math.PI;
         Log("==="+Math.PI);
-        borderWidth= (float)AndroidUtils.chuFa(zhouChang,keDuNum,pointLength);
-        keDuAngle=(float) AndroidUtils.chuFa(360,keDuNum,pointLength);
+        borderWidth= (float)AndroidUtils.chuFa(zhouChang,keDuNum*2,pointLength);
+        keDuAngle=(float) AndroidUtils.chuFa(360,keDuNum*2,pointLength);
         offsetAngle= (float) AndroidUtils.chuFa(keDuAngle,3,pointLength);//每个刻度需要绘制3次完成(用于着色)
         offsetLength=(float) AndroidUtils.chuFa(keDuLength,3,pointLength);
         Log("==周长="+zhouChang+"==单次旋转角度="+offsetAngle+"==刻度宽度="+keDuLength+"==单次旋转弧长="+offsetLength);
@@ -88,7 +88,7 @@ public class XMView extends View {
        /* canvas.save();
         canvas.rotate(dangQianAngle);*/
         double meiDuanLength = AndroidUtils.chuFa(zhouChang, 400);
-        meiDuanAngle = AndroidUtils.chuFa(360, keDuNum);
+        meiDuanAngle = AndroidUtils.chuFa(360, keDuNum*2);
         RectF rectF=new RectF(-mRadius,-mRadius,mRadius,mRadius);
         int color = ContextCompat.getColor(getContext(), R.color.white);
         int color2= ContextCompat.getColor(getContext(), R.color.white_half3);
@@ -96,8 +96,23 @@ public class XMView extends View {
         int colorClock=Color.parseColor("#ffffff");
 //        drawKeDu(canvas);
 
-        for (int i = 0; i < keDuNum; i++) {
-            if(i%2==0){
+        for (int i = 0; i < keDuNum*2; i++) {
+            if(i==keDuNum*2-2) {//最后一个刻度分三次绘制
+
+                mPaint.setColor(ContextCompat.getColor(getContext(), R.color.white));
+                canvas.drawArc(rectF,0,offsetAngle,false,mPaint);
+                canvas.rotate(offsetAngle);
+
+
+                mPaint.setColor(ContextCompat.getColor(getContext(), R.color.white));
+                canvas.drawArc(rectF,0,offsetAngle,false,mPaint);
+                canvas.rotate(offsetAngle);
+
+
+                mPaint.setColor(ContextCompat.getColor(getContext(), R.color.white_half));
+                canvas.drawArc(rectF,0,offsetAngle,false,mPaint);
+                canvas.rotate(offsetAngle);
+            }else if(i%2==0){
                 canvas.drawArc(rectF,0,keDuAngle,false,mPaint);
                 canvas.rotate(keDuAngle);
             }else{
@@ -114,17 +129,17 @@ public class XMView extends View {
         int temp=255;
         for (int i = 0; i < 400; i++) {
             int colorClock;
-            double v = 100 - AndroidUtils.chuFa(69 * 100, 70,pointLength);
-            temp= (int) (255*v/100);
-            String str = Integer.toHexString(temp);
-            if(str.length()<2){
-                str="0"+str;
-            }
-            mPaint.setColor(Color.parseColor("#"+str+"ffffff"));
-            colorClock=Color.parseColor("#"+str+"ffffff");
-            mPaint.setColor(colorClock);
+                double v = 100 - AndroidUtils.chuFa(69 * 100, 70,pointLength);
+                temp= (int) (255*v/100);
+                String str = Integer.toHexString(temp);
+                if(str.length()<2){
+                    str="0"+str;
+                }
+                mPaint.setColor(Color.parseColor("#"+str+"ffffff"));
+                colorClock=Color.parseColor("#"+str+"ffffff");
+                mPaint.setColor(colorClock);
 
-            mPaint.setColor(colorClock);
+                mPaint.setColor(colorClock);
             canvas.drawArc(rectF,0, (float) meiDuanAngle,false,mPaint);
             canvas.rotate((float) (meiDuanAngle*2));
         }
