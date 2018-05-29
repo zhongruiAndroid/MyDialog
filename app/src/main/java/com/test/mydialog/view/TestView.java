@@ -64,24 +64,24 @@ public class TestView extends View {
         Log("===onDraw");
         canvas.translate(getWidth()/2,getHeight()/2);
         canvas.save();
-       /* RectF rectF=new RectF(-radiusLeft-strokeWidth/2,-radiusTop-strokeWidth/2,radiusLeft+strokeWidth/2,radiusTop+strokeWidth/2);
-//        canvas.drawOval(rectF,mPaint);
-        canvas.drawArc(rectF, 0,360, false, mPaint);*/
+       /* RectF yuanHuRectF=new RectF(-radiusLeft-strokeWidth/2,-radiusTop-strokeWidth/2,radiusLeft+strokeWidth/2,radiusTop+strokeWidth/2);
+//        canvas.drawOval(yuanHuRectF,mPaint);
+        canvas.drawArc(yuanHuRectF, 0,360, false, mPaint);*/
 
 /*
         mPaint.setColor(ContextCompat.getColor(getContext(), R.color.green));
-        rectF=new RectF(-radiusLeft-strokeWidth/2,-radiusTop-strokeWidth/2,radiusLeft+strokeWidth/2,radiusTop+strokeWidth/2);
-        canvas.drawArc(rectF, 45+flag,angle, false, mPaint);
+        yuanHuRectF=new RectF(-radiusLeft-strokeWidth/2,-radiusTop-strokeWidth/2,radiusLeft+strokeWidth/2,radiusTop+strokeWidth/2);
+        canvas.drawArc(yuanHuRectF, 45+flag,angle, false, mPaint);
 
 
         mPaint.setColor(ContextCompat.getColor(getContext(), R.color.orange));
-        rectF=new RectF(-radiusLeft-strokeWidth/2,-radiusTop-strokeWidth/2,radiusLeft+strokeWidth/2,radiusTop+strokeWidth/2);
-        canvas.drawArc(rectF, 135+flag,angle, false, mPaint);
+        yuanHuRectF=new RectF(-radiusLeft-strokeWidth/2,-radiusTop-strokeWidth/2,radiusLeft+strokeWidth/2,radiusTop+strokeWidth/2);
+        canvas.drawArc(yuanHuRectF, 135+flag,angle, false, mPaint);
 
 
         mPaint.setColor(ContextCompat.getColor(getContext(), R.color.active_dianying1));
-        rectF=new RectF(-radiusLeft-strokeWidth/2,-radiusTop-strokeWidth/2,radiusLeft+strokeWidth/2,radiusTop+strokeWidth/2);
-        canvas.drawArc(rectF, 225+flag,angle, false, mPaint);*/
+        yuanHuRectF=new RectF(-radiusLeft-strokeWidth/2,-radiusTop-strokeWidth/2,radiusLeft+strokeWidth/2,radiusTop+strokeWidth/2);
+        canvas.drawArc(yuanHuRectF, 225+flag,angle, false, mPaint);*/
 
         int sqrt = (int) (jianGe/Math.sqrt(2));
 

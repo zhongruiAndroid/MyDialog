@@ -23,7 +23,7 @@ import java.util.Calendar;
  * Created by Administrator on 2018/5/25.
  */
 
-public class XMView extends View {
+public class XMView5 extends View {
     public boolean isDebug=true;
     private Matrix shaderMatrix;
 
@@ -32,16 +32,16 @@ public class XMView extends View {
             Log.i("ClockView===", log);
         }
     }
-    public XMView(Context context) {
+    public XMView5(Context context) {
         super(context);
         init(null);
     }
 
-    public XMView(Context context, @Nullable AttributeSet attrs) {
+    public XMView5(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(attrs);
     }
-    public XMView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public XMView5(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(attrs);
     }
@@ -58,15 +58,15 @@ public class XMView extends View {
     Paint keDuYuanHuPaint;
     private SweepGradient shader;
 
-    float biaoPanPadding =38;
+    float bianPanPadding =38;
     float keDuLength=40;
     float keDuWidth;
     float keDuJianGeAngle;
-    float mRadius=320;
-    float keDuNum=200;
-    float biaoPanWidth =4;
+    int mRadius=320;
+    int keDuNum=200;
+    int biaoPanWidth =4;
     //外表盘4段弧长的间隔角度
-    float biaoPanIntervalAngle =6;
+    int biaoPanIntervalAngle =6;
     int biaoPanColor;
     int startColor;
     int endColor;
@@ -80,41 +80,39 @@ public class XMView extends View {
     float minuteAngle;
     float secondAngle;
 
-    //圆点画笔
-    Paint pointPaint;
-    float pointRadius=16;
-    float pointWidth=11;
+    float pointRadius=45;
+    float pointWidth=15;
 
     //时针画笔
     Paint shiZhenPaint;
     Path shiZhenPath;
-    Path fenZhenPath;
     //分针画笔
     Paint fenZhenPaint;
-    float shiZhenLength=160;
-    float fenZhenLength=210;
+    float shiZhenLength=140;
+    float fenZhenLength=170;
     int shiZhenColor;
     int fenZhenColor;
-    float shiZhenMaxHeigth=10;
-    float shiZhenMinHeigth=8;
+    float shiZhenMaxHeigth=16;
+    float shiZhenMinHeigth=14;
 
-    float fenZhenMaxHeigth=8;
-    float fenZhenMinHeigth=5;
+    float fenZhenMaxHeigth=10;
+    float fenZhenMinHeigth=8;
 
     private void init(AttributeSet attrs) {
 
-        zhouChang = (float) (2 * (mRadius- biaoPanPadding -keDuLength/2) * Math.PI);
+        zhouChang = (float) (2 * (mRadius- bianPanPadding -keDuLength/2) * Math.PI);
         keDuWidth= zhouChang/(keDuNum*2);
         keDuJianGeAngle= 360/keDuNum;
 
         keDuAngle=360/keDuNum;
+        Log(zhouChang+"==="+keDuWidth+"==="+keDuJianGeAngle+"===");
 
         biaoPanColor =ContextCompat.getColor(getContext(), R.color.white_half60);
         startColor=ContextCompat.getColor(getContext(), R.color.white);
         endColor=ContextCompat.getColor(getContext(), R.color.white_half60);
 
-        shiZhenColor=ContextCompat.getColor(getContext(), R.color.white_half20);
-        fenZhenColor=ContextCompat.getColor(getContext(), R.color.white);
+        shiZhenColor=ContextCompat.getColor(getContext(), R.color.white);
+        fenZhenColor=ContextCompat.getColor(getContext(), R.color.white_half60);
 
 
 
@@ -150,14 +148,8 @@ public class XMView extends View {
         shiZhenPaint=new Paint(Paint.ANTI_ALIAS_FLAG);
         shiZhenPaint.setColor(shiZhenColor);
 
-        fenZhenPath=new Path();
         fenZhenPaint=new Paint(Paint.ANTI_ALIAS_FLAG);
         fenZhenPaint.setColor(fenZhenColor);
-
-        pointPaint=new Paint(Paint.ANTI_ALIAS_FLAG);
-        pointPaint.setColor(ContextCompat.getColor(getContext(),R.color.white));
-        pointPaint.setStyle(Paint.Style.STROKE);
-        pointPaint.setStrokeWidth(pointWidth);
 
     }
 
@@ -176,50 +168,15 @@ public class XMView extends View {
         //绘制表盘刻度
         drawBiaoPanKeDu(canvas);
         //绘制时针
-        drawShiZhen(canvas);
+//        drawShiZhen(canvas);
         //绘制分针
         drawFenZhen(canvas);
-        //绘制中间圆点
-        drawPoint(canvas);
 
         canvas.restore();
         invalidate();
     }
 
-    private void drawPoint(Canvas canvas) {
-//        canvas.drawCircle(0,0,);
-        canvas.drawCircle(0,0,pointRadius,pointPaint);
-    }
-
     private void drawFenZhen(Canvas canvas) {
-        canvas.save();
-        canvas.rotate(minuteAngle-90);
-        if(fenZhenPath.isEmpty()){
-            int scaleOffset=4;
-            fenZhenPath.moveTo(pointRadius,fenZhenMaxHeigth/2);
-            fenZhenPath.lineTo(fenZhenLength,fenZhenMinHeigth/2);
-            fenZhenPath.quadTo(fenZhenLength+scaleOffset,0,fenZhenLength,-fenZhenMinHeigth/2);
-            fenZhenPath.lineTo(pointRadius,-fenZhenMaxHeigth/2);
-            fenZhenPath.close();
-        }
-        canvas.drawPath(fenZhenPath,fenZhenPaint);
-        canvas.restore();
-    }
-
-
-    private void drawShiZhen(Canvas canvas) {
-        canvas.save();
-        canvas.rotate(hourAngle-90);
-        if(shiZhenPath.isEmpty()){
-            int scaleOffset=7;
-            shiZhenPath.moveTo(pointRadius,shiZhenMaxHeigth/2);
-            shiZhenPath.lineTo(shiZhenLength,shiZhenMinHeigth/2);
-            shiZhenPath.quadTo(shiZhenLength+scaleOffset,0,shiZhenLength,-shiZhenMinHeigth/2);
-            shiZhenPath.lineTo(pointRadius,-shiZhenMaxHeigth/2);
-            shiZhenPath.close();
-        }
-        canvas.drawPath(shiZhenPath,shiZhenPaint);
-        canvas.restore();
 
     }
 
@@ -234,18 +191,34 @@ public class XMView extends View {
         secondAngle=second*360/60;
         Log(hourAngle+"==="+minuteAngle+"==="+secondAngle+"===");
     }
+
+    private void drawShiZhen(Canvas canvas) {
+        if(shiZhenPath.isEmpty()){
+            shiZhenPath.reset();
+            int scaleOffset=30;
+            shiZhenPath.moveTo(0,-shiZhenMaxHeigth/2);
+            shiZhenPath.lineTo(shiZhenLength,-shiZhenMinHeigth/2);
+            shiZhenPath.quadTo(0,shiZhenLength+scaleOffset,shiZhenLength,shiZhenMinHeigth/2);
+            shiZhenPath.lineTo(0,shiZhenMaxHeigth/2);
+            shiZhenPath.close();
+        }
+
+        canvas.drawPath(shiZhenPath,shiZhenPaint);
+
+    }
+
     private void drawBiaoPanKeDu(Canvas canvas) {
         shaderMatrix.setRotate(secondAngle-90,0,0);
         shader.setLocalMatrix(shaderMatrix);
         keDuYuanHuPaint.setShader(shader);
 
-        RectF rectF=new RectF(-mRadius+ biaoPanPadding +keDuLength/2,-mRadius+ biaoPanPadding +keDuLength/2,
-                mRadius- biaoPanPadding -keDuLength/2,mRadius- biaoPanPadding -keDuLength/2);
+        RectF rectF=new RectF(-mRadius+ bianPanPadding +keDuLength/2,-mRadius+ bianPanPadding +keDuLength/2,
+                mRadius- bianPanPadding -keDuLength/2,mRadius- bianPanPadding -keDuLength/2);
         canvas.drawArc(rectF,0,360,false,keDuYuanHuPaint);
 
         canvas.save();
         for (int i = 0; i < 200; i++) {
-            canvas.drawLine(mRadius- biaoPanPadding -keDuLength,0,mRadius- biaoPanPadding,0,keDuPaint);
+            canvas.drawLine(mRadius- bianPanPadding -keDuLength,0,mRadius- bianPanPadding,0,keDuPaint);
             canvas.rotate(keDuAngle);
         }
         canvas.restore();

@@ -57,4 +57,10 @@ public class ExampleUnitTest {
 
         }
     }
+    @Test
+    public void asddf() throws Exception {
+        float a=0.1f;
+        System.out.println(a/100);
+    }
+
 }
