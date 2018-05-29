@@ -82,7 +82,7 @@ public class XMView extends View {
 
     //圆点画笔
     Paint pointPaint;
-    float pointRadius=16;
+    float pointRadius=14;
     float pointWidth=11;
 
     //时针画笔
