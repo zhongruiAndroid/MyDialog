@@ -59,8 +59,9 @@ public class ExampleUnitTest {
     }
     @Test
     public void asddf() throws Exception {
-        float a=0.1f;
-        System.out.println(a/100);
+        double v = Math.cos(Math.toRadians(30)) * 118;
+        System.out.println(v);
+        System.out.println(Math.sin(Math.toRadians(30)) * 118);
     }
 
 }

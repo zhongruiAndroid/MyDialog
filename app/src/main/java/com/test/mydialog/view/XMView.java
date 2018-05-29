@@ -101,6 +101,11 @@ public class XMView extends View {
     float fenZhenMaxHeigth=8;
     float fenZhenMinHeigth=5;
 
+    int sanJiaoColor;
+    Paint sanJiaoPaint;
+    float sanJiaoJianGe=10;
+    float sanJiaoLength=36;
+
     private void init(AttributeSet attrs) {
 
         zhouChang = (float) (2 * (mRadius- biaoPanPadding -keDuLength/2) * Math.PI);
@@ -115,6 +120,7 @@ public class XMView extends View {
 
         shiZhenColor=ContextCompat.getColor(getContext(), R.color.white_half20);
         fenZhenColor=ContextCompat.getColor(getContext(), R.color.white);
+        sanJiaoColor=ContextCompat.getColor(getContext(), R.color.white_half20);
 
 
 
@@ -159,6 +165,11 @@ public class XMView extends View {
         pointPaint.setStyle(Paint.Style.STROKE);
         pointPaint.setStrokeWidth(pointWidth);
 
+        //三角画笔
+        sanJiaoPaint=new Paint(Paint.ANTI_ALIAS_FLAG);
+        sanJiaoPaint.setColor(sanJiaoColor);
+
+
     }
 
     @Override
@@ -181,13 +192,26 @@ public class XMView extends View {
         drawFenZhen(canvas);
         //绘制中间圆点
         drawPoint(canvas);
-
+        //绘制三角形
+        drawTriangle(canvas);
         canvas.restore();
         invalidate();
     }
 
+    private void drawTriangle(Canvas canvas) {
+        canvas.save();
+        canvas.rotate(secondAngle-90,0,0);
+        Path path=new Path();
+        float sanJiaoWidth= (float) (Math.cos(Math.toRadians(30))*sanJiaoLength);
+        path.moveTo(mRadius-biaoPanPadding-keDuLength-sanJiaoJianGe-sanJiaoWidth,sanJiaoLength/2);
+        path.lineTo(mRadius-biaoPanPadding-keDuLength-sanJiaoJianGe,0);
+        path.lineTo(mRadius-biaoPanPadding-keDuLength-sanJiaoJianGe-sanJiaoWidth,-sanJiaoLength/2);
+        path.close();
+        canvas.drawPath(path,sanJiaoPaint);
+        canvas.restore();
+    }
+
     private void drawPoint(Canvas canvas) {
-//        canvas.drawCircle(0,0,);
         canvas.drawCircle(0,0,pointRadius,pointPaint);
     }
 
@@ -211,7 +235,7 @@ public class XMView extends View {
         canvas.save();
         canvas.rotate(hourAngle-90);
         if(shiZhenPath.isEmpty()){
-            int scaleOffset=7;
+            int scaleOffset=8;
             shiZhenPath.moveTo(pointRadius,shiZhenMaxHeigth/2);
             shiZhenPath.lineTo(shiZhenLength,shiZhenMinHeigth/2);
             shiZhenPath.quadTo(shiZhenLength+scaleOffset,0,shiZhenLength,-shiZhenMinHeigth/2);
@@ -232,7 +256,6 @@ public class XMView extends View {
         hourAngle=hour*360/12;
         minuteAngle=minute*360/60;
         secondAngle=second*360/60;
-        Log(hourAngle+"==="+minuteAngle+"==="+secondAngle+"===");
     }
     private void drawBiaoPanKeDu(Canvas canvas) {
         shaderMatrix.setRotate(secondAngle-90,0,0);
