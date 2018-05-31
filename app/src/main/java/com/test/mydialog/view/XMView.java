@@ -45,7 +45,6 @@ public class XMView extends View {
         super(context, attrs, defStyleAttr);
         init(attrs);
     }
-    private long timeInterval=50;
     //小时文本画笔
     Paint textPaint;
     Rect textRect;
