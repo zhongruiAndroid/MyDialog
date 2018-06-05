@@ -18,7 +18,9 @@ public class MyViewActivity extends AppCompatActivity {
         my_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MyViewActivity.this, ClockActivity.class));
+                startActivity(new Intent(MyViewActivity.this, ChartActivity2.class));
+//                startActivity(new Intent(MyViewActivity.this, ChartActivity.class));
+//                startActivity(new Intent(MyViewActivity.this, ClockActivity.class));
             }
         });
     }

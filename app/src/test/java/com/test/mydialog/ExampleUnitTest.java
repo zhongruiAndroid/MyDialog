@@ -63,5 +63,11 @@ public class ExampleUnitTest {
         System.out.println(v);
         System.out.println(Math.sin(Math.toRadians(30)) * 118);
     }
+    @Test
+    public void asdddf() throws Exception {
+        for (int i = 0; i < 20; i++) {
+            System.out.println(Math.random());
+        }
+    }
 
 }
