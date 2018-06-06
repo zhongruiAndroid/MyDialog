@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -35,15 +36,16 @@ public class ChartActivity2 extends AppCompatActivity {
         List<Entry> entries = new ArrayList<Entry>();
 
         for (int i = 0; i < 1440; i++) {
-            entries.add(new Entry(i, (float) (Math.random()*200+100)));
+            entries.add(new Entry(i, (float) (Math.random()*1+1)));
         }
         LineDataSet dataSet = new LineDataSet(entries, "Label"); // add entries to dataset
         dataSet.setColor(Color.BLUE);
+        dataSet.setAxisDependency(YAxis.AxisDependency.RIGHT);
         dataSet.setValueTextColor(Color.GREEN);
         dataSet.setDrawCircles(false);
 
 //        LineData lineData = new LineData(dataSet);
-        lineData = new LineData(dataSet);
+        lineData = new LineData(dataSet,dataSet);
 
 
         List<Entry> entries2 = new ArrayList<Entry>();
@@ -62,14 +64,6 @@ public class ChartActivity2 extends AppCompatActivity {
         XAxis xAxis = chart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setLabelCount(80);
-//        xAxis.setLabelRotationAngle(45);
-
-
-//        xAxis.setAxisMaximum(100);
-//        xAxis.setXOffset(10);
-//        xAxis.setSpaceMax(40);
-//        xAxis.setAxisMinimum(20);
-//        xAxis.setGranularity(20);
 
 
         chart.getAxisLeft().setAxisMinimum(0f);
