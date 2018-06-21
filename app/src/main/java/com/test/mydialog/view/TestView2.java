@@ -1,11 +1,15 @@
 package com.test.mydialog.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.graphics.Region;
+import android.graphics.Xfermode;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -132,13 +136,9 @@ public class TestView2 extends View {
 
 
 //        a(canvas);
-        b(canvas);
+       /* b(canvas);
 
-       /* RegionIterator iterator = new RegionIterator(newRegion);
-        Rect rect = new Rect();
-        while (iterator.next(rect)) {
-            canvas.drawRect(rect, pointPaint);
-        }*/
+
         if(x>0){
             pointPaint.setStrokeWidth(9);
             pointPaint.setColor(ContextCompat.getColor(getContext(), R.color.top_color));
@@ -146,8 +146,64 @@ public class TestView2 extends View {
 
             pointPaint.setStrokeWidth(3);
             pointPaint.setColor(ContextCompat.getColor(getContext(), R.color.home_green));
-        }
+        }*/
+//        canvas.drawColor(Color.RED);
 
+        RectF rect = new RectF(10, 10, 290, 290);
+        int saveLayer = canvas.saveLayer(null, null, Canvas.ALL_SAVE_FLAG);
+
+        Xfermode xfermode=new Xfermode();
+        Xfermode xfermode2 = new PorterDuffXfermode(PorterDuff.Mode.SRC_IN);
+
+
+        canvas.drawBitmap(getA(),0,0,mPaint);
+        mPaint.setXfermode(xfermode2);
+        canvas.drawBitmap(getB(),10,10,mPaint);
+        mPaint.setXfermode(null);
+//pointPaint
+        canvas.restoreToCount(saveLayer);
+        Path a=new Path();
+//        a.addRect();
+    }
+    private  Bitmap drawRectBm(){
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(ContextCompat.getColor(getContext(), R.color.blue));
+        paint.setStyle(Paint.Style.FILL);
+        paint.setAntiAlias(true);
+        Bitmap bm = Bitmap.createBitmap(200,200, Bitmap.Config.ARGB_8888);
+        Canvas cavas = new Canvas(bm);
+        cavas.drawRect(new RectF(0,0,70,70),paint);
+        return bm;
+    }
+    private  Bitmap drawCircleBm(){
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(ContextCompat.getColor(getContext(), R.color.home_text_color));
+        paint.setStyle(Paint.Style.FILL);
+        paint.setAntiAlias(true);
+        Bitmap bm = Bitmap.createBitmap(200,200, Bitmap.Config.ARGB_8888);
+        Canvas cavas = new Canvas(bm);
+        cavas.drawCircle(70,70,35,paint);
+        return bm;
+    }
+    public Bitmap getA(){
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(ContextCompat.getColor(getContext(), R.color.blue));
+        paint.setStyle(Paint.Style.FILL);
+        paint.setAntiAlias(true);
+        Bitmap bm = Bitmap.createBitmap(180,180, Bitmap.Config.ARGB_8888);
+        Canvas cavas = new Canvas(bm);
+        cavas.drawRect(new RectF(10, 10, 190, 190),paint);
+        return bm;
+    }
+    public Bitmap getB(){
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(ContextCompat.getColor(getContext(), R.color.home_text_color));
+        paint.setStyle(Paint.Style.FILL);
+        paint.setAntiAlias(true);
+        Bitmap bm = Bitmap.createBitmap(380,380, Bitmap.Config.ARGB_8888);
+        Canvas cavas = new Canvas(bm);
+        cavas.drawCircle(170,170,90,paint);
+        return bm;
     }
 
     private void b(Canvas canvas) {
