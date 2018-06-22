@@ -11,11 +11,11 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.CheckBox;
 
-import com.github.mydialog.MyDialog;
+import com.github.mydialog.MySimpleDialog;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private MyDialog dialog;
+    private MySimpleDialog dialog;
     private BottomSheetBehavior behavior;
     private boolean behaviorFlag = true;
     private int peekHeight;
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_mydialog_top:
-                dialog = new MyDialog(this);
+                dialog = new MySimpleDialog(this);
                 dialog.setContentView(getLayoutInflater().inflate(R.layout.dialog, null));
                 dialog.setGravity(Gravity.TOP);
                 dialog.setFullWidth();
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 showDialog();
                 break;
             case R.id.tv_mydialog_bottom:
-                dialog = new MyDialog(this);
+                dialog = new MySimpleDialog(this);
                 dialog.setContentView(getLayoutInflater().inflate(R.layout.dialog, null));
                 dialog.setGravity(Gravity.BOTTOM);
                 dialog.setFullWidth();
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void showDialog() {
-        MyDialog dialog = new MyDialog(this);
+        MySimpleDialog dialog = new MySimpleDialog(this);
         dialog.setContentView(getLayoutInflater().inflate(R.layout.dialog, null));
         dialog.show();
     }

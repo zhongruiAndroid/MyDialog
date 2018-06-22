@@ -15,7 +15,7 @@ import android.widget.TextView;
  * Created by Administrator on 2018/5/7.
  */
 
-public class MyDialog extends AppCompatDialog {
+public class MySimpleDialog extends AppCompatDialog {
     private final int flag_width = -10;
     private int width = flag_width; //(int) (getScreenWidth() * 0.7);
     private int height = flag_width; //(int) (getScreenWidth() * 0.6);
@@ -38,15 +38,15 @@ public class MyDialog extends AppCompatDialog {
     private int rightRadius;
     private int bottomRadius;
 
-    public MyDialog(Context context) {
+    public MySimpleDialog(Context context) {
         super(context);
     }
 
-    public MyDialog(Context context, int theme) {
+    public MySimpleDialog(Context context, int theme) {
         super(context, theme);
     }
 
-    protected MyDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
+    protected MySimpleDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
     }
 
@@ -180,7 +180,7 @@ public class MyDialog extends AppCompatDialog {
         this.backgroundColor = backgroundColor;
     }
 
-    public MyDialog init() {
+    public MySimpleDialog init() {
         isInit = true;
         if (isAutoCustom) {
             Window win = this.getWindow();

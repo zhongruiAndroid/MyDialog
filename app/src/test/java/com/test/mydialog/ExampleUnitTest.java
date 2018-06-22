@@ -70,4 +70,14 @@ public class ExampleUnitTest {
         }
     }
 
+    @Test
+    public void asf() throws Exception {
+        double sqrt = Math.sqrt(480);
+        System.out.println(sqrt);
+        double v = AndroidUtils.chengFa(sqrt, 0.3937008);
+        System.out.println(v);
+        double v2 = AndroidUtils.chengFa(480, 0.3937008);
+        System.out.println(v2);
+    }
+
 }

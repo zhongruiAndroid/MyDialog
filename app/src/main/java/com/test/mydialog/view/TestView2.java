@@ -18,6 +18,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.test.mydialog.AndroidUtils;
 import com.test.mydialog.BuildConfig;
 import com.test.mydialog.R;
 
@@ -27,6 +28,9 @@ import com.test.mydialog.R;
 
 public class TestView2 extends View {
     public boolean isDebug=true;
+    private double v;
+    private double v2;
+
     private Region newRegion;
     private Region leftRegion;
     private Region topRegion;
@@ -61,6 +65,8 @@ public class TestView2 extends View {
         mPaint.setDither(true);
         mPaint.setStrokeWidth(strokeWidth);
         mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setStrokeJoin(Paint.Join.MITER);
+        mPaint.setStrokeCap(Paint.Cap.BUTT);
         mPaint.setColor(ContextCompat.getColor(getContext(), R.color.blue));
 
         pointPaint=new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -124,15 +130,20 @@ public class TestView2 extends View {
         bottomPath.arcTo(sRectF,bAngle+50,sAngle);
         bottomPath.close();
         bottomRegion.setPath(bottomPath,region);
+        initC();
+    }
 
-
+    private void initC() {
+        double sqrt = Math.sqrt(480);
+        v = AndroidUtils.chengFa(sqrt, 0.3937008);
+        v2 = AndroidUtils.chengFa(480, 0.3937008);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-//        canvas.translate(getWidth()/2,getHeight()/2);
+        c(canvas);
 
 
 //        a(canvas);
@@ -294,8 +305,13 @@ public class TestView2 extends View {
 //        return super.onTouchEvent(event);
     }
 
-    private void a(Canvas canvas) {
+    private void c(Canvas canvas) {
+        canvas.drawLine(10,10,(float) (10+v),10,mPaint);
+        canvas.drawLine(30,30,30,(float) (30+v2),mPaint);
+        canvas.drawLine(50,30,50,(float) (30+AndroidUtils.chengFa(160*3, 0.3937008)),mPaint);
+    }
 
+    private void a(Canvas canvas) {
         Path path=new Path();
         RectF rectF=new RectF(-250,-250,250,250);
         RectF rectF2=new RectF(-200,-200,200,200);
