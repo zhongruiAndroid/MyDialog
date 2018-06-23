@@ -31,6 +31,6 @@ public class TestActivity extends AppCompatActivity {
 
         float density  = dm.density;      // 屏幕密度（像素比例：0.75/1.0/1.5/2.0）
         float densityDPI = dm.densityDpi;
-        Log("==="+density+"====="+densityDPI);
+//        Log("==="+density+"====="+densityDPI);
     }
 }

@@ -1,15 +1,16 @@
 package com.test.mydialog.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
+import android.graphics.PathMeasure;
 import android.graphics.RectF;
 import android.graphics.Region;
-import android.graphics.Xfermode;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -21,6 +22,8 @@ import android.widget.Toast;
 import com.test.mydialog.AndroidUtils;
 import com.test.mydialog.BuildConfig;
 import com.test.mydialog.R;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Administrator on 2018/5/24.
@@ -39,6 +42,7 @@ public class TestView2 extends View {
     private int x;
     private int y;
     int touchFlag=-1;
+
     public void Log(String log) {
         if(BuildConfig.DEBUG&&isDebug){
             Log.i("ClockView===", log);
@@ -71,7 +75,7 @@ public class TestView2 extends View {
 
         pointPaint=new Paint(Paint.ANTI_ALIAS_FLAG);
         pointPaint.setDither(true);
-        pointPaint.setStrokeWidth(3);
+        pointPaint.setStrokeWidth(13);
         pointPaint.setStyle(Paint.Style.FILL);
         pointPaint.setColor(ContextCompat.getColor(getContext(), R.color.home_green));
 
@@ -131,6 +135,7 @@ public class TestView2 extends View {
         bottomPath.close();
         bottomRegion.setPath(bottomPath,region);
         initC();
+        initBit();
     }
 
     private void initC() {
@@ -139,11 +144,12 @@ public class TestView2 extends View {
         v2 = AndroidUtils.chengFa(480, 0.3937008);
     }
 
+    @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        c(canvas);
+//        c(canvas);
 
 
 //        a(canvas);
@@ -160,7 +166,7 @@ public class TestView2 extends View {
         }*/
 //        canvas.drawColor(Color.RED);
 
-        RectF rect = new RectF(10, 10, 290, 290);
+      /*  RectF rect = new RectF(10, 10, 290, 290);
         int saveLayer = canvas.saveLayer(null, null, Canvas.ALL_SAVE_FLAG);
 
         Xfermode xfermode=new Xfermode();
@@ -171,11 +177,81 @@ public class TestView2 extends View {
         mPaint.setXfermode(xfermode2);
         canvas.drawBitmap(getB(),10,10,mPaint);
         mPaint.setXfermode(null);
-//pointPaint
         canvas.restoreToCount(saveLayer);
-        Path a=new Path();
-//        a.addRect();
+        Path a=new Path();*/
+
+
+        canvas.translate(getWidth()/2,getHeight()/2);
+        path1.reset();
+        path1.addCircle(0,0,200, Path.Direction.CW);
+
+
+        PathMeasure measure=new PathMeasure(path1,true);
+
+        measure.getPosTan(length*measure.getLength(),pos,tan);
+        Log.i(TAG+"===","==="+pos[0]+"==="+pos[1]);
+        matrix.reset();
+        float angle=(float) (Math.atan2(tan[1],tan[0])*180/Math.PI);
+        Log.i(TAG+"===","--==="+angle);
+        matrix.postRotate(angle,bitmap.getWidth()/2,bitmap.getHeight()/2);
+        matrix.postTranslate(pos[0]-bitmap.getWidth()/2,pos[1]-bitmap.getHeight()/2);
+        length=length+0.005f;
+        if(length>1){
+            length=0;
+        }
+        canvas.drawBitmap(bitmap,matrix,mPaint);
+        canvas.drawPath(path1,mPaint);
+        canvas.drawPoint(3,3,pointPaint);
+        invalidate();
+
+
+       /* canvas.translate(getWidth() / 2, getHeight() / 2);      // 平移坐标系
+
+        Path path = new Path();                                 // 创建 Path
+
+        path.addCircle(0, 0, 200, Path.Direction.CW);           // 添加一个圆形
+
+        PathMeasure measure = new PathMeasure(path, false);     // 创建 PathMeasure
+
+        currentValue += 0.005;                                  // 计算当前的位置在总长度上的比例[0,1]
+        if (currentValue > 1) {
+            currentValue = 0;
+        }
+
+        measure.getPosTan(measure.getLength() * currentValue, pos, tan);        // 获取当前位置的坐标以及趋势
+
+        Log.i("===","==="+pos[0]+"==="+pos[1]);
+        mMatrix.reset();                                                        // 重置Matrix
+        float degrees = (float) (Math.atan2(tan[1], tan[0]) * 180.0 / Math.PI); // 计算图片旋转角度
+
+        mMatrix.postRotate(degrees, mBitmap.getWidth() / 2, mBitmap.getHeight() / 2);   // 旋转图片
+        mMatrix.postTranslate(pos[0] - mBitmap.getWidth() / 2, pos[1] - mBitmap.getHeight() / 2);   // 将图片绘制中心调整到与当前点重合
+
+        canvas.drawPath(path, mPaint);                                   // 绘制 Path
+        canvas.drawBitmap(mBitmap, mMatrix, mPaint);                     // 绘制箭头*/
+
+//        invalidate();                                                           // 重绘页面
     }
+    Bitmap mBitmap;
+    Bitmap bitmap;
+    Matrix matrix;
+    Matrix mMatrix;
+    private Path path1;
+    public void initBit(){
+        path1 = new Path();
+        matrix=new Matrix();
+        mMatrix=new Matrix();
+        mPaint.setStyle(Paint.Style.STROKE);
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 4;       // 缩放图片
+        bitmap=BitmapFactory.decodeResource(getResources(),R.mipmap.a,options);
+        mBitmap=BitmapFactory.decodeResource(getResources(),R.mipmap.a,options);
+    }
+    float currentValue=0;
+    float length=0;
+    float[]pos=new float[2];
+    float[]tan=new float[2];
     private  Bitmap drawRectBm(){
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setColor(ContextCompat.getColor(getContext(), R.color.blue));
