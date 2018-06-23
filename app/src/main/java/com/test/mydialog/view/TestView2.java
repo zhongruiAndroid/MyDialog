@@ -189,6 +189,8 @@ public class TestView2 extends View {
         PathMeasure measure=new PathMeasure(path1,true);
 
         measure.getPosTan(length*measure.getLength(),pos,tan);
+        Matrix mat=new Matrix();
+        measure.getMatrix(length*measure.getLength(),mat,PathMeasure.POSITION_MATRIX_FLAG|PathMeasure.TANGENT_MATRIX_FLAG);
         Log.i(TAG+"===","==="+pos[0]+"==="+pos[1]);
         matrix.reset();
         float angle=(float) (Math.atan2(tan[1],tan[0])*180/Math.PI);
@@ -199,10 +201,10 @@ public class TestView2 extends View {
         if(length>1){
             length=0;
         }
-        canvas.drawBitmap(bitmap,matrix,mPaint);
+        canvas.drawBitmap(bitmap,mat,mPaint);
         canvas.drawPath(path1,mPaint);
         canvas.drawPoint(3,3,pointPaint);
-        invalidate();
+//        invalidate();
 
 
        /* canvas.translate(getWidth() / 2, getHeight() / 2);      // 平移坐标系
