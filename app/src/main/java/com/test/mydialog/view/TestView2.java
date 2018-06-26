@@ -23,8 +23,6 @@ import com.test.mydialog.AndroidUtils;
 import com.test.mydialog.BuildConfig;
 import com.test.mydialog.R;
 
-import static android.content.ContentValues.TAG;
-
 /**
  * Created by Administrator on 2018/5/24.
  */
@@ -142,6 +140,10 @@ public class TestView2 extends View {
         double sqrt = Math.sqrt(480);
         v = AndroidUtils.chengFa(sqrt, 0.3937008);
         v2 = AndroidUtils.chengFa(480, 0.3937008);
+
+        Matrix matrix=new Matrix();
+        Log("==="+matrix.toString());
+        Log("==="+matrix.toShortString());
     }
 
     @SuppressLint("DrawAllocation")
@@ -182,21 +184,34 @@ public class TestView2 extends View {
 
 
         canvas.translate(getWidth()/2,getHeight()/2);
-        path1.reset();
+
+        //////////////////////////1111111/////////////////////////////////
+      /*  path1.reset();
         path1.addCircle(0,0,200, Path.Direction.CW);
-
-
         PathMeasure measure=new PathMeasure(path1,true);
 
         measure.getPosTan(length*measure.getLength(),pos,tan);
         Matrix mat=new Matrix();
         measure.getMatrix(length*measure.getLength(),mat,PathMeasure.POSITION_MATRIX_FLAG|PathMeasure.TANGENT_MATRIX_FLAG);
-        Log.i(TAG+"===","==="+pos[0]+"==="+pos[1]);
         matrix.reset();
         float angle=(float) (Math.atan2(tan[1],tan[0])*180/Math.PI);
-        Log.i(TAG+"===","--==="+angle);
         matrix.postRotate(angle,bitmap.getWidth()/2,bitmap.getHeight()/2);
         matrix.postTranslate(pos[0]-bitmap.getWidth()/2,pos[1]-bitmap.getHeight()/2);
+        length=length+0.005f;
+        if(length>1){
+            length=0;
+        }
+        canvas.drawBitmap(bitmap,matrix,mPaint);
+        canvas.drawPath(path1,mPaint);
+        canvas.drawPoint(3,3,pointPaint);
+        invalidate();*/
+        //////////////////////////22222222/////////////////////////////////
+        path1.reset();
+        path1.addCircle(0,0,200, Path.Direction.CW);
+        PathMeasure measure=new PathMeasure(path1,true);
+        Matrix mat=new Matrix();
+        measure.getMatrix(length*measure.getLength(),mat,PathMeasure.POSITION_MATRIX_FLAG|PathMeasure.TANGENT_MATRIX_FLAG);
+        mat.preTranslate(-mBitmap.getWidth() / 2,-mBitmap.getHeight() / 2);
         length=length+0.005f;
         if(length>1){
             length=0;
@@ -204,8 +219,7 @@ public class TestView2 extends View {
         canvas.drawBitmap(bitmap,mat,mPaint);
         canvas.drawPath(path1,mPaint);
         canvas.drawPoint(3,3,pointPaint);
-//        invalidate();
-
+        invalidate();
 
        /* canvas.translate(getWidth() / 2, getHeight() / 2);      // 平移坐标系
 
