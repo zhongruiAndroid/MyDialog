@@ -23,6 +23,10 @@ import com.test.mydialog.AndroidUtils;
 import com.test.mydialog.BuildConfig;
 import com.test.mydialog.R;
 
+import java.util.Arrays;
+
+import static android.content.ContentValues.TAG;
+
 /**
  * Created by Administrator on 2018/5/24.
  */
@@ -142,8 +146,22 @@ public class TestView2 extends View {
         v2 = AndroidUtils.chengFa(480, 0.3937008);
 
         Matrix matrix=new Matrix();
-        Log("==="+matrix.toString());
-        Log("==="+matrix.toShortString());
+        // 初始数据为三个点 (0, 0) (80, 100) (400, 300)
+        float[] pts = new float[]{0, 0, 80, 100, 400, 300, 305};
+
+// 构造一个matrix，x坐标缩放0.5
+        matrix.setScale(0.5f, 1f);
+
+// 输出pts计算之前数据
+        Log.i(TAG, "before:=== "+ Arrays.toString(pts));
+
+// 调用map方法计算
+        matrix.mapPoints(pts);
+
+// 输出pts计算之后数据
+        Log.i(TAG, "after :=== "+ Arrays.toString(pts));
+//        Log("==="+matrix.toString());
+//        Log("==="+matrix.toShortString());
     }
 
     @SuppressLint("DrawAllocation")
