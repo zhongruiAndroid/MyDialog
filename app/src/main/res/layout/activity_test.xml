@@ -7,11 +7,26 @@
     android:layout_height="match_parent"
     tools:context="com.test.mydialog.view.test.TestActivity"
     android:gravity="center"
-    >
-
+    android:orientation="vertical">
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bird"
+        android:background="@color/active_fanxian1"
+        />
+    <ImageView
+        android:id="@+id/iv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bird"
+        android:layout_marginTop="3dp"
+        android:background="@color/active_fanxian1"
+        />
     <com.test.mydialog.view.TestView2
         android:layout_width="260dp"
         android:layout_height="260dp"
         android:clickable="true"
+        android:visibility="gone"
         />
 </LinearLayout>

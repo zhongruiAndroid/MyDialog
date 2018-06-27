@@ -70,6 +70,8 @@
     <color name="gray_AB">#616161</color>
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
+    <color name="transparent_7f">#70ffffff</color>
+    <color name="transparent_ff">#00ffffff</color>
     <color name="transparent_half">#70000000</color>
     <color name="transparent_half_darker">#90000000</color>
     <color name="transparent_half_darker_darker">#a0000000</color>
