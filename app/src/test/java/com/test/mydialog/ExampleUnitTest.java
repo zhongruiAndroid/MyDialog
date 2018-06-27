@@ -79,5 +79,9 @@ public class ExampleUnitTest {
         double v2 = AndroidUtils.chengFa(480, 0.3937008);
         System.out.println(v2);
     }
+    @Test
+    public void sdf() throws Exception {
+        System.out.println(8>>1);
+    }
 
 }

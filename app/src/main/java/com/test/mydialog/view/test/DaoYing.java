@@ -9,6 +9,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Shader;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.test.mydialog.R;
@@ -45,6 +46,90 @@ public class DaoYing {
 //        paint.setXfermode(null);
 //        canvas.restoreToCount(count);
         iv.setImageBitmap(bitmap);
+    }
+
+    public static Bitmap zheDie(ImageView iv,Context context){
+        int num=8;
+        double zhanBi=0.8;
+        Matrix[] matrix=new Matrix[num];
+        for (int i = 0; i < num; i++) {
+            matrix[i]=new Matrix();
+        }
+
+        Bitmap oldBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.bird);
+        int oldW = oldBitmap.getWidth();
+        int oldH = oldBitmap.getHeight();
+        int newW=(int)(oldW*zhanBi);
+        Bitmap bitmap = Bitmap.createBitmap((int)(oldW*zhanBi),oldH , Bitmap.Config.ARGB_8888);
+
+        int beforeEveryW=oldW/num;
+        int nowEveryW=newW/num;
+
+        int scaleHeight= (int) Math.sqrt(beforeEveryW*beforeEveryW-nowEveryW*nowEveryW)/2;
+//        scaleHeight=43;
+        Log.i("====",scaleHeight+"==="+(int) Math.sqrt(beforeEveryW*beforeEveryW-nowEveryW*nowEveryW));
+
+        float[]src=new float[num];
+        float[]dst=new float[num];
+        for (int i = 0; i < num; i++) {
+            src[0]=i*beforeEveryW;
+            src[1]=0;
+
+            src[2]=src[0]+beforeEveryW;
+            src[3]=0;
+
+            src[4]=src[2];
+            src[5]=oldH;
+
+            src[6]=src[0];
+            src[7]=oldH;
+            Log.i("====","==="+src[2]+"--"+src[4]);
+
+            if(i%2==0){
+                dst[0]=i*nowEveryW;
+                dst[1]=0;
+
+                dst[2]=dst[0]+nowEveryW;
+                dst[3]=scaleHeight;
+
+                dst[4]=dst[2];
+                dst[5]=oldH-scaleHeight;
+
+                dst[6]=dst[0];
+                dst[7]=oldH;
+            }else{
+                dst[0]=i*nowEveryW;
+                dst[1]=scaleHeight;
+
+                dst[2]=dst[0]+nowEveryW;
+                dst[3]=0;
+
+                dst[4]=dst[2];
+                dst[5]=oldH;
+
+                dst[6]=dst[0];
+                dst[7]=oldH-scaleHeight;
+            }
+
+            Log.i("====","==="+dst[2]+"--"+dst[4]);
+
+            matrix[i].setPolyToPoly(src,0,dst,0,4);
+        }
+
+
+
+        Canvas canvas=new Canvas(bitmap);
+        for (int i = 0; i < num; i++) {
+            canvas.save();
+            canvas.concat(matrix[i]);
+            canvas.clipRect(beforeEveryW*i,0,beforeEveryW*i+beforeEveryW,oldH);
+            canvas.drawBitmap(oldBitmap,0,0,null);
+//            canvas.translate(beforeEveryW * i, 0);
+            canvas.restore();
+        }
+
+
+        return bitmap;
     }
 
 }
