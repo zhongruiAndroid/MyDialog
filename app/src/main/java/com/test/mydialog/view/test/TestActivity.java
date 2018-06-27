@@ -39,7 +39,7 @@ public class TestActivity extends AppCompatActivity {
     }
 
     private void setPolyToPoly() {
-        Matrix matrix=new Matrix();
+        /*Matrix matrix=new Matrix();
         Bitmap oldBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bird);
         float[] floats = {0,0,
                 oldBitmap.getWidth(),0,
@@ -52,9 +52,10 @@ public class TestActivity extends AppCompatActivity {
         boolean b = matrix.setPolyToPoly(floats, 0, dst, 0, 4);
         Bitmap bitmap = Bitmap.createBitmap(oldBitmap.getWidth(), oldBitmap.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas=new Canvas(bitmap);
-        canvas.drawBitmap(oldBitmap,matrix,new Paint(Paint.ANTI_ALIAS_FLAG));
+        canvas.drawBitmap(oldBitmap,matrix,new Paint(Paint.ANTI_ALIAS_FLAG));*/
 //        iv2.setImageBitmap(bitmap);
-        Bitmap bitmap1 = DaoYing.zheDie(iv2, this);
+        Bitmap bitmap1 = DaoYing.zheDie2(iv2, this);
+//        iv2.setLayerType(View.LAYER_TYPE_SOFTWARE,null);
         iv2.setImageBitmap(bitmap1);
     }
 

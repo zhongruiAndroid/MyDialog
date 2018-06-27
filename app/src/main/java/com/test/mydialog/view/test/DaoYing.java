@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -65,13 +66,14 @@ public class DaoYing {
         int beforeEveryW=oldW/num;
         int nowEveryW=newW/num;
 
-        int scaleHeight= (int) Math.sqrt(beforeEveryW*beforeEveryW-nowEveryW*nowEveryW)/2;
+        int scaleHeight= (int) Math.sqrt(beforeEveryW*beforeEveryW-nowEveryW*nowEveryW);
 //        scaleHeight=43;
         Log.i("====",scaleHeight+"==="+(int) Math.sqrt(beforeEveryW*beforeEveryW-nowEveryW*nowEveryW));
 
         float[]src=new float[num];
         float[]dst=new float[num];
         for (int i = 0; i < num; i++) {
+
             src[0]=i*beforeEveryW;
             src[1]=0;
 
@@ -111,9 +113,9 @@ public class DaoYing {
                 dst[7]=oldH-scaleHeight;
             }
 
-            Log.i("====","==="+dst[2]+"--"+dst[4]);
 
             matrix[i].setPolyToPoly(src,0,dst,0,4);
+
         }
 
 
@@ -131,5 +133,97 @@ public class DaoYing {
 
         return bitmap;
     }
+    public static Bitmap zheDie2(ImageView iv,Context context){
+        int num=8;
+        double zhanBi=0.8;
+        Matrix[] matrix=new Matrix[num];
+        for (int i = 0; i < num; i++) {
+            matrix[i]=new Matrix();
+        }
+        Bitmap oldBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.bird);
+        int oldW = oldBitmap.getWidth();
+        int oldH = oldBitmap.getHeight();
+        int newW=(int)(oldW*zhanBi);
+        Bitmap bitmap = Bitmap.createBitmap((int)(oldW*zhanBi),oldH , Bitmap.Config.ARGB_8888);
+        Bitmap[]newBitmap=new Bitmap[num];
+        for (int i = 0; i < num; i++) {
+            newBitmap[i]=Bitmap.createBitmap(oldBitmap,oldW/8*i,0,oldW/8,oldH);
+        }
 
+        int beforeEveryW=oldW/num;
+        int nowEveryW=newW/num;
+
+        int scaleHeight= (int) Math.sqrt(beforeEveryW*beforeEveryW-nowEveryW*nowEveryW)/2;
+//        scaleHeight=43;
+        Log.i("====",scaleHeight+"==="+(int) Math.sqrt(beforeEveryW*beforeEveryW-nowEveryW*nowEveryW));
+
+        float[]src=new float[num];
+        float[]dst=new float[num];
+        for (int i = 0; i < num; i++) {
+
+            src[0]=i*beforeEveryW;
+            src[1]=0;
+
+            src[2]=src[0]+beforeEveryW;
+            src[3]=0;
+
+            src[4]=src[2];
+            src[5]=oldH;
+
+            src[6]=src[0];
+            src[7]=oldH;
+            Log.i("====","==="+src[2]+"--"+src[4]);
+
+            if(i%2==0){
+                dst[0]=i*nowEveryW;
+                dst[1]=0;
+
+                dst[2]=dst[0]+nowEveryW;
+                dst[3]=scaleHeight;
+
+                dst[4]=dst[2];
+                dst[5]=oldH-scaleHeight;
+
+                dst[6]=dst[0];
+                dst[7]=oldH;
+            }else{
+                dst[0]=i*nowEveryW;
+                dst[1]=scaleHeight;
+
+                dst[2]=dst[0]+nowEveryW;
+                dst[3]=0;
+
+                dst[4]=dst[2];
+                dst[5]=oldH;
+
+                dst[6]=dst[0];
+                dst[7]=oldH-scaleHeight;
+            }
+
+
+            matrix[i].setPolyToPoly(src,0,dst,0,4);
+
+        }
+
+        Canvas canvas=new Canvas(bitmap);
+        for (int i = 0; i < num; i++) {
+            canvas.save();
+            canvas.concat(matrix[i]);
+            canvas.drawBitmap(newBitmap[i],beforeEveryW * i,0,new Paint(Paint.ANTI_ALIAS_FLAG));
+
+            if(i%2==0){
+                Paint paint=new Paint(Paint.ANTI_ALIAS_FLAG);
+                paint.setColor(Color.parseColor("#70000000"));
+                canvas.drawRect(beforeEveryW * i,0,beforeEveryW * i+beforeEveryW,oldH,paint);
+            }else{
+                Paint paint=new Paint(Paint.ANTI_ALIAS_FLAG);
+//                paint.setColor(Color.parseColor("#70000000"));
+                LinearGradient linearGradient=new LinearGradient(beforeEveryW * i,0,beforeEveryW * i+beforeEveryW/3,0,Color.parseColor("#70000000"),Color.TRANSPARENT, Shader.TileMode.CLAMP);
+                paint.setShader(linearGradient);
+                canvas.drawRect(beforeEveryW * i,0,beforeEveryW * i+beforeEveryW,oldH,paint);
+            }
+            canvas.restore();
+        }
+        return bitmap;
+    }
 }
