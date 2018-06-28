@@ -12,6 +12,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
 import com.test.mydialog.BuildConfig;
@@ -33,13 +35,28 @@ public class TestActivity extends AppCompatActivity {
 
         iv= (ImageView) findViewById(R.id.iv);
         iv2= (ImageView) findViewById(R.id.iv2);
+       iv2.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               //括号内参数分别为（上下文，开始角度，结束角度，x轴中心点，y轴中心点，深度，是否扭曲）
+               final Rotate3dAnimation rotation = new Rotate3dAnimation(TestActivity.this, 0, 180, iv2.getWidth()/2, iv2.getHeight()/2, 0f, true);
+
+               rotation.setDuration(3000);                         //设置动画时长
+               rotation.setFillAfter(true);                        //保持旋转后效果
+               rotation.setInterpolator(new LinearInterpolator());	//设置插值器
+               iv2.startAnimation(rotation);
+           }
+       });
+
+
+
 //        getNewBitmap();
 
-        setPolyToPoly();
+//        setPolyToPoly();
     }
 
     private void setPolyToPoly() {
-        Matrix matrix=new Matrix();
+        /*Matrix matrix=new Matrix();
         Bitmap oldBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bird);
         float[] floats = {0,0,
                 oldBitmap.getWidth(),0,
@@ -52,9 +69,10 @@ public class TestActivity extends AppCompatActivity {
         boolean b = matrix.setPolyToPoly(floats, 0, dst, 0, 4);
         Bitmap bitmap = Bitmap.createBitmap(oldBitmap.getWidth(), oldBitmap.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas=new Canvas(bitmap);
-        canvas.drawBitmap(oldBitmap,matrix,new Paint(Paint.ANTI_ALIAS_FLAG));
+        canvas.drawBitmap(oldBitmap,matrix,new Paint(Paint.ANTI_ALIAS_FLAG));*/
 //        iv2.setImageBitmap(bitmap);
-        Bitmap bitmap1 = DaoYing.zheDie(iv2, this);
+        Bitmap bitmap1 = DaoYing.zheDie2(iv2, this);
+//        iv2.setLayerType(View.LAYER_TYPE_SOFTWARE,null);
         iv2.setImageBitmap(bitmap1);
     }
 
