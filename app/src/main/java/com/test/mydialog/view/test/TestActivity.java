@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.test.mydialog.BuildConfig;
 import com.test.mydialog.R;
@@ -54,7 +55,9 @@ public class TestActivity extends AppCompatActivity {
 
 //        setPolyToPoly();
     }
-
+    public void a(View view){
+        Toast.makeText(this, "view", Toast.LENGTH_SHORT).show();
+    }
     private void setPolyToPoly() {
         /*Matrix matrix=new Matrix();
         Bitmap oldBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bird);
