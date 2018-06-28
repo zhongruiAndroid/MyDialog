@@ -393,6 +393,8 @@ public class TestView2 extends View {
             case MotionEvent.ACTION_DOWN:
                 x = (int) event.getX();
                 y = (int) event.getY();
+                Log(x+"==--------=="+y);
+                Log(event.getRawX()+"==--------=="+event.getRawY());
                 if (newRegion.contains(x, y)) {
                     touchFlag=0;
                 }
