@@ -49,7 +49,10 @@
         android:orientation="vertical"
         android:onClick="a"
         android:background="@color/green1"
-        android:padding="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="40dp"
+        android:paddingTop="90dp"
+        android:paddingBottom="20dp"
         >
         <ImageView
             android:layout_width="match_parent"
