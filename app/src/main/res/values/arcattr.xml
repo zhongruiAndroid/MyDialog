@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ArcBorderView">
+        <attr name="borderWidth" format="dimension"/>
+        <attr name="borderColor" format="color"/>
+        <attr name="circleRadius" format="dimension"/>
+        <attr name="circleX" format="dimension"/>
+        <attr name="scaleRadius" format="float"/>
+    </declare-styleable>
+</resources>

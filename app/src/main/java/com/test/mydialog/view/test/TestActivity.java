@@ -12,7 +12,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
@@ -49,14 +48,7 @@ public class TestActivity extends AppCompatActivity {
                 return false;
             }
         });*/
-        RL rl= (RL) findViewById(R.id.rl);
-        rl.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Log("===onTouch3");
-                return false;
-            }
-        });
+
 
 
         iv= (ImageView) findViewById(R.id.iv);

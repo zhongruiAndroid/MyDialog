@@ -8,27 +8,14 @@
     android:gravity="center"
     android:orientation="vertical"
     tools:context="com.test.mydialog.view.test.TestActivity">
-    <com.test.mydialog.view.test.RL
-        android:id="@+id/rl"
+    <com.test.mydialog.view.useful.ArcBorderView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true"
-
-        >
-        <com.test.mydialog.view.test.TV2
-            android:id="@+id/tv2"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@color/gray_66"
-            />
-        <com.test.mydialog.view.test.TV
-            android:id="@+id/tv"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@color/colorAccent"
-            android:layout_margin="50dp"
-            />
-    </com.test.mydialog.view.test.RL>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        app:borderColor="@color/green"
+        app:circleRadius="90dp"
+        app:scaleRadius="0.25"
+        />
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
