@@ -8,6 +8,11 @@
     android:gravity="center"
     android:orientation="vertical"
     tools:context="com.test.mydialog.view.test.TestActivity">
+    <com.test.mydialog.view.useful.TestXFermodeView
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:background="@color/active_dianying1"
+        />
     <com.test.mydialog.view.useful.ArcBorderView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
