@@ -32,6 +32,23 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         init();
+        /*TV2 tv2= (TV2) findViewById(R.id.tv2);
+        tv2.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Log("===onTouch2");
+                return false;
+            }
+        });
+        TV tv= (TV) findViewById(R.id.tv);
+        tv.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Log("===onTouch1");
+                return false;
+            }
+        });*/
+
 
 
         iv= (ImageView) findViewById(R.id.iv);
