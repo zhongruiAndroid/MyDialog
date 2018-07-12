@@ -161,7 +161,7 @@ public class MyDialog extends Dialog {
 			LayoutInflater inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			// instantiate the dialog with the custom Theme
-			final MyDialog dialog=new MyDialog(context, R.style.Dialog);
+			final MyDialog dialog=new MyDialog(context, R.style.MyDialog);
 			dialog.setCanceledOnTouchOutside(touchOutside);
 
 			View dialogView = inflater.inflate(R.layout.my_dialog, null);
