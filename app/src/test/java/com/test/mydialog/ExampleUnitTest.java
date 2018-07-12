@@ -4,7 +4,9 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -81,7 +83,179 @@ public class ExampleUnitTest {
     }
     @Test
     public void sdf() throws Exception {
-        System.out.println(8>>1);
+        Map<String,String>map=a();
+        if(map!=null){
+            System.out.println(map.get("key"));
+        }else{
+            System.out.println("null");
+        }
+
+    }
+    @Test
+    public void sdddf() throws Exception {
+        int a=300;
+        bb(a);
+        System.out.println(a);
+    }
+    public void bb(int scale){
+        scale=2;
+    }
+    @Test
+    public void sddf() throws Exception {
+        MyTest test=new MyTest();
+        test.i=100;
+        aa(test);
+        if(test==null){
+            System.out.println("null");
+        }else {
+            System.out.println(test.i);
+        }
+    }
+    public class MyTest{
+        public int i=1;
+    }
+    public void aa(MyTest myTest){
+        myTest.i=200;
+        myTest=null;
+    }
+
+    public Map a(){
+        Map<String,String> map=new HashMap<String,String>();
+        try{
+            map.put("key","try");
+            return map;
+        }catch (Exception e){
+            map.put("key","try");
+        }finally {
+            map.put("key","finally");
+            map=null;
+        }
+        return map;
+    }
+    @Test
+    public void dsf() throws Exception {
+        //new Scanner(System.in).nextInt()
+        mysnakematrix my = new mysnakematrix(7);  //利用Scanner获取控制台输入
+        my.snakeMatrix();
+        my.print();
+        List<Integer> integers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        for (int i = 0; i < integers.size(); i++) {
+            System.out.println(integers.get(i));
+        }
+
+    }
+
+    public class mysnakematrix {
+        private int n; //
+        private int a[][]; // 声明一个矩阵
+        private int value = 1;// 矩阵里数字的值
+
+        public mysnakematrix(int i) {
+            this.n = i;
+            a = new int[n][n];
+        }
+
+        // 计算第m层左上角的数字
+        private int getcorner(int m) {
+            int corner = 1;
+            int o = n - 1;
+            for (int i = 0; i < m - 1; ++i) {
+                corner += 4 * o;
+                o = o - 2;
+            }
+            return corner;
+        }
+
+        // 生成矩阵的每一层的每一边的数
+        // s表示4个方向，分别取值1,2,3,4，表示4个不同的方向。
+        // o表示这条边的起始值。
+        // x表示第m层每条边的数字个数
+        private void side(int s, int o, int x, int m) {
+            int i = 0;
+            int j = 0;
+            switch (s) {
+                case 1:
+                    i = m - 1;
+                    j = m - 1;
+                    for (int k = 0; k < x; ++k) {
+                        a[i][j + k] = value;
+                        ++value;
+                    }
+
+                    break;
+                case 2:
+                    i = m - 1;
+                    j = m - 1 + x;
+                    for (int k = 0; k < x; ++k) {
+                        a[i + k][j] = value;
+                        ++value;
+                    }
+                    break;
+                case 3:
+                    i = m - 1 + x;
+                    j = m - 1 + x;
+                    for (int k = 0; k < x; ++k) {
+                        a[i][j - k] = value;
+                        ++value;
+                    }
+                    break;
+                case 4:
+                    i = m - 1 + x;
+                    j = m - 1;
+                    for (int k = 0; k < x; ++k) {
+                        a[i - k][j] = value;
+                        ++value;
+                    }
+                    break;
+            }
+        }
+
+        // 生成蛇形矩阵的第m层
+        private void shell(int m)// m表示第m层
+        {
+            int x = n - 1 - (m - 1) * 2; // x表示第m层每条边的数字个数
+            int o = getcorner(m);
+            int o1 = o;
+            int o2 = o1 + x;
+            int o3 = o2 + x;
+            int o4 = o3 + x;
+            // System.out.println(o4);
+
+            side(1, o, x, m);
+            side(2, o, x, m);
+            side(3, o, x, m);
+            side(4, o, x, m);
+        }
+
+        // 生成蛇形矩阵
+        public void snakeMatrix() {
+            int m = (n + 1) / 2;// 计算一共有多少层
+            for (int i = 1; i <= m; ++i) {
+
+                shell(i);
+            }
+            if (n % 2 == 1) {
+                a[n / 2][n / 2] = n * n;
+            }
+
+        }
+
+        // 打印矩阵
+        public void print() {
+            for (int i = 0; i < n; ++i) {
+                for (int j = 0; j < n; ++j) {
+                    if (a[i][j] < 10) {
+                        System.out.print(a[i][j] + "  ");
+                    } else {
+                        System.out.print(a[i][j] + " ");
+                    }
+
+                }
+                System.out.println();
+            }
+        }
+
+
     }
 
 }

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:clickable="true"
+             android:orientation="vertical"
+             android:padding="20dp">
+
+    <LinearLayout
+        android:id="@+id/ll_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:background="@drawable/dialog_all_radius"
+        >
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="提示"
+            android:layout_marginTop="8dp"
+            android:textColor="@android:color/black"
+            android:textSize="15dp"
+            android:visibility="visible" />
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.5"
+            android:minHeight="55dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="10dp"
+            android:textColor="@android:color/black"
+            tools:text="确定退出吗？"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#ffd0d0d0"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:background="@drawable/dialog_bottom_radius"
+            android:orientation="horizontal" >
+            <TextView
+                android:id="@+id/tv_negative"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="取消"
+                android:textColor="#1e90ff"
+                android:textSize="15dp"
+                android:background="@drawable/both_negative_selector"
+                />
+            <View
+                android:id="@+id/v_line"
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="#ffd0d0d0"
+                />
+            <TextView
+                android:id="@+id/tv_positive"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="#1e90ff"
+                android:text="确定"
+                android:textSize="15dp"
+                android:background="@drawable/both_positive_selector"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>
