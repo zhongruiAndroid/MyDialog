@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.test.mydialog.BuildConfig;
@@ -22,6 +23,8 @@ import com.test.mydialog.R;
 
 public class TestActivity extends AppCompatActivity {
     ImageView iv,iv2;
+    private SeekBar sb;
+
     public void Log(String log) {
         if(BuildConfig.DEBUG){
             Log.i(this.getClass().getSimpleName()+"===", log);
@@ -31,6 +34,11 @@ public class TestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+        sb = (SeekBar) findViewById(R.id.sb);
+//        sb.setMax(20);
+        sb.setMax(12000);
+        sb.setProgress(6600);
+
         init();
         /*TV2 tv2= (TV2) findViewById(R.id.tv2);
         tv2.setOnTouchListener(new View.OnTouchListener() {
@@ -74,6 +82,7 @@ public class TestActivity extends AppCompatActivity {
     }
     public void a(View view){
         Toast.makeText(this, "view", Toast.LENGTH_SHORT).show();
+        Log(sb.getProgress()+"==="+sb.getMax());
     }
     private void setPolyToPoly() {
         /*Matrix matrix=new Matrix();
