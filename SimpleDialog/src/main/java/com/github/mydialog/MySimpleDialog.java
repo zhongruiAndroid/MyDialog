@@ -17,13 +17,15 @@ import android.widget.TextView;
 
 public class MySimpleDialog extends AppCompatDialog {
     private final int flag_width = -10;
-    private int width = flag_width; //(int) (getScreenWidth() * 0.7);
-    private int height = flag_width; //(int) (getScreenWidth() * 0.6);
+    private int width =  (int) (getScreenWidth() * 0.6);
+    private int height =  (int) (getScreenWidth() * 0.4);
+//    private int width = flag_width; //(int) (getScreenWidth() * 0.7);
+//    private int height = flag_width; //(int) (getScreenWidth() * 0.6);
     private int titleViewHeight = -1;
     private int titleViewColor = -1;
     private boolean isTranslucent = true;
     private boolean isAutoCustom = true;
-    private int backgroundColor = android.R.color.transparent;
+    private int backgroundColor ;
     private Drawable backgroundDrawable;
     private int paddingLeft;
     private int paddingTop;
@@ -40,14 +42,17 @@ public class MySimpleDialog extends AppCompatDialog {
 
     public MySimpleDialog(Context context) {
         super(context);
+        backgroundColor= ContextCompat.getColor(context,android.R.color.transparent);
     }
 
     public MySimpleDialog(Context context, int theme) {
         super(context, theme);
+        backgroundColor= ContextCompat.getColor(context,android.R.color.transparent);
     }
 
     protected MySimpleDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
+        backgroundColor= ContextCompat.getColor(context,android.R.color.transparent);
     }
 
     public int getWidth() {
@@ -176,7 +181,7 @@ public class MySimpleDialog extends AppCompatDialog {
         return backgroundColor;
     }
 
-    public void setBackgroundColor(@ColorRes int backgroundColor) {
+    public void setBackgroundColor(@ColorInt int backgroundColor) {
         this.backgroundColor = backgroundColor;
     }
 
@@ -204,7 +209,7 @@ public class MySimpleDialog extends AppCompatDialog {
                 win.setBackgroundDrawable(backgroundDrawable);
             } else {
                 GradientDrawable gradientDrawable = new GradientDrawable();
-                gradientDrawable.setColor(ContextCompat.getColor(getContext(),backgroundColor));
+                gradientDrawable.setColor(backgroundColor);
                 float[] fourRadius = new float[]{
                         leftRadius, leftRadius,
                         topRadius, topRadius,

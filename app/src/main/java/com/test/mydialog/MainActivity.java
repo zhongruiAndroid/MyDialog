@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -38,13 +39,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         cb_bottomsheets_setting = (CheckBox) findViewById(R.id.cb_bottomsheets_setting);
         cb_bottomsheets_setting.setOnClickListener(this);
+        cb_bottomsheets_setting.setChecked(true);
 
         findViewById(R.id.tv_hidden).setOnClickListener(this);
         findViewById(R.id.tv_collapsed).setOnClickListener(this);
         findViewById(R.id.tv_dragging).setOnClickListener(this);
         findViewById(R.id.tv_settling).setOnClickListener(this);
         findViewById(R.id.tv_expanded).setOnClickListener(this);
-        findViewById(R.id.tv_list).setOnClickListener(this);
         bottomSheets();
     }
 
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 dialog.setContentView(getLayoutInflater().inflate(R.layout.dialog, null));
                 dialog.setGravity(Gravity.TOP);
                 dialog.setFullWidth();
+                dialog.setRadius(40);
                 dialog.getWindow().setWindowAnimations(R.style.MyDialogAnimationTop);
                 dialog.show();
                 break;
@@ -66,8 +68,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 dialog = new MySimpleDialog(this);
                 dialog.setContentView(getLayoutInflater().inflate(R.layout.dialog, null));
                 dialog.setGravity(Gravity.BOTTOM);
-                dialog.setFullWidth();
-                dialog.getWindow().setWindowAnimations(R.style.MyDialogAnimationBottom);
+//                dialog.setBackgroundDrawable(null);
+                dialog.setBackgroundColor(ContextCompat.getColor(this,R.color.colorPrimaryDark1));
+                dialog.setRadius(40);
+//                dialog.setFullWidth();
+//                dialog.getWindow().setWindowAnimations(R.style.MyDialogAnimationBottom);
                 dialog.show();
                 break;
             case R.id.tv_bottomsheetdialog:
@@ -82,9 +87,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.tv_bottomsheetdialogfragment:
                 SheetDialogFragment sheetDialogFragment = SheetDialogFragment.newInstance();
                 sheetDialogFragment.show(getSupportFragmentManager(), "tag");
-
-
-//
 
                 break;
             case R.id.cb_bottomsheets:
@@ -105,7 +107,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 behavior.setHideable(cb_bottomsheets_setting.isChecked());
                 break;
             case R.id.tv_hidden:
-                behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                if(cb_bottomsheets_setting.isChecked()){
+                    behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                }
                 break;
             case R.id.tv_collapsed:
                 behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -118,10 +122,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.tv_expanded:
                 behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                break;
-            case R.id.tv_list:
-                Intent intent=new Intent(this,MyViewActivity.class);
-                startActivity(intent);
                 break;
         }
     }
@@ -151,6 +151,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void showDialog() {
         MySimpleDialog dialog = new MySimpleDialog(this);
         dialog.setContentView(getLayoutInflater().inflate(R.layout.dialog, null));
+        dialog.setRadius(40);
         dialog.show();
     }
 }
