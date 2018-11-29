@@ -17,10 +17,10 @@ import android.widget.TextView;
 
 public class MySimpleDialog extends AppCompatDialog {
     private final int flag_width = -10;
-    private int width =  (int) (getScreenWidth() * 0.6);
-    private int height =  (int) (getScreenWidth() * 0.4);
-//    private int width = flag_width; //(int) (getScreenWidth() * 0.7);
-//    private int height = flag_width; //(int) (getScreenWidth() * 0.6);
+//    private int width =  (int) (getScreenWidth() * 0.6);
+//    private int height =  (int) (getScreenWidth() * 0.4);
+    private int width = flag_width; //(int) (getScreenWidth() * 0.7);
+    private int height = flag_width; //(int) (getScreenWidth() * 0.6);
     private int titleViewHeight = -1;
     private int titleViewColor = -1;
     private boolean isTranslucent = true;

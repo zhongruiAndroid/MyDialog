@@ -6,29 +6,24 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.support.v7.app.AlertDialog;
-import android.view.Gravity;
-import android.view.Window;
 
-/**
- * Created by Administrator on 2018/5/8.
- */
+import static com.github.mydialog.BaseDialogHelper.negative;
+import static com.github.mydialog.BaseDialogHelper.neutral;
+import static com.github.mydialog.BaseDialogHelper.positive;
+import static com.github.mydialog.BaseDialogHelper.title;
 
-public class MyAlertDialog extends AlertDialog {
-    private final int def_titleSize=20;
-    private final int def_messageSize=16;
-    private final int def_buttonSize=14;
-    private static final String neutral="跳过";
-    private static final String negative="取消";
-    private static final String positive="确定";
-    private static final String title="提示";
+public class TheAlertDialog extends AlertDialog {
 
-    protected MyAlertDialog(@NonNull Context context) {
+
+    protected TheAlertDialog(@NonNull Context context) {
         super(context);
     }
-    protected MyAlertDialog(@NonNull Context context, @StyleRes int themeResId) {
+
+    protected TheAlertDialog(@NonNull Context context, int themeResId) {
         super(context, themeResId);
     }
-    protected MyAlertDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
+
+    protected TheAlertDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
     }
 
@@ -80,8 +75,16 @@ public class MyAlertDialog extends AlertDialog {
         public AlertDialog.Builder setTitle() {
             return super.setTitle(title);
         }
-
     }
 
+
+    /*返回dialog window宽度*/
+    public int getWidth(){
+        return getWindow().getAttributes().width;
+    };
+    /*返回dialog window高度*/
+    public int getHeight(){
+        return getWindow().getAttributes().height;
+    };
 
 }
