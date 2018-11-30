@@ -1,7 +1,6 @@
 package com.test.mydialog;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -9,20 +8,17 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AlertDialogLayout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.CheckBox;
 
-import com.github.androidtools.PhoneUtils;
-import com.github.mydialog.MyAlertDialog;
-import com.github.mydialog.MySimpleDialog;
+import com.github.mydialog.DialogDecor;
+import com.github.mydialog.TheAlertDialog;
+import com.github.mydialog.TheDialog;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private MySimpleDialog dialog;
     private BottomSheetBehavior behavior;
     private boolean behaviorFlag = true;
     private int peekHeight;
@@ -59,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_mydialog_top:
-                dialog = new MySimpleDialog(this);
+             /*   dialog = new MySimpleDialog(this);
                 dialog.setContentView(getLayoutInflater().inflate(R.layout.dialog, null));
                 dialog.setGravity(Gravity.TOP);
                 dialog.setFullWidth();
@@ -67,41 +63,78 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
                 dialog.getWindow().setWindowAnimations(R.style.MyDialogAnimationTop);
                 dialog.show();
+*/
+                TheAlertDialog.Builder builder = new TheAlertDialog.Builder(this);
+
+//                builder.setView(getLayoutInflater().inflate(R.layout.dialog, null));
+
+                builder.setView(getLayoutInflater().inflate(R.layout.dialog, null));
+//                builder.setTitle("提示");
+//                builder.setMessage("消息");
+//                builder.setNegativeButton();
+//                builder.setPositiveButton();
+//                builder.setNeutralButton();
+
+
+                DialogDecor dialogDecor = DialogDecor.newInstance(builder)
+                        .setAlpha(0.9f)
+                        .setDimAmount(0.3f)
+                        .setHeight(300)
+                        .setFullWidth()
+//                        .setFullHeight()
+//                        .setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+//                         .setBackgroundDrawableResource(R.color.wheel_bg)
+                        .setTranslucentStatus(false)
+                        .setPadding(0)
+                        .setGravity(Gravity.BOTTOM)
+//                        .setRadius(150)
+                        ;
+                Log(dialogDecor.getWidth() + "===" + dialogDecor.getHeight());
+                dialogDecor.show();
+                Log(dialogDecor.getWidth() + "===" + dialogDecor.getHeight());
+/*                Window window1 = dialogDecor.getWindow();
+
+                WindowManager.LayoutParams lp = window1.getAttributes();
+                window1.getDecorView().setPadding(0, 0, 0, 0);
+
+                lp.width = PhoneUtils.getScreenWidth(this);
+                window1.setAttributes(lp);
+
+                dialogDecor.show();*/
+
+//                dialogDecor.getWindow().setWindowAnimations(R.style.MyDialogAnimationBottom);
+//                dialogDecor.show();
+
+//                builder.show();
+
+
                 break;
             case R.id.tv_mydialog_center:
-                showDialog();
+
+
+
+//                showDialog();
                 break;
             case R.id.tv_mydialog_bottom:
-               /* dialog = new MySimpleDialog(this);
-                dialog.setContentView(getLayoutInflater().inflate(R.layout.dialog, null));
-                dialog.setGravity(Gravity.BOTTOM);
-//                dialog.setBackgroundDrawable(null);
-                dialog.setBackgroundColor(ContextCompat.getColor(this,R.color.colorPrimaryDark1));
-                dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-                dialog.setRadius(40);
-//                dialog.setFullWidth();
-//                dialog.getWindow().setWindowAnimations(R.style.MyDialogAnimationBottom);
-                dialog.show();*/
-                MyAlertDialog.Builder myAlertDialog=new MyAlertDialog.Builder(this);
-                myAlertDialog.setView(getLayoutInflater().inflate(R.layout.dialog, null));
-//                myAlertDialog.setNeutralButton();
-                AlertDialog alertDialog = myAlertDialog.create();
-                alertDialog.getWindow().setGravity(Gravity.BOTTOM);
-                alertDialog.getWindow().setDimAmount(0.6f);
-                alertDialog.getWindow().setWindowAnimations(R.style.MyDialogAnimationBottom);
 
-//                alertDialog.show();
-                android.app.AlertDialog.Builder builder=new android.app.AlertDialog.Builder(this);
-                builder.setView(getLayoutInflater().inflate(R.layout.dialog, null));
-                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                TheDialog theDialog = new TheDialog(this);
 
-                android.app.AlertDialog alertDialog1 = builder.create();
-                alertDialog1.show();
+
+                theDialog.setContentView(getLayoutInflater().inflate(R.layout.dialog, null));
+                theDialog.setAlpha(0.9f)
+                        .setDimAmount(0.3f)
+//                        .setHeight(200)
+//                        .setWidth(600)
+                        .setFullWidth()
+//                        .setFullHeight()
+                        .setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+//                        .setBackgroundDrawableResource(R.color.wheel_bg)
+                        .setTranslucentStatus(false)
+                        .setPadding(0)
+                        .setGravity(Gravity.BOTTOM)
+//                        .setRadius(20)
+                ;
+                theDialog.show();
 
 
                 break;
@@ -137,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 behavior.setHideable(cb_bottomsheets_setting.isChecked());
                 break;
             case R.id.tv_hidden:
-                if(cb_bottomsheets_setting.isChecked()){
+                if (cb_bottomsheets_setting.isChecked()) {
                     behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
                 }
                 break;
@@ -178,10 +211,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.i("===", log);
     }
 
-    public void showDialog() {
-        MySimpleDialog dialog = new MySimpleDialog(this);
-        dialog.setContentView(getLayoutInflater().inflate(R.layout.dialog, null));
-        dialog.setRadius(40);
-        dialog.show();
-    }
+
 }

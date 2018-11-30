@@ -7,19 +7,19 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.support.v7.app.AlertDialog;
 
-import static com.github.mydialog.BaseDialogHelper.negative;
-import static com.github.mydialog.BaseDialogHelper.neutral;
-import static com.github.mydialog.BaseDialogHelper.positive;
-import static com.github.mydialog.BaseDialogHelper.title;
 
 public class TheAlertDialog extends AlertDialog {
 
+    public static final String neutral = "跳过";
+    public static final String negative = "取消";
+    public static final String positive = "确定";
+    public static final String title = "提示";
 
     protected TheAlertDialog(@NonNull Context context) {
         super(context);
     }
 
-    protected TheAlertDialog(@NonNull Context context, int themeResId) {
+    protected TheAlertDialog(@NonNull Context context,  @StyleRes int themeResId) {
         super(context, themeResId);
     }
 
@@ -75,16 +75,7 @@ public class TheAlertDialog extends AlertDialog {
         public AlertDialog.Builder setTitle() {
             return super.setTitle(title);
         }
+
     }
-
-
-    /*返回dialog window宽度*/
-    public int getWidth(){
-        return getWindow().getAttributes().width;
-    };
-    /*返回dialog window高度*/
-    public int getHeight(){
-        return getWindow().getAttributes().height;
-    };
 
 }
