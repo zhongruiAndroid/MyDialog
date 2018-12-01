@@ -7,26 +7,23 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.support.v7.app.AlertDialog;
 
-/**
- * Created by Administrator on 2018/5/8.
- */
 
-public class MyAlertDialog extends AlertDialog {
-    private final int def_titleSize=20;
-    private final int def_messageSize=16;
-    private final int def_buttonSize=14;
-    private static final String neutral="跳过";
-    private static final String negative="取消";
-    private static final String positive="确定";
-    private static final String title="提示";
+public class TheAlertDialog extends AlertDialog {
 
-    protected MyAlertDialog(@NonNull Context context) {
+    public static final String neutral = "跳过";
+    public static final String negative = "取消";
+    public static final String positive = "确定";
+    public static final String title = "提示";
+
+    protected TheAlertDialog(@NonNull Context context) {
         super(context);
     }
-    protected MyAlertDialog(@NonNull Context context, @StyleRes int themeResId) {
+
+    protected TheAlertDialog(@NonNull Context context,  @StyleRes int themeResId) {
         super(context, themeResId);
     }
-    protected MyAlertDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
+
+    protected TheAlertDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
     }
 

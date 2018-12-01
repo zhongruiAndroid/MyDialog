@@ -10,29 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
-        <activity android:name=".MyViewActivity">
+        <activity android:name=".MainActivity"  android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".view.test.TestActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-        <!-- <activity android:name=".MyViewActivity"/> -->
-
-        <activity android:name=".ClockActivity">
-        </activity>
-        <activity android:name=".ChartActivity">
-        </activity>
-        <activity android:name=".ChartActivity2"/>
-        <!--<activity android:name=".view.test.TestActivity">-->
-        <!--</activity>-->
     </application>
 
 </manifest>

@@ -173,6 +173,9 @@ public class MyDialog extends Dialog {
 				// set the dialog title
 			TextView tv_title = (TextView) dialogView.findViewById(R.id.tv_title);
 			tv_title.setText(title==null?"提示":title);
+			if("".equals(title)){
+				tv_title.setVisibility(View.GONE);
+			}
 			dialog.setTitleView(tv_title);
 //			}
 
@@ -237,10 +240,7 @@ public class MyDialog extends Dialog {
 				tv_positive.setBackgroundResource(R.drawable.single_selector);
 			}
 			// set the content message
-			if (message != null) {
-				tv_message.setText(message);
-			} else if (contentView != null) {
-
+			if (contentView != null) {
 				// if no message set
 				// add the contentView to the dialog body
 				((LinearLayout) dialogView.findViewById(R.id.ll_dialog)).removeViews(0,2);
@@ -248,6 +248,8 @@ public class MyDialog extends Dialog {
 						contentView, 0, new LayoutParams(
 								LayoutParams.MATCH_PARENT,
 								LayoutParams.WRAP_CONTENT));
+			} else if (message != null) {
+				tv_message.setText(message);
 
 			}
 			dialog.setContentView(dialogView);

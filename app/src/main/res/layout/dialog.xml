@@ -1,22 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:background="@color/white"
-              android:orientation="vertical">
+              android:orientation="vertical"
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/white"
         android:gravity="center_vertical"
         >
         <TextView
             android:layout_width="150dp"
             android:layout_height="90dp"
             android:gravity="center"
-            android:text="我是待老哥1"
+            android:text="我是带老哥1"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:textSize="13sp"
+            android:inputType="text"
+            android:imeOptions="actionNext"
+            android:hint="点我试试"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:textSize="13sp"
+            android:inputType="text"
+            android:imeOptions="actionNext"
+            android:hint="带老哥点我试试"
             />
     </LinearLayout>
-</LinearLayout>
+</android.support.v4.widget.NestedScrollView>

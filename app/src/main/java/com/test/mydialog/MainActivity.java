@@ -1,21 +1,24 @@
 package com.test.mydialog;
 
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.CheckBox;
 
-import com.github.mydialog.MySimpleDialog;
+import com.github.mydialog.DialogDecor;
+import com.github.mydialog.TheAlertDialog;
+import com.github.mydialog.TheDialog;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private MySimpleDialog dialog;
     private BottomSheetBehavior behavior;
     private boolean behaviorFlag = true;
     private int peekHeight;
@@ -38,13 +41,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         cb_bottomsheets_setting = (CheckBox) findViewById(R.id.cb_bottomsheets_setting);
         cb_bottomsheets_setting.setOnClickListener(this);
+        cb_bottomsheets_setting.setChecked(true);
 
         findViewById(R.id.tv_hidden).setOnClickListener(this);
         findViewById(R.id.tv_collapsed).setOnClickListener(this);
         findViewById(R.id.tv_dragging).setOnClickListener(this);
         findViewById(R.id.tv_settling).setOnClickListener(this);
         findViewById(R.id.tv_expanded).setOnClickListener(this);
-        findViewById(R.id.tv_list).setOnClickListener(this);
         bottomSheets();
     }
 
@@ -52,23 +55,88 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_mydialog_top:
-                dialog = new MySimpleDialog(this);
+             /*   dialog = new MySimpleDialog(this);
                 dialog.setContentView(getLayoutInflater().inflate(R.layout.dialog, null));
                 dialog.setGravity(Gravity.TOP);
                 dialog.setFullWidth();
+                dialog.setRadius(40);
+                dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
                 dialog.getWindow().setWindowAnimations(R.style.MyDialogAnimationTop);
                 dialog.show();
+*/
+                TheAlertDialog.Builder builder = new TheAlertDialog.Builder(this);
+
+//                builder.setView(getLayoutInflater().inflate(R.layout.dialog, null));
+
+                builder.setView(getLayoutInflater().inflate(R.layout.dialog, null));
+//                builder.setTitle("提示");
+//                builder.setMessage("消息");
+//                builder.setNegativeButton();
+//                builder.setPositiveButton();
+//                builder.setNeutralButton();
+
+
+                DialogDecor dialogDecor = DialogDecor.newInstance(builder)
+                        .setAlpha(0.9f)
+                        .setDimAmount(0.3f)
+                        .setHeight(300)
+                        .setFullWidth()
+//                        .setFullHeight()
+//                        .setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+//                         .setBackgroundDrawableResource(R.color.wheel_bg)
+                        .setTranslucentStatus(false)
+                        .setPadding(0)
+                        .setGravity(Gravity.BOTTOM)
+//                        .setRadius(150)
+                        ;
+                Log(dialogDecor.getWidth() + "===" + dialogDecor.getHeight());
+                dialogDecor.show();
+                Log(dialogDecor.getWidth() + "===" + dialogDecor.getHeight());
+/*                Window window1 = dialogDecor.getWindow();
+
+                WindowManager.LayoutParams lp = window1.getAttributes();
+                window1.getDecorView().setPadding(0, 0, 0, 0);
+
+                lp.width = PhoneUtils.getScreenWidth(this);
+                window1.setAttributes(lp);
+
+                dialogDecor.show();*/
+
+//                dialogDecor.getWindow().setWindowAnimations(R.style.MyDialogAnimationBottom);
+//                dialogDecor.show();
+
+//                builder.show();
+
+
                 break;
             case R.id.tv_mydialog_center:
-                showDialog();
+
+
+
+//                showDialog();
                 break;
             case R.id.tv_mydialog_bottom:
-                dialog = new MySimpleDialog(this);
-                dialog.setContentView(getLayoutInflater().inflate(R.layout.dialog, null));
-                dialog.setGravity(Gravity.BOTTOM);
-                dialog.setFullWidth();
-                dialog.getWindow().setWindowAnimations(R.style.MyDialogAnimationBottom);
-                dialog.show();
+
+                TheDialog theDialog = new TheDialog(this);
+
+
+                theDialog.setContentView(getLayoutInflater().inflate(R.layout.dialog, null));
+                theDialog.setAlpha(0.9f)
+                        .setDimAmount(0.3f)
+//                        .setHeight(200)
+//                        .setWidth(600)
+                        .setFullWidth()
+//                        .setFullHeight()
+                        .setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+//                        .setBackgroundDrawableResource(R.color.wheel_bg)
+                        .setTranslucentStatus(false)
+                        .setPadding(0)
+                        .setGravity(Gravity.BOTTOM)
+//                        .setRadius(20)
+                ;
+                theDialog.show();
+
+
                 break;
             case R.id.tv_bottomsheetdialog:
                 View bottomDialogView = getLayoutInflater().inflate(R.layout.dialog2, null);
@@ -82,9 +150,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.tv_bottomsheetdialogfragment:
                 SheetDialogFragment sheetDialogFragment = SheetDialogFragment.newInstance();
                 sheetDialogFragment.show(getSupportFragmentManager(), "tag");
-
-
-//
 
                 break;
             case R.id.cb_bottomsheets:
@@ -105,7 +170,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 behavior.setHideable(cb_bottomsheets_setting.isChecked());
                 break;
             case R.id.tv_hidden:
-                behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                if (cb_bottomsheets_setting.isChecked()) {
+                    behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                }
                 break;
             case R.id.tv_collapsed:
                 behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -118,10 +185,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.tv_expanded:
                 behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                break;
-            case R.id.tv_list:
-                Intent intent=new Intent(this,MyViewActivity.class);
-                startActivity(intent);
                 break;
         }
     }
@@ -148,9 +211,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.i("===", log);
     }
 
-    public void showDialog() {
-        MySimpleDialog dialog = new MySimpleDialog(this);
-        dialog.setContentView(getLayoutInflater().inflate(R.layout.dialog, null));
-        dialog.show();
-    }
+
 }

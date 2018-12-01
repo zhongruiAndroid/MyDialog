@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="MyDialogAnimationBottom" parent="@android:style/Animation">
-        <item name="android:windowEnterAnimation">@anim/bottom_enter_anim</item>
-        <item name="android:windowExitAnimation">@anim/bottom_exit_anim</item>
-    </style>
     <style name="MyDialogAnimationTop" parent="@android:style/Animation">
         <item name="android:windowEnterAnimation">@anim/top_enter_anim</item>
         <item name="android:windowExitAnimation">@anim/top_exit_anim</item>
+    </style>
+
+    <style name="MyDialogAnimationBottom" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/bottom_enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/bottom_exit_anim</item>
     </style>
 
     <!--自定义dialog-->
