@@ -47,23 +47,24 @@ public class TheDialog extends AppCompatDialog implements DialogDecorInter<TheDi
 
     public TheDialog(@NonNull Context context) {
         super(context);
-        window=getWindow();
-
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        initWindow();
     }
 
     public TheDialog(@NonNull Context context, int themeResId) {
         super(context, themeResId);
-        window=getWindow();
-
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        initWindow();
     }
 
     public TheDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
+        initWindow();
+    }
+    private void initWindow() {
         window=getWindow();
 
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        setDrawable();
     }
     @Override
     public TheDialog setWidth(int width) {
