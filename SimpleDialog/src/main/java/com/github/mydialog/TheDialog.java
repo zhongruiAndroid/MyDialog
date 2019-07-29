@@ -230,9 +230,21 @@ public class TheDialog extends AppCompatDialog implements DialogDecorInter<TheDi
         return this;
     }
 
+    public int getAnimationId() {
+        return animationId;
+    }
+
+    public void setAnimationId(int animationId) {
+        if(this.animationId==animationId){
+            return;
+        }
+        this.animationId = animationId;
+        setAnimation(animationId);
+    }
+
     @Override
     public TheDialog setAnimation(int resId) {
-        if(animationId==-1){
+        if(resId==-1){
             switch (gravity){
                 case Gravity.TOP:
                     window.setWindowAnimations(R.style.MyDialogAnimationTop);
