@@ -196,7 +196,7 @@ public class AndroidUtils {
      * @return 如果str 符合 regex的正则表达式格式,返回true, 否则返回 false;
      */
     private static boolean match(String regex, String str) {
-        Pattern pattern = Pattern.compile(regex);
+        Pattern pattern = Pattern.implementation(regex);
         Matcher matcher = pattern.matcher(str);
         return matcher.matches();
     }
