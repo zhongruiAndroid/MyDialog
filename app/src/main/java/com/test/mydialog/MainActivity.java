@@ -13,8 +13,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.CheckBox;
 
-import com.github.mydialog.DialogDecor;
-import com.github.mydialog.TheAlertDialog;
 import com.github.mydialog.TheDialog;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -25,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     CheckBox cb_bottomsheets;
     CheckBox cb_bottomsheets_setting;
+    private TheDialog theDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,71 +54,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_mydialog_top:
-             /*   dialog = new MySimpleDialog(this);
-                dialog.setContentView(getLayoutInflater().inflate(R.layout.dialog, null));
-                dialog.setGravity(Gravity.TOP);
-                dialog.setFullWidth();
-                dialog.setRadius(40);
-                dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-                dialog.getWindow().setWindowAnimations(R.style.MyDialogAnimationTop);
-                dialog.show();
-*/
-                TheAlertDialog.Builder builder = new TheAlertDialog.Builder(this);
-
-//                builder.setView(getLayoutInflater().inflate(R.layout.dialog, null));
-
-                builder.setView(getLayoutInflater().inflate(R.layout.dialog, null));
-//                builder.setTitle("提示");
-//                builder.setMessage("消息");
-//                builder.setNegativeButton();
-//                builder.setPositiveButton();
-//                builder.setNeutralButton();
-
-
-                DialogDecor dialogDecor = DialogDecor.newInstance(builder)
-                        .setAlpha(0.9f)
+                  theDialog = new TheDialog(this);
+//                theDialog.setContentView(getLayoutInflater().inflate(R.layout.dialog, null));
+                theDialog.setAlpha(0.9f)
                         .setDimAmount(0.3f)
-                        .setHeight(300)
-                        .setFullWidth()
+//                        .setHeight(200)
+//                        .setWidth(600)
+//                        .setFullWidth()
 //                        .setFullHeight()
-//                        .setBackgroundColor(ContextCompat.getColor(this, R.color.white))
-//                         .setBackgroundDrawableResource(R.color.wheel_bg)
+                        .setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+//                        .setBackgroundDrawableResource(R.color.wheel_bg)
                         .setTranslucentStatus(false)
                         .setPadding(0)
                         .setGravity(Gravity.BOTTOM)
-//                        .setRadius(150)
-                        ;
-                Log(dialogDecor.getWidth() + "===" + dialogDecor.getHeight());
-                dialogDecor.show();
-                Log(dialogDecor.getWidth() + "===" + dialogDecor.getHeight());
-/*                Window window1 = dialogDecor.getWindow();
-
-                WindowManager.LayoutParams lp = window1.getAttributes();
-                window1.getDecorView().setPadding(0, 0, 0, 0);
-
-                lp.width = PhoneUtils.getScreenWidth(this);
-                window1.setAttributes(lp);
-
-                dialogDecor.show();*/
-
-//                dialogDecor.getWindow().setWindowAnimations(R.style.MyDialogAnimationBottom);
-//                dialogDecor.show();
-
-//                builder.show();
-
-
+//                        .setRadius(20)
+                ;
+                theDialog.show();
                 break;
             case R.id.tv_mydialog_center:
-
-
-
 //                showDialog();
                 break;
             case R.id.tv_mydialog_bottom:
 
-                TheDialog theDialog = new TheDialog(this);
-
-
+                theDialog = new TheDialog(this);
                 theDialog.setContentView(getLayoutInflater().inflate(R.layout.dialog, null));
                 theDialog.setAlpha(0.9f)
                         .setDimAmount(0.3f)
@@ -135,8 +92,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                        .setRadius(20)
                 ;
                 theDialog.show();
-
-
                 break;
             case R.id.tv_bottomsheetdialog:
                 View bottomDialogView = getLayoutInflater().inflate(R.layout.dialog2, null);

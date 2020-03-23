@@ -15,7 +15,7 @@ import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class TheDialog extends AppCompatDialog implements DialogDecorInter<TheDialog>{
+public class TheDialog extends AppCompatDialog  {
 
 
     private int width = WindowManager.LayoutParams.WRAP_CONTENT; //(int) (getScreenWidth() * 0.7);
@@ -66,31 +66,22 @@ public class TheDialog extends AppCompatDialog implements DialogDecorInter<TheDi
 
         setDrawable();
     }
-    @Override
     public TheDialog setWidth(int width) {
         this.width=width;
         return this;
     }
-
-    @Override
     public TheDialog setHeight(int height) {
         this.height=height;
         return this;
     }
-
-    @Override
     public TheDialog setFullWidth() {
         this.width=WindowManager.LayoutParams.MATCH_PARENT;
         return this;
     }
-
-    @Override
     public TheDialog setFullHeight() {
         this.height=WindowManager.LayoutParams.MATCH_PARENT;
         return this;
     }
-
-    @Override
     public TheDialog setRadius(int radius) {
         this.leftRadius=radius;
         this.topRadius=radius;
@@ -113,8 +104,6 @@ public class TheDialog extends AppCompatDialog implements DialogDecorInter<TheDi
         backgroundDrawable=gradientDrawable;
         window.setBackgroundDrawable(gradientDrawable);
     }
-
-    @Override
     public TheDialog setRadius(int leftRadius, int topRadius, int rightRadius, int bottomRadius) {
         this.leftRadius=leftRadius;
         this.topRadius=topRadius;
@@ -123,73 +112,59 @@ public class TheDialog extends AppCompatDialog implements DialogDecorInter<TheDi
         setDrawable();
         return this;
     }
-
-    @Override
     public float getDimAmount() {
         return dimAmount;
     }
-
-    @Override
     public TheDialog setDimAmount(float dimAmount) {
         this.dimAmount=dimAmount;
         window.setDimAmount(this.dimAmount);
         return this;
     }
 
-    @Override
     public float getAlpha() {
         return this.alpha;
     }
 
-    @Override
     public TheDialog setAlpha(float alpha) {
         this.alpha=alpha;
         window.getAttributes().alpha = this.alpha;
         return this;
     }
 
-    @Override
     public Drawable getBackgroundDrawable() {
         return backgroundDrawable;
     }
 
-    @Override
     public TheDialog setBackgroundDrawable(Drawable backgroundDrawable) {
         this.backgroundDrawable=backgroundDrawable;
         window.setBackgroundDrawable(backgroundDrawable);
         return this;
     }
 
-    @Override
     public int getBackgroundColor() {
         return this.backgroundColor;
     }
 
-    @Override
     public TheDialog setBackgroundColor(int backgroundColor) {
         this.backgroundColor=backgroundColor;
         setDrawable();
         return this;
     }
 
-    @Override
     public int getBackgroundDrawableResource() {
         return this.backgroundDrawableResId;
     }
 
-    @Override
     public TheDialog setBackgroundDrawableResource(int resId) {
         this.backgroundDrawableResId=resId;
         window.setBackgroundDrawableResource(this.backgroundDrawableResId);
         return this;
     }
 
-    @Override
     public boolean getTranslucentStatus() {
         return this.translucentStatus;
     }
 
-    @Override
     public TheDialog setTranslucentStatus(boolean translucentStatus) {
         this.translucentStatus= translucentStatus;
         if (this.translucentStatus) {
@@ -198,7 +173,6 @@ public class TheDialog extends AppCompatDialog implements DialogDecorInter<TheDi
         return this;
     }
 
-    @Override
     public TheDialog setPadding(int paddingLeft, int paddingTop, int paddingRight, int paddingBottom) {
         this.paddingLeft=paddingLeft;
         this.paddingTop=paddingTop;
@@ -215,12 +189,10 @@ public class TheDialog extends AppCompatDialog implements DialogDecorInter<TheDi
         return setPadding(padding,padding,padding,padding);
     }
 
-    @Override
     public int getGravity() {
         return gravity;
     }
 
-    @Override
     public TheDialog setGravity(int gravity) {
         this.gravity=gravity;
         window.setGravity(gravity);
@@ -242,7 +214,6 @@ public class TheDialog extends AppCompatDialog implements DialogDecorInter<TheDi
         setAnimation(animationId);
     }
 
-    @Override
     public TheDialog setAnimation(int resId) {
         if(resId==-1){
             switch (gravity){
