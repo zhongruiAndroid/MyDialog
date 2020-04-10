@@ -1,12 +1,10 @@
 package com.test.mydialog;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -72,7 +70,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 theDialog.show();
                 break;
             case R.id.tv_mydialog_center:
-//                showDialog();
+                theDialog = new TestDialog(this);
+                ((TestDialog) theDialog).initView();
+                theDialog.show();
                 break;
             case R.id.tv_mydialog_bottom:
 
