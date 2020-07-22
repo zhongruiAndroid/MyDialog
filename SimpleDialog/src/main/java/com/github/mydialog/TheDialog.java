@@ -43,11 +43,13 @@ public class TheDialog extends AppCompatDialog  {
 
     public TheDialog(@NonNull Context context) {
         super(context);
+        setCanceledOnTouchOutside(false);
         initWindow();
     }
 
     public TheDialog(@NonNull Context context, int themeResId) {
         super(context, themeResId);
+        setCanceledOnTouchOutside(false);
         initWindow();
     }
 
