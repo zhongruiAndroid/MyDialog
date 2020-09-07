@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatDialog;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -42,6 +43,7 @@ public class TheDialog extends AppCompatDialog {
     private int bottomRadius;
 
     private int animationId = -1;
+    private boolean canMoveDialog;
 
 
     private Window window;
@@ -226,6 +228,13 @@ public class TheDialog extends AppCompatDialog {
         setAnimation(animationId);
     }
 
+    public boolean isCanMoveDialog() {
+        return canMoveDialog;
+    }
+    public TheDialog setCanMoveDialog(boolean canMoveDialog) {
+        this.canMoveDialog = canMoveDialog;
+        return this;
+    }
     public TheDialog setAnimation(int resId) {
         if (resId == -1) {
             switch (gravity) {
@@ -260,8 +269,43 @@ public class TheDialog extends AppCompatDialog {
             window.setAttributes(lp);
         }
 
-
         super.show();
+    }
+
+    @Override
+    public boolean onTouchEvent(@NonNull MotionEvent event) {
+        if (!canMoveDialog) {
+            return super.onTouchEvent(event);
+        }
+        moveDialog(event);
+        return super.onTouchEvent(event);
+    }
+
+    private float downX;
+    private float downY;
+
+    private void moveDialog(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_MOVE:
+                float x = event.getRawX();
+                float y = event.getRawY();
+                float tempX = x - downX;
+                float tempY = y - downY;
+                if (Gravity.BOTTOM == getGravity()) {
+                    tempY *= -1;
+                }
+                WindowManager.LayoutParams attributes = window.getAttributes();
+                attributes.x += tempX;
+                attributes.y += tempY;
+                downX = x;
+                downY = y;
+                onWindowAttributesChanged(attributes);
+                break;
+            case MotionEvent.ACTION_DOWN:
+                downX = event.getRawX();
+                downY = event.getRawY();
+                break;
+        }
     }
 
     public static Activity findActivity(Context context) {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -11,6 +11,13 @@
         android:orientation="vertical"
         android:gravity="center_vertical"
         >
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="90dp"
+            android:gravity="center"
+            android:text="我是带老哥1"
+            android:clickable="true"
+            />
         <TextView
             android:layout_width="150dp"
             android:layout_height="90dp"
@@ -38,4 +45,4 @@
             android:hint="带老哥点我试试"
             />
     </LinearLayout>
-</android.support.v4.widget.NestedScrollView>
+</LinearLayout>

@@ -53,36 +53,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.tv_mydialog_top:
                   theDialog = new TheDialog(this);
-//                theDialog.setContentView(getLayoutInflater().inflate(R.layout.dialog, null));
+                theDialog.setContentView(getLayoutInflater().inflate(R.layout.dialog, null));
                 theDialog.setAlpha(0.9f)
                         .setDimAmount(0.3f)
-//                        .setHeight(200)
-//                        .setWidth(600)
+                        .setCanMoveDialog(true)
+                        .setHeight(800)
+                        .setWidth(800)
 //                        .setFullWidth()
 //                        .setFullHeight()
                         .setBackgroundColor(ContextCompat.getColor(this, R.color.white))
 //                        .setBackgroundDrawableResource(R.color.wheel_bg)
                         .setTranslucentStatus(false)
                         .setPadding(0)
-                        .setGravity(Gravity.BOTTOM)
+                        .setGravity(Gravity.TOP)
 //                        .setRadius(20)
                 ;
                 theDialog.show();
                 break;
             case R.id.tv_mydialog_center:
                 theDialog = new TestDialog(this);
-                ((TestDialog) theDialog).initView();
+                theDialog.setContentView(getLayoutInflater().inflate(R.layout.dialog, null));
+                theDialog.setAlpha(0.9f).setCanMoveDialog(false)
+                        .setDimAmount(0.3f)
+                        .setHeight(800)
+                        .setWidth(800)
+//                        .setFullWidth()
+//                        .setFullHeight()
+                        .setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+//                        .setBackgroundDrawableResource(R.color.wheel_bg)
+                        .setTranslucentStatus(true)
+                        .setPadding(0)
+//                        .setGravity(Gravity.BOTTOM)
+//                        .setRadius(20)
+                ;
                 theDialog.show();
                 break;
             case R.id.tv_mydialog_bottom:
 
                 theDialog = new TheDialog(this);
                 theDialog.setContentView(getLayoutInflater().inflate(R.layout.dialog, null));
-                theDialog.setAlpha(0.9f)
+                theDialog.setAlpha(0.9f).setCanMoveDialog(true)
                         .setDimAmount(0.3f)
-//                        .setHeight(200)
-//                        .setWidth(600)
-                        .setFullWidth()
+                        .setHeight(800)
+                        .setWidth(800)
+//                        .setFullWidth()
 //                        .setFullHeight()
                         .setBackgroundColor(ContextCompat.getColor(this, R.color.white))
 //                        .setBackgroundDrawableResource(R.color.wheel_bg)
