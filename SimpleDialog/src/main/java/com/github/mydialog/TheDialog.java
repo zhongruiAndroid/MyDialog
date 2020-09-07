@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -14,8 +15,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatDialog;
 import android.view.Gravity;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 public class TheDialog extends AppCompatDialog {
 
@@ -231,10 +236,12 @@ public class TheDialog extends AppCompatDialog {
     public boolean isCanMoveDialog() {
         return canMoveDialog;
     }
+
     public TheDialog setCanMoveDialog(boolean canMoveDialog) {
         this.canMoveDialog = canMoveDialog;
         return this;
     }
+
     public TheDialog setAnimation(int resId) {
         if (resId == -1) {
             switch (gravity) {
@@ -252,12 +259,10 @@ public class TheDialog extends AppCompatDialog {
         return this;
     }
 
-    @Override
     public void show() {
         if (isDestroyed(getContext())) {
             return;
         }
-
         WindowManager.LayoutParams lp = window.getAttributes();
         if (this.width != WindowManager.LayoutParams.WRAP_CONTENT) {
             lp.width = width;
@@ -270,6 +275,168 @@ public class TheDialog extends AppCompatDialog {
         }
 
         super.show();
+    }
+
+    private int viewXOffset;
+    private int viewYOffset;
+
+    public static final int left_left = 1;
+    public static final int left_right = 2;
+    public static final int center = 3;
+    public static final int right_left = 4;
+    public static final int right_right = 5;
+
+    @IntDef({left_left})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface showMode {
+    }
+
+    //    public static final int right_right=5;
+    public void showAsLeft(View anchor, int xOffset, int yOffset, @showMode int showMode) {
+        if (anchor == null) {
+            show();
+            return;
+        }
+        switch (gravity) {
+            case left_left:
+
+                break;
+            case left_right:
+
+                break;
+        }
+    }
+
+    public void showAsTop(View anchor, int xOffset, int yOffset, @showMode int showMode) {
+        showAsTopOrBottom(anchor,xOffset,yOffset,true,showMode);
+    }
+
+    public void showAsRight(View anchor, int xOffset, int yOffset, @showMode int showMode) {
+        if (anchor == null) {
+            show();
+            return;
+        }
+    }
+
+    public void showAsBottom(View anchor, int xOffset, int yOffset, @showMode int showMode) {
+        showAsTopOrBottom(anchor,xOffset,yOffset,false,showMode);
+    }
+
+    private void showAsTopOrBottom(View anchor, int xOffset, int yOffset, boolean isAsTop, @showMode int showMode) {
+        if (anchor == null) {
+            show();
+            return;
+        }
+        int[] location = new int[2];
+        int x = location[0] + xOffset;
+        int y = location[1] + yOffset;
+        anchor.getLocationOnScreen(location);
+        int anchorWidth;
+        int anchorHeight;
+        switch (gravity) {
+            case left_left:
+                viewXOffset = x;
+                if(isAsTop){
+                    if (height < 0) {
+                        height = 0;
+                    }
+                    anchorHeight=anchor.getHeight();
+                    viewYOffset = (y-height-anchorHeight);
+                }else{
+                    viewYOffset = y;
+                }
+                break;
+            case left_right:
+                if (width < 0) {
+                    width = 0;
+                }
+                viewXOffset = (x - width);
+                if(isAsTop){
+                    if (height < 0) {
+                        height = 0;
+                    }
+                    anchorHeight=anchor.getHeight();
+                    viewYOffset = (y-height-anchorHeight);
+                }else{
+                    viewYOffset = y;
+                }
+                break;
+            case center:
+                anchorWidth = anchor.getWidth();
+                if (anchorWidth > 0 && this.width > 0) {
+                    viewXOffset = x - (this.width - anchorWidth) / 2;
+                    if(isAsTop){
+                        if (height < 0) {
+                            height = 0;
+                        }
+                        anchorHeight=anchor.getHeight();
+                        viewYOffset = (y-height-anchorHeight);
+                    }else{
+                        viewYOffset = y;
+                    }
+                } else {
+                    show();
+                    return;
+                }
+                break;
+            case right_left:
+                if (width < 0) {
+                    width = 0;
+                }
+                viewXOffset = (x + width);
+                if(isAsTop){
+                    if (height < 0) {
+                        height = 0;
+                    }
+                    anchorHeight=anchor.getHeight();
+                    viewYOffset = (y-height-anchorHeight);
+                }else{
+                    viewYOffset = y;
+                }
+                break;
+            case right_right:
+                anchorWidth = anchor.getWidth();
+                if (anchorWidth > 0 && this.width > 0) {
+                    viewXOffset = x - (this.width - anchorWidth);
+                    if(isAsTop){
+                        if (height < 0) {
+                            height = 0;
+                        }
+                        anchorHeight=anchor.getHeight();
+                        viewYOffset = (y-height-anchorHeight);
+                    }else{
+                        viewYOffset = y;
+                    }
+                } else {
+                    show();
+                    return;
+                }
+                break;
+        }
+        if (setAttributeForMode()) {
+            return;
+        }
+        super.show();
+    }
+
+    private boolean setAttributeForMode() {
+        if (isDestroyed(getContext())) {
+            return true;
+        }
+        setGravity(Gravity.LEFT | Gravity.TOP);
+        WindowManager.LayoutParams lp = window.getAttributes();
+        if (this.width != WindowManager.LayoutParams.WRAP_CONTENT) {
+            lp.width = width;
+        }
+        if (this.height != WindowManager.LayoutParams.WRAP_CONTENT) {
+            lp.height = height;
+        }
+        lp.x = viewXOffset;
+        lp.y = viewYOffset;
+        if (width != WindowManager.LayoutParams.WRAP_CONTENT || height != WindowManager.LayoutParams.WRAP_CONTENT) {
+            window.setAttributes(lp);
+        }
+        return false;
     }
 
     @Override

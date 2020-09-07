@@ -3,19 +3,19 @@ package com.github.mydialog;
 import android.view.View;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Administrator on 2016/8/10.
  */
 class ClickTools {
     private static ClickTools clickTools;
-    private Map<Long, ConcurrentHashMap> map;
+    private Map<Long, HashMap> map;
     private static final int MIN_CLICK_DELAY_TIME = 900;
 
     private ClickTools() {
-        map = new ConcurrentHashMap<>();
+        map = new HashMap<>();
     }
 
     public static ClickTools get() {
@@ -42,19 +42,19 @@ class ClickTools {
     }
 
     public boolean isFastClickById(Long key, int itemId, long time) {
-        ConcurrentHashMap<Integer, Long> concurrentHashMap = map.get(key);
-        if (concurrentHashMap == null) {
-            concurrentHashMap = new ConcurrentHashMap();
-            concurrentHashMap.put(itemId, 0L);
-            map.put(key, concurrentHashMap);
+        HashMap<Integer, Long> hashMap = map.get(key);
+        if (hashMap == null) {
+            hashMap = new HashMap();
+            hashMap.put(itemId, 0L);
+            map.put(key, hashMap);
         }
         long currentTime = Calendar.getInstance().getTimeInMillis();
-        Long preTime = concurrentHashMap.get(itemId);
+        Long preTime = hashMap.get(itemId);
         if (preTime == null) {
             preTime = new Long(0);
         }
         if (currentTime - preTime > time) {
-            concurrentHashMap.put(itemId, currentTime);
+            hashMap.put(itemId, currentTime);
             return false;
         }
         return true;
@@ -63,19 +63,19 @@ class ClickTools {
 
     public void removeLastClickTime(Long key) {
         if (map != null) {
-            ConcurrentHashMap concurrentHashMap = map.remove(key);
-            if (concurrentHashMap != null) {
-                concurrentHashMap.clear();
-                concurrentHashMap = null;
+            HashMap hashMap = map.remove(key);
+            if (hashMap != null) {
+                hashMap.clear();
+                hashMap = null;
             }
         }
     }
 
     public void clearLastClickTime(Long key) {
         if (map != null) {
-            ConcurrentHashMap concurrentHashMap = map.get(key);
-            if (concurrentHashMap != null) {
-                concurrentHashMap.clear();
+            HashMap hashMap = map.get(key);
+            if (hashMap != null) {
+                hashMap.clear();
             }
         }
     }
