@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".TestAttrActivity">
+
+    <TextView
+        android:layout_marginTop="100dp"
+        android:id="@+id/tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="显示在view左边或者右边" />
+
+    <RadioGroup
+        android:id="@+id/rgLeft"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_top_top_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="top_top"
+            android:textSize="9sp" />
+
+        <RadioButton
+            android:id="@+id/rb_top_bottom_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="top_bottom"
+            android:textSize="9sp" />
+
+        <RadioButton
+            android:id="@+id/rb_center_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="center"
+            android:textSize="9sp" />
+
+        <RadioButton
+            android:id="@+id/rb_bottom_top_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="bottom_top"
+            android:textSize="9sp" />
+
+        <RadioButton
+            android:id="@+id/rb_bottom_bottom_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="bottom_bottom"
+            android:textSize="9sp" />
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="显示在view上方或者下方" />
+
+    <RadioGroup
+        android:id="@+id/rgTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_left_left_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="left_left"
+            android:textSize="9sp" />
+
+        <RadioButton
+            android:id="@+id/rb_left_right_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="left_right"
+            android:textSize="9sp" />
+
+        <RadioButton
+            android:id="@+id/rb_center_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="center"
+            android:background="@color/colorAccent"
+            android:textSize="9sp" />
+
+        <RadioButton
+            android:id="@+id/rb_right_left_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="right_left"
+            android:textSize="9sp" />
+
+        <RadioButton
+            android:id="@+id/rb_right_right_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="right_right"
+            android:textSize="9sp" />
+    </RadioGroup>
+
+
+
+    <RadioGroup
+        android:id="@+id/rgShowType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rbShowLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="显示在左边"
+            android:textSize="9sp" />
+
+        <RadioButton
+            android:id="@+id/rbShowTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="显示在上边"
+            android:textSize="9sp" />
+
+        <RadioButton
+            android:id="@+id/rbShowRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="显示在右边"
+            android:textSize="9sp" />
+
+        <RadioButton
+            android:id="@+id/rbShowBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="显示在下边"
+            android:textSize="9sp" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btShow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="显示dialog"
+        android:textAllCaps="false" />
+    <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/cbCanMove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="是否可以移动"
+        />
+</LinearLayout>

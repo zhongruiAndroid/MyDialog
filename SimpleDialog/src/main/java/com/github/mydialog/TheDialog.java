@@ -286,40 +286,108 @@ public class TheDialog extends AppCompatDialog {
     public static final int right_left = 4;
     public static final int right_right = 5;
 
-    @IntDef({left_left})
+
+    public static final int top_top = 6;
+    public static final int top_bottom = 7;
+    public static final int bottom_top = 8;
+    public static final int bottom_bottom = 9;
+
+    @IntDef({left_left,
+            left_right,
+            center,
+            right_left,
+            right_right,
+            top_top,
+            top_bottom,
+            bottom_top,
+            bottom_bottom})
     @Retention(RetentionPolicy.SOURCE)
     public @interface showMode {
     }
 
-    //    public static final int right_right=5;
-    public void showAsLeft(View anchor, int xOffset, int yOffset, @showMode int showMode) {
-        if (anchor == null) {
-            show();
-            return;
+    private int statusBarHeight = 0;
+    public int getStatusBarHeight(Context context) {
+        if (this.statusBarHeight > 0) {
+            return this.statusBarHeight;
         }
-        switch (gravity) {
-            case left_left:
-
-                break;
-            case left_right:
-
-                break;
+        statusBarHeight = 0;
+        try {
+            int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+            if (resourceId > 0) {
+                statusBarHeight = context.getResources().getDimensionPixelSize(resourceId);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return statusBarHeight;
     }
 
-    public void showAsTop(View anchor, int xOffset, int yOffset, @showMode int showMode) {
-        showAsTopOrBottom(anchor,xOffset,yOffset,true,showMode);
+    //    public static final int right_right=5;
+    public void showAsLeft(View anchor, int xOffset, int yOffset, @showMode int showMode) {
+        showAsLeftOrRight(anchor, xOffset, yOffset, true, showMode);
     }
 
     public void showAsRight(View anchor, int xOffset, int yOffset, @showMode int showMode) {
-        if (anchor == null) {
+        showAsLeftOrRight(anchor, xOffset, yOffset, false, showMode);
+    }
+
+    private void showAsLeftOrRight(View anchor, int xOffset, int yOffset, boolean isLeft, @showMode int showMode) {
+        if (anchor == null || width < 0) {
             show();
             return;
         }
+        int[] location = new int[2];
+        anchor.getLocationOnScreen(location);
+        int x = location[0] + xOffset;
+        int y = location[1] + yOffset-getStatusBarHeight(getContext());
+        if(isLeft){
+            viewXOffset = x - this.width;
+        }else{
+            viewXOffset = x + anchor.getWidth();
+        }
+        int anchorHeight;
+        switch (showMode) {
+            case top_top:
+                viewYOffset = y;
+                break;
+            case top_bottom:
+                viewYOffset = y - (height < 0 ? 0 : height);
+                break;
+            case center:
+                anchorHeight = anchor.getHeight();
+                if (height > 0 && anchorHeight > 0) {
+                    viewYOffset = y - (height - anchorHeight) / 2;
+                } else {
+                    show();
+                    return;
+                }
+                break;
+            case bottom_top:
+                anchorHeight = anchor.getHeight();
+                viewYOffset = y + anchorHeight;
+                break;
+            case bottom_bottom:
+                anchorHeight = anchor.getHeight();
+                if (height > 0 && anchorHeight > 0) {
+                    viewYOffset = y - (height - anchorHeight);
+                } else {
+                    show();
+                    return;
+                }
+                break;
+        }
+        if (setAttributeForMode()) {
+            return;
+        }
+        super.show();
+    }
+
+    public void showAsTop(View anchor, int xOffset, int yOffset, @showMode int showMode) {
+        showAsTopOrBottom(anchor, xOffset, yOffset, true, showMode);
     }
 
     public void showAsBottom(View anchor, int xOffset, int yOffset, @showMode int showMode) {
-        showAsTopOrBottom(anchor,xOffset,yOffset,false,showMode);
+        showAsTopOrBottom(anchor, xOffset, yOffset, false, showMode);
     }
 
     private void showAsTopOrBottom(View anchor, int xOffset, int yOffset, boolean isAsTop, @showMode int showMode) {
@@ -328,51 +396,36 @@ public class TheDialog extends AppCompatDialog {
             return;
         }
         int[] location = new int[2];
-        int x = location[0] + xOffset;
-        int y = location[1] + yOffset;
         anchor.getLocationOnScreen(location);
+        int x = location[0] + xOffset;
+        int y = location[1] + yOffset-getStatusBarHeight(getContext());
         int anchorWidth;
-        int anchorHeight;
-        switch (gravity) {
+        int anchorHeight = anchor.getHeight();
+        switch (showMode) {
             case left_left:
                 viewXOffset = x;
-                if(isAsTop){
-                    if (height < 0) {
-                        height = 0;
-                    }
-                    anchorHeight=anchor.getHeight();
-                    viewYOffset = (y-height-anchorHeight);
-                }else{
-                    viewYOffset = y;
+                if (isAsTop) {
+                    viewYOffset = y - (height < 0 ? 0 : height);
+                } else {
+                    viewYOffset = y + anchorHeight;
                 }
                 break;
             case left_right:
-                if (width < 0) {
-                    width = 0;
-                }
-                viewXOffset = (x - width);
-                if(isAsTop){
-                    if (height < 0) {
-                        height = 0;
-                    }
-                    anchorHeight=anchor.getHeight();
-                    viewYOffset = (y-height-anchorHeight);
-                }else{
-                    viewYOffset = y;
+                viewXOffset = x - (width < 0 ? 0 : width);
+                if (isAsTop) {
+                    viewYOffset = y - (height < 0 ? 0 : height);
+                } else {
+                    viewYOffset = y + anchorHeight;
                 }
                 break;
             case center:
                 anchorWidth = anchor.getWidth();
                 if (anchorWidth > 0 && this.width > 0) {
                     viewXOffset = x - (this.width - anchorWidth) / 2;
-                    if(isAsTop){
-                        if (height < 0) {
-                            height = 0;
-                        }
-                        anchorHeight=anchor.getHeight();
-                        viewYOffset = (y-height-anchorHeight);
-                    }else{
-                        viewYOffset = y;
+                    if (isAsTop) {
+                        viewYOffset = y - (height < 0 ? 0 : height);
+                    } else {
+                        viewYOffset = y + anchorHeight;
                     }
                 } else {
                     show();
@@ -380,32 +433,22 @@ public class TheDialog extends AppCompatDialog {
                 }
                 break;
             case right_left:
-                if (width < 0) {
-                    width = 0;
-                }
-                viewXOffset = (x + width);
-                if(isAsTop){
-                    if (height < 0) {
-                        height = 0;
-                    }
-                    anchorHeight=anchor.getHeight();
-                    viewYOffset = (y-height-anchorHeight);
-                }else{
-                    viewYOffset = y;
+                anchorWidth = anchor.getWidth();
+                viewXOffset = x + (anchorWidth < 0 ? 0 : anchorWidth);
+                if (isAsTop) {
+                    viewYOffset = y - (height < 0 ? 0 : height);
+                } else {
+                    viewYOffset = y + anchorHeight;
                 }
                 break;
             case right_right:
                 anchorWidth = anchor.getWidth();
                 if (anchorWidth > 0 && this.width > 0) {
                     viewXOffset = x - (this.width - anchorWidth);
-                    if(isAsTop){
-                        if (height < 0) {
-                            height = 0;
-                        }
-                        anchorHeight=anchor.getHeight();
-                        viewYOffset = (y-height-anchorHeight);
-                    }else{
-                        viewYOffset = y;
+                    if (isAsTop) {
+                        viewYOffset = y - (height < 0 ? 0 : height);
+                    } else {
+                        viewYOffset = y + anchorHeight;
                     }
                 } else {
                     show();

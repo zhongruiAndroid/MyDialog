@@ -1,5 +1,6 @@
 package com.test.mydialog;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 
 import com.github.mydialog.TheDialog;
@@ -22,11 +24,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     CheckBox cb_bottomsheets;
     CheckBox cb_bottomsheets_setting;
     private TheDialog theDialog;
+    private Button btTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        findViewById(R.id.btTest).setOnClickListener(this);
         findViewById(R.id.tv_mydialog_top).setOnClickListener(this);
         findViewById(R.id.tv_mydialog_center).setOnClickListener(this);
         findViewById(R.id.tv_mydialog_bottom).setOnClickListener(this);
@@ -51,6 +55,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.btTest:
+                startActivity(new Intent(this,TestAttrActivity.class));
+                break;
             case R.id.tv_mydialog_top:
                   theDialog = new TheDialog(this);
                 theDialog.setContentView(getLayoutInflater().inflate(R.layout.dialog, null));
