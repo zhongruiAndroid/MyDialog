@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -25,7 +26,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     CheckBox cb_bottomsheets_setting;
     private TheDialog theDialog;
     private Button btTest;
-
+    public   void test(){
+        TheDialog d=null;
+        d.getOwnerActivity();
+        DialogFragment dialogFragment=new DialogFragment();
+        dialogFragment.dismiss();
+        dialogFragment.dismissAllowingStateLoss();
+        dialogFragment.showNow(null,null);
+//        dialogFragment.show();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
