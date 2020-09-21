@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -26,15 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     CheckBox cb_bottomsheets_setting;
     private TheDialog theDialog;
     private Button btTest;
-    public   void test(){
-        TheDialog d=null;
-        d.getOwnerActivity();
-        DialogFragment dialogFragment=new DialogFragment();
-        dialogFragment.dismiss();
-        dialogFragment.dismissAllowingStateLoss();
-        dialogFragment.showNow(null,null);
-//        dialogFragment.show();
-    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,10 +56,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btTest:
-                startActivity(new Intent(this,TestAttrActivity.class));
+                startActivity(new Intent(this, TestAttrActivity.class));
                 break;
             case R.id.tv_mydialog_top:
-                  theDialog = new TheDialog(this);
+                theDialog = new TheDialog(this);
                 theDialog.setContentView(getLayoutInflater().inflate(R.layout.dialog, null));
                 theDialog.setAlpha(0.9f)
                         .setDimAmount(0.3f)
@@ -105,8 +96,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 theDialog.show();
                 break;
             case R.id.tv_mydialog_bottom:
-
-                theDialog = new TheDialog(this);
+                TestDialogFragment dialogFragment = new TestDialogFragment();
+                dialogFragment.show(this);
+                /*theDialog = new TheDialog(this);
                 theDialog.setContentView(getLayoutInflater().inflate(R.layout.dialog, null));
                 theDialog.setAlpha(0.9f).setCanMoveDialog(true)
                         .setDimAmount(0.3f)
@@ -119,9 +111,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .setTranslucentStatus(false)
                         .setPadding(0)
                         .setGravity(Gravity.BOTTOM)
-//                        .setRadius(20)
+                        .setRadius(50)
                 ;
-                theDialog.show();
+                theDialog.show();*/
                 break;
             case R.id.tv_bottomsheetdialog:
                 View bottomDialogView = getLayoutInflater().inflate(R.layout.dialog2, null);
@@ -171,6 +163,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.tv_expanded:
                 behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + v.getId());
         }
     }
 
