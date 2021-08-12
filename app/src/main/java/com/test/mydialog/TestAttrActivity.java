@@ -46,6 +46,7 @@ public class TestAttrActivity extends AppCompatActivity implements View.OnClickL
     private RadioGroup rgTop;
     private RadioGroup rgShowType;
     private AppCompatCheckBox cbCanMove;
+    private AppCompatCheckBox cbHiddenNavigation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +107,7 @@ public class TestAttrActivity extends AppCompatActivity implements View.OnClickL
 
 
         cbCanMove = findViewById(R.id.cbCanMove);
+        cbHiddenNavigation = findViewById(R.id.cbHiddenNavigation);
     }
 
     @Override
@@ -125,6 +127,7 @@ public class TestAttrActivity extends AppCompatActivity implements View.OnClickL
     private void showDialog() {
         TheDialog dialog = new TheDialog(this);
         dialog.setCanMoveDialog(cbCanMove.isChecked());
+        dialog.setHideNavigation(cbHiddenNavigation.isChecked());
         TextView textView = new TextView(this);
         textView.setGravity(Gravity.CENTER);
         textView.setText("test");

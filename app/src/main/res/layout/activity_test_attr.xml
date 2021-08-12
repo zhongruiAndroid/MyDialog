@@ -157,4 +157,10 @@
         android:layout_height="wrap_content"
         android:text="是否可以移动"
         />
+    <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/cbHiddenNavigation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="是否隐藏虚拟键"
+        />
 </LinearLayout>

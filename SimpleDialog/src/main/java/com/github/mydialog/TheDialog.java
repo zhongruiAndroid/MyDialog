@@ -50,7 +50,7 @@ public class TheDialog extends AppCompatDialog {
     private int animationId = -1;
     private boolean canMoveDialog;
 
-
+    private boolean hideNavigation;
     private Window window;
 
     public TheDialog(@NonNull Context context) {
@@ -242,6 +242,15 @@ public class TheDialog extends AppCompatDialog {
         return this;
     }
 
+    public boolean isHideNavigation() {
+        return hideNavigation;
+    }
+
+    public TheDialog setHideNavigation(boolean hideNavigation) {
+        this.hideNavigation = hideNavigation;
+        return this;
+    }
+
     public TheDialog setAnimation(int resId) {
         if (resId == -1) {
             switch (gravity) {
@@ -274,7 +283,7 @@ public class TheDialog extends AppCompatDialog {
             window.setAttributes(lp);
         }
 
-        super.show();
+        superShow();
     }
 
     private int viewXOffset;
@@ -379,7 +388,7 @@ public class TheDialog extends AppCompatDialog {
         if (setAttributeForMode()) {
             return;
         }
-        super.show();
+        superShow();
     }
 
     public void showAsTop(View anchor, int xOffset, int yOffset, @showMode int showMode) {
@@ -459,9 +468,26 @@ public class TheDialog extends AppCompatDialog {
         if (setAttributeForMode()) {
             return;
         }
-        super.show();
+        superShow();
     }
-
+    private void superShow(){
+        if(isHideNavigation()){
+            if (getWindow() != null) {
+                this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+                View decorView = getWindow().getDecorView();
+                decorView.setSystemUiVisibility(decorView.getSystemUiVisibility()
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE
+                );
+            }
+        }
+        super.show();
+        if(isHideNavigation()){
+            if (getWindow() != null) {
+                this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+            }
+        }
+    }
     private boolean setAttributeForMode() {
         if (isDestroyed(getContext())) {
             return true;
