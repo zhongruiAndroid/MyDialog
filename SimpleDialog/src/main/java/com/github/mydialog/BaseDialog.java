@@ -26,7 +26,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 
-public abstract class BaseDialog extends TheDialog implements View.OnClickListener {
+ final abstract class BaseDialog extends TheDialog implements View.OnClickListener {
 
 
     public View mView;
@@ -266,7 +266,7 @@ public abstract class BaseDialog extends TheDialog implements View.OnClickListen
                 viewGroup.addView(loadView);
             }
             View nog_flAnimContent = null;//viewGroup.findViewById(ResourcesUtils.getViewId(getContext(), "flAnimContent"));
-            setBG(nog_flAnimContent,15,"nog_translucent_black_50");
+//            setBG(nog_flAnimContent,15,"nog_translucent_black_50");
             if (nog_flAnimContent != null) {
                 nog_flAnimContent.setVisibility(showAnim ? View.VISIBLE : View.INVISIBLE);
             }
