@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -47,17 +49,24 @@ public class TestAttrActivity extends AppCompatActivity implements View.OnClickL
     private RadioGroup rgShowType;
     private AppCompatCheckBox cbCanMove;
     private AppCompatCheckBox cbHiddenNavigation;
+    private AppCompatCheckBox cbHiddenStatusBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+//        test1();
         setContentView(R.layout.activity_test_attr);
         initView();
     }
-
+    public   void test1(){
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        // 隐藏标题栏
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        // 隐藏状态栏
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
     private void initView() {
-
-
         final TextView tv = findViewById(R.id.tv);
         tv.post(new Runnable() {
             @Override
@@ -84,7 +93,6 @@ public class TestAttrActivity extends AppCompatActivity implements View.OnClickL
         rgTop.setOnCheckedChangeListener(this);
 
 
-
         rgShowType = findViewById(R.id.rgShowType);
         rgShowType.setOnCheckedChangeListener(this);
 
@@ -108,6 +116,26 @@ public class TestAttrActivity extends AppCompatActivity implements View.OnClickL
 
         cbCanMove = findViewById(R.id.cbCanMove);
         cbHiddenNavigation = findViewById(R.id.cbHiddenNavigation);
+        cbHiddenStatusBar = findViewById(R.id.cbHiddenStatusBar);
+        cbHiddenStatusBar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+          /*      if(isChecked){
+                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                }else{
+                    int nowFlags = getWindow().getAttributes().flags;
+                    nowFlags&=~WindowManager.LayoutParams.FLAG_FULLSCREEN;
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                }*/
+                if(isChecked){
+//                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                }else{
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+                }
+            }
+        });
     }
 
     @Override

@@ -348,7 +348,10 @@ public class TheDialog extends AppCompatDialog {
         int[] location = new int[2];
         anchor.getLocationOnScreen(location);
         int x = location[0] + xOffset;
-        int y = location[1] + yOffset-getStatusBarHeight(getContext());
+        int y = location[1] + yOffset;
+        if(!isFullScreen(anchor)){
+            y-=getStatusBarHeight(getContext());
+        }
         if(isLeft){
             viewXOffset = x - this.width;
         }else{
@@ -407,7 +410,10 @@ public class TheDialog extends AppCompatDialog {
         int[] location = new int[2];
         anchor.getLocationOnScreen(location);
         int x = location[0] + xOffset;
-        int y = location[1] + yOffset-getStatusBarHeight(getContext());
+        int y = location[1] + yOffset;
+        if(!isFullScreen(anchor)){
+            y-=getStatusBarHeight(getContext());
+        }
         int anchorWidth;
         int anchorHeight = anchor.getHeight();
         switch (showMode) {
@@ -573,6 +579,28 @@ public class TheDialog extends AppCompatDialog {
                     return true;
                 }
             }
+        }
+        return false;
+    }
+    public static boolean isFullScreen(View view){
+        if(view==null){
+            return false;
+        }
+        Activity activity = findActivity(view.getContext());
+        if(activity==null||activity.isFinishing()){
+            return false;
+        }
+        Window window = activity.getWindow();
+        if(window==null||!window.isActive()){
+            return false;
+        }
+        WindowManager.LayoutParams attributes = window.getAttributes();
+        if(attributes==null){
+            return false;
+        }
+        int flags =attributes.flags;
+        if((flags&WindowManager.LayoutParams.FLAG_FULLSCREEN)==WindowManager.LayoutParams.FLAG_FULLSCREEN){
+            return true;
         }
         return false;
     }

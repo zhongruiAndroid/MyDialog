@@ -17,7 +17,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -26,7 +25,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 
- final abstract class BaseDialog extends TheDialog implements View.OnClickListener {
+public   abstract class BaseDialog extends TheDialog implements View.OnClickListener {
 
 
     public View mView;
