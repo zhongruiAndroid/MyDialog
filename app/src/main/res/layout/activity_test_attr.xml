@@ -7,8 +7,46 @@
     android:orientation="vertical"
     tools:context=".TestAttrActivity">
 
-    <TextView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbNone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="不设置" />
+
+            <RadioButton
+                android:id="@+id/rbTop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="top" />
+
+            <RadioButton
+                android:id="@+id/rbCenter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="center" />
+
+            <RadioButton
+                android:id="@+id/rbBottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="bottom" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <TextView
         android:id="@+id/tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -87,8 +125,8 @@
             android:id="@+id/rb_center_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="center"
             android:background="@color/colorAccent"
+            android:text="center"
             android:textSize="9sp" />
 
         <RadioButton
@@ -105,7 +143,6 @@
             android:text="right_right"
             android:textSize="9sp" />
     </RadioGroup>
-
 
 
     <RadioGroup
@@ -151,22 +188,22 @@
         android:layout_height="wrap_content"
         android:text="显示dialog"
         android:textAllCaps="false" />
+
     <android.support.v7.widget.AppCompatCheckBox
         android:id="@+id/cbCanMove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="是否可以移动"
-        />
+        android:text="是否可以移动" />
+
     <android.support.v7.widget.AppCompatCheckBox
         android:id="@+id/cbHiddenNavigation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="是否隐藏虚拟键"
-        />
+        android:text="是否隐藏虚拟键" />
+
     <android.support.v7.widget.AppCompatCheckBox
         android:id="@+id/cbHiddenStatusBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="是否隐藏状态栏"
-        />
+        android:text="是否隐藏状态栏" />
 </LinearLayout>

@@ -1,11 +1,13 @@
 package com.test.mydialog;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -42,6 +44,9 @@ public class TestAttrActivity extends AppCompatActivity implements View.OnClickL
     private RadioButton rbShowTop;
     private RadioButton rbShowRight;
     private RadioButton rbShowBottom;
+    private RadioButton rbTop;
+    private RadioButton rbCenter;
+    private RadioButton rbBottom;
     private Button btShow;
 
     private RadioGroup rgLeft;
@@ -93,6 +98,9 @@ public class TestAttrActivity extends AppCompatActivity implements View.OnClickL
         rgTop.setOnCheckedChangeListener(this);
 
 
+        rbTop = findViewById(R.id.rbTop);
+        rbCenter = findViewById(R.id.rbCenter);
+        rbBottom = findViewById(R.id.rbBottom);
         rgShowType = findViewById(R.id.rgShowType);
         rgShowType.setOnCheckedChangeListener(this);
 
@@ -153,17 +161,37 @@ public class TestAttrActivity extends AppCompatActivity implements View.OnClickL
     private int topAndBottom = TheDialog.left_left;
 
     private void showDialog() {
-        TheDialog dialog = new TheDialog(this);
+        TestDialog2 dialog = new TestDialog2(this);
+        dialog.getWindow().getDecorView().setBackgroundColor(Color.BLUE);
+        ViewGroup decorView = (ViewGroup) dialog.getWindow().getDecorView();
+        View viewById = decorView.findViewById(android.R.id.content);
+        viewById.setBackgroundColor(Color.RED);
         dialog.setCanMoveDialog(cbCanMove.isChecked());
         dialog.setHideNavigation(cbHiddenNavigation.isChecked());
         TextView textView = new TextView(this);
         textView.setGravity(Gravity.CENTER);
         textView.setText("test");
-        dialog.setContentView(textView);
+//        dialog.setContentView(textView);
         dialog.setDimAmount(0.2f);
         dialog.setCanceledOnTouchOutside(true);
         dialog.setWidth(200);
         dialog.setHeight(200);
+        dialog.setFullWidth();
+        if(rbTop.isChecked()){
+            dialog.setGravity(Gravity.TOP);
+            dialog.show();
+            return;
+        }
+        if(rbCenter.isChecked()){
+            dialog.setGravity(Gravity.CENTER);
+            dialog.show();
+            return;
+        }
+        if(rbBottom.isChecked()){
+            dialog.setGravity(Gravity.BOTTOM);
+            dialog.show();
+            return;
+        }
         if (directId == R.id.rbShowLeft) {
             dialog.showAsLeft(rbCenterTop, 0, 0, leftAndRight);
         } else if (directId == R.id.rbShowTop) {

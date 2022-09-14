@@ -314,7 +314,12 @@ public class TheDialog extends AppCompatDialog {
     public @interface showMode {
     }
 
+    public boolean onCalculateStatusBarHeight() {
+        return false;
+    }
+
     private int statusBarHeight = 0;
+
     public int getStatusBarHeight(Context context) {
         if (this.statusBarHeight > 0) {
             return this.statusBarHeight;
@@ -349,12 +354,12 @@ public class TheDialog extends AppCompatDialog {
         anchor.getLocationOnScreen(location);
         int x = location[0] + xOffset;
         int y = location[1] + yOffset;
-        if(!isFullScreen(anchor)){
-            y-=getStatusBarHeight(getContext());
+        if (!isFullScreen(anchor) || onCalculateStatusBarHeight()) {
+            y -= getStatusBarHeight(getContext());
         }
-        if(isLeft){
+        if (isLeft) {
             viewXOffset = x - this.width;
-        }else{
+        } else {
             viewXOffset = x + anchor.getWidth();
         }
         int anchorHeight;
@@ -411,8 +416,8 @@ public class TheDialog extends AppCompatDialog {
         anchor.getLocationOnScreen(location);
         int x = location[0] + xOffset;
         int y = location[1] + yOffset;
-        if(!isFullScreen(anchor)){
-            y-=getStatusBarHeight(getContext());
+        if (!isFullScreen(anchor) || onCalculateStatusBarHeight()) {
+            y -= getStatusBarHeight(getContext());
         }
         int anchorWidth;
         int anchorHeight = anchor.getHeight();
@@ -476,10 +481,11 @@ public class TheDialog extends AppCompatDialog {
         }
         superShow();
     }
-    private void superShow(){
-        if(isHideNavigation()){
+
+    private void superShow() {
+        if (isHideNavigation()) {
             if (getWindow() != null) {
-                this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+                this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
                 View decorView = getWindow().getDecorView();
                 decorView.setSystemUiVisibility(decorView.getSystemUiVisibility()
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
@@ -488,12 +494,13 @@ public class TheDialog extends AppCompatDialog {
             }
         }
         super.show();
-        if(isHideNavigation()){
+        if (isHideNavigation()) {
             if (getWindow() != null) {
                 this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
             }
         }
     }
+
     private boolean setAttributeForMode() {
         if (isDestroyed(getContext())) {
             return true;
@@ -582,24 +589,25 @@ public class TheDialog extends AppCompatDialog {
         }
         return false;
     }
-    public static boolean isFullScreen(View view){
-        if(view==null){
+
+    public static boolean isFullScreen(View view) {
+        if (view == null) {
             return false;
         }
         Activity activity = findActivity(view.getContext());
-        if(activity==null||activity.isFinishing()){
+        if (activity == null || activity.isFinishing()) {
             return false;
         }
         Window window = activity.getWindow();
-        if(window==null||!window.isActive()){
+        if (window == null || !window.isActive()) {
             return false;
         }
         WindowManager.LayoutParams attributes = window.getAttributes();
-        if(attributes==null){
+        if (attributes == null) {
             return false;
         }
-        int flags =attributes.flags;
-        if((flags&WindowManager.LayoutParams.FLAG_FULLSCREEN)==WindowManager.LayoutParams.FLAG_FULLSCREEN){
+        int flags = attributes.flags;
+        if ((flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) == WindowManager.LayoutParams.FLAG_FULLSCREEN) {
             return true;
         }
         return false;

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,6 +18,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -25,7 +27,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 
-public   abstract class BaseDialog extends TheDialog implements View.OnClickListener {
+public abstract class BaseDialog extends TheDialog implements View.OnClickListener {
 
 
     public View mView;
@@ -52,7 +54,7 @@ public   abstract class BaseDialog extends TheDialog implements View.OnClickList
             mView = getLayoutInflater().inflate(getLayoutId(), null);
         }
         Window window = getWindow();
-        window.setWindowAnimations(1); // 去掉动画动画
+        window.setWindowAnimations(-1); // 去掉动画动画
         setDimAmount(0.2f);
         setBackgroundColor(Color.TRANSPARENT);
         setOnKeyListener(new DialogInterface.OnKeyListener() {
@@ -164,7 +166,10 @@ public   abstract class BaseDialog extends TheDialog implements View.OnClickList
         try {
             if (viewGroup == null) {
                 Activity activity = TheDialog.findActivity(getContext());
-                if (activity == null || activity.isFinishing() || activity.isDestroyed()) {
+                if (activity == null || activity.isFinishing()) {
+                    return;
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && activity.isDestroyed()) {
                     return;
                 }
                 Window window = getWindow();
@@ -191,7 +196,7 @@ public   abstract class BaseDialog extends TheDialog implements View.OnClickList
                 gradientDrawable.setCornerRadius(dp2px(50));
                 gradientDrawable.setColor(Color.parseColor("#70000000"));
 
-                toastView.setBackground(gradientDrawable);
+                toastView.setBackgroundDrawable(gradientDrawable);
                 toastView.setEllipsize(TextUtils.TruncateAt.END);
                 toastView.setMaxLines(2);
                 int dp15 = dp2px(15);
@@ -204,7 +209,7 @@ public   abstract class BaseDialog extends TheDialog implements View.OnClickList
             }
             toastView.setText(text);
             toastView.setVisibility(View.VISIBLE);
-           final TextView finalToastView = toastView;
+            final TextView finalToastView = toastView;
             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -242,7 +247,10 @@ public   abstract class BaseDialog extends TheDialog implements View.OnClickList
         try {
             if (viewGroup == null) {
                 Activity activity = TheDialog.findActivity(getContext());
-                if (activity == null || activity.isFinishing() || activity.isDestroyed()) {
+                if (activity == null || activity.isFinishing()) {
+                    return;
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && activity.isDestroyed()) {
                     return;
                 }
                 Window window = getWindow();
@@ -254,7 +262,7 @@ public   abstract class BaseDialog extends TheDialog implements View.OnClickList
             View loadView = viewGroup.findViewById(R.id.loadId);
 
             if (loadView == null) {
-//                loadView = LayoutInflater.from(getContext()).inflate(ResourcesUtils.getLayoutId(getContext(), "loading_layout"), null);
+                loadView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_loading_layout, null);
                 loadView.setId(R.id.loadId);
 
                 FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -264,10 +272,10 @@ public   abstract class BaseDialog extends TheDialog implements View.OnClickList
 
                 viewGroup.addView(loadView);
             }
-            View nog_flAnimContent = null;//viewGroup.findViewById(ResourcesUtils.getViewId(getContext(), "flAnimContent"));
-//            setBG(nog_flAnimContent,15,"nog_translucent_black_50");
-            if (nog_flAnimContent != null) {
-                nog_flAnimContent.setVisibility(showAnim ? View.VISIBLE : View.INVISIBLE);
+            View flAnimContent = viewGroup.findViewById(R.id.flAnimContent);
+            if (flAnimContent != null) {
+//                flAnimContent.setBackgroundResource(R.drawable.shape_loading_bg);
+                flAnimContent.setVisibility(showAnim ? View.VISIBLE : View.INVISIBLE);
             }
             loadView.setVisibility(View.VISIBLE);
         } catch (Exception e) {
