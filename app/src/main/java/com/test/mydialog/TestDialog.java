@@ -9,6 +9,7 @@ import com.github.mydialog.IBaseDialog;
 
 public class TestDialog extends IBaseDialog {
 
+
     public TestDialog(@NonNull Context context) {
         super(context);
     }
@@ -22,7 +23,12 @@ public class TestDialog extends IBaseDialog {
     }
 
     @Override
-    public void initView() {
+    public int getContentViewId() {
+        return 0;
+    }
+
+    @Override
+    public void initData() {
 
     }
 

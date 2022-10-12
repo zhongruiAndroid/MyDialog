@@ -67,6 +67,7 @@ public class TheDialog extends AppCompatDialog {
 
     public TheDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
+        setCanceledOnTouchOutside(false);
         initWindow();
     }
 

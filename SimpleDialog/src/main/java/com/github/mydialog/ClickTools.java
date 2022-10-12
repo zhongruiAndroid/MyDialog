@@ -12,7 +12,7 @@ import java.util.Map;
 class ClickTools {
     private static ClickTools clickTools;
     private Map<Long, HashMap> map;
-    private static final int MIN_CLICK_DELAY_TIME = 900;
+    private static final int MIN_CLICK_DELAY_TIME = 980;
 
     private ClickTools() {
         map = new HashMap<>();
