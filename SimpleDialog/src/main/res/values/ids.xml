@@ -2,4 +2,5 @@
 <resources>
     <item name="toastId" type="id"/>
     <item name="loadId" type="id"/>
+    <item name="doubleClickTimeFlag" type="id"/>
 </resources>
