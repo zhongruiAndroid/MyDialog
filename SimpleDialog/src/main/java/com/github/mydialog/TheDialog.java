@@ -83,10 +83,6 @@ public class TheDialog extends AppCompatDialog implements GenericLifecycleObserv
 
         setDrawable();
 
-        Activity activity = findActivity(getContext());
-        if(activity instanceof FragmentActivity){
-            lifecycleAddObserver((FragmentActivity)activity);
-        }
     }
 
     public TheDialog setWidth(int width) {
@@ -505,6 +501,7 @@ public class TheDialog extends AppCompatDialog implements GenericLifecycleObserv
             return;
         }
         try {
+            lifecycleAddObserver();
             super.show();
         }catch (Exception e){
         }
@@ -527,9 +524,13 @@ public class TheDialog extends AppCompatDialog implements GenericLifecycleObserv
         }
     }
 
-    public  void lifecycleAddObserver(FragmentActivity activity){
-        activity.getLifecycle().removeObserver(this);
-        activity.getLifecycle().addObserver(this);
+    public  void lifecycleAddObserver(){
+        Activity activity = findActivity(getContext());
+        if(activity instanceof FragmentActivity){
+            FragmentActivity fragmentActivity = (FragmentActivity) activity;
+            fragmentActivity.getLifecycle().removeObserver(this);
+            fragmentActivity.getLifecycle().addObserver(this);
+        }
     }
     @Override
     public void dismiss() {
