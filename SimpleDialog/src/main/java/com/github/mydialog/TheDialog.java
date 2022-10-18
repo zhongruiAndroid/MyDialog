@@ -1,6 +1,10 @@
 package com.github.mydialog;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.arch.lifecycle.GenericLifecycleObserver;
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleOwner;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Color;
@@ -22,7 +26,8 @@ import android.view.WindowManager;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-public class TheDialog extends AppCompatDialog {
+@SuppressLint("RestrictedApi")
+public class TheDialog extends AppCompatDialog implements GenericLifecycleObserver{
 
 
     private int width = WindowManager.LayoutParams.WRAP_CONTENT; //(int) (getScreenWidth() * 0.7);
@@ -77,6 +82,11 @@ public class TheDialog extends AppCompatDialog {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setDrawable();
+
+        Activity activity = findActivity(getContext());
+        if(activity instanceof FragmentActivity){
+            lifecycleAddObserver((FragmentActivity)activity);
+        }
     }
 
     public TheDialog setWidth(int width) {
@@ -270,9 +280,6 @@ public class TheDialog extends AppCompatDialog {
     }
 
     public void show() {
-        if (isDestroyed(getContext())) {
-            return;
-        }
         WindowManager.LayoutParams lp = window.getAttributes();
         if (this.width != WindowManager.LayoutParams.WRAP_CONTENT) {
             lp.width = width;
@@ -494,11 +501,44 @@ public class TheDialog extends AppCompatDialog {
                 );
             }
         }
-        super.show();
+        if (isDestroyed(getContext())) {
+            return;
+        }
+        try {
+            super.show();
+        }catch (Exception e){
+        }
         if (isHideNavigation()) {
             if (getWindow() != null) {
                 this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
             }
+        }
+    }
+    @SuppressLint("RestrictedApi")
+    @Override
+    public void onStateChanged(LifecycleOwner source, Lifecycle.Event event) {
+        if(event==Lifecycle.Event.ON_DESTROY){
+            try {
+                source.getLifecycle().removeObserver(TheDialog.this);
+                super.dismiss();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public  void lifecycleAddObserver(FragmentActivity activity){
+        activity.getLifecycle().removeObserver(this);
+        activity.getLifecycle().addObserver(this);
+    }
+    @Override
+    public void dismiss() {
+        if (isDestroyed(getContext())) {
+            return;
+        }
+        try {
+            super.dismiss();
+        }catch (Exception e){
         }
     }
 

@@ -24,7 +24,7 @@ public class TestDialog extends IBaseDialog {
 
     @Override
     public int getContentViewId() {
-        return 0;
+        return R.layout.test_dialog;
     }
 
     @Override

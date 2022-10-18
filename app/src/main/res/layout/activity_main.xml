@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
     android:fillViewport="true"
-    >
+    tools:context=".MainActivity">
+
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:divider="@android:drawable/divider_horizontal_textfield"
-        app:showDividers="middle"
-        >
+        app:showDividers="middle">
+
         <TextView
             android:id="@+id/tv_mydialog_top"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@color/white"
             android:gravity="center"
-            android:text="mydialog_top"
-            />
+            android:text="mydialog_top" />
+
         <TextView
             android:id="@+id/tv_mydialog_center"
             android:layout_width="match_parent"
@@ -30,8 +29,8 @@
             android:layout_marginTop="1px"
             android:background="@color/white"
             android:gravity="center"
-            android:text="mydialog_center"
-            />
+            android:text="mydialog_center" />
+
         <TextView
             android:id="@+id/tv_mydialog_bottom"
             android:layout_width="match_parent"
@@ -39,8 +38,8 @@
             android:layout_marginTop="1px"
             android:background="@color/white"
             android:gravity="center"
-            android:text="mydialog_bottom"
-            />
+            android:text="mydialog_bottom" />
+
         <TextView
             android:id="@+id/tv_bottomsheetdialog"
             android:layout_width="match_parent"
@@ -48,8 +47,8 @@
             android:layout_marginTop="1px"
             android:background="@color/white"
             android:gravity="center"
-            android:text="BottomSheetDialog"
-            />
+            android:text="BottomSheetDialog" />
+
         <TextView
             android:id="@+id/tv_bottomsheetdialogfragment"
             android:layout_width="match_parent"
@@ -57,102 +56,109 @@
             android:layout_marginTop="1px"
             android:background="@color/white"
             android:gravity="center"
-            android:text="BottomSheetDialogFragment"
-            />
+            android:text="BottomSheetDialogFragment" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
             android:background="@color/white"
-            >
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
             <CheckBox
                 android:id="@+id/cb_bottomsheets"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="40dp"
                 android:layout_marginTop="1px"
+                android:layout_weight="1"
                 android:background="@color/white"
-                android:gravity="center"
-                android:text="peekHeight-45dp"
                 android:checked="true"
-                />
+                android:gravity="center"
+                android:text="peekHeight-45dp" />
+
             <CheckBox
                 android:id="@+id/cb_bottomsheets_setting"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="40dp"
                 android:layout_marginTop="1px"
+                android:layout_weight="1"
                 android:background="@color/white"
                 android:gravity="center"
-                android:text="hideable-false"
-                />
+                android:text="hideable-false" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
             android:background="@color/white"
-            >
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/tv_hidden"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:text="hidden"
+                android:layout_weight="1"
                 android:gravity="center"
-                />
+                android:text="hidden" />
+
             <TextView
                 android:id="@+id/tv_collapsed"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:text="collapsed"
+                android:layout_weight="1"
                 android:gravity="center"
-                />
+                android:text="collapsed" />
+
             <TextView
                 android:id="@+id/tv_dragging"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:text="dragging"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:visibility="gone"
-                />
+                android:text="dragging"
+                android:visibility="gone" />
+
             <TextView
                 android:id="@+id/tv_settling"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:text="settling"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:visibility="gone"
-                />
+                android:text="settling"
+                android:visibility="gone" />
+
             <TextView
                 android:id="@+id/tv_expanded"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:text="expanded"
+                android:layout_weight="1"
                 android:gravity="center"
-                />
+                android:text="expanded" />
         </LinearLayout>
+
         <Button
             android:id="@+id/btTest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAllCaps="false"
             android:text="test"
-            />
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btTestShowAndDismiss"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="testDialogShowAndDismiss"
+            android:textAllCaps="false" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:background="@color/white"
             android:gravity="bottom"
-            >
-            <include layout="@layout/bottom_sheets"/>
+            android:orientation="vertical">
+
+            <include layout="@layout/bottom_sheets" />
         </LinearLayout>
     </android.support.v7.widget.LinearLayoutCompat>
 </android.support.v4.widget.NestedScrollView>

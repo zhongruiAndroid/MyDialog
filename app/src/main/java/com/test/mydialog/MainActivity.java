@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.tv_dragging).setOnClickListener(this);
         findViewById(R.id.tv_settling).setOnClickListener(this);
         findViewById(R.id.tv_expanded).setOnClickListener(this);
+        findViewById(R.id.btTestShowAndDismiss).setOnClickListener(this);
         bottomSheets();
     }
 
@@ -57,6 +58,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.btTest:
                 startActivity(new Intent(this, TestAttrActivity.class));
+                break;
+            case R.id.btTestShowAndDismiss:
+                startActivity(new Intent(this, TestFinishActivity.class));
                 break;
             case R.id.tv_mydialog_top:
                 theDialog = new TheDialog(this);
