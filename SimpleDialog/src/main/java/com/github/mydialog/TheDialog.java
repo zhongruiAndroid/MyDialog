@@ -275,6 +275,9 @@ public class TheDialog extends AppCompatDialog implements GenericLifecycleObserv
         return this;
     }
 
+    public boolean ignoreStatusBarHeight(){
+        return false;
+    }
     public void show() {
         WindowManager.LayoutParams lp = window.getAttributes();
         if (this.width != WindowManager.LayoutParams.WRAP_CONTENT) {
@@ -282,6 +285,9 @@ public class TheDialog extends AppCompatDialog implements GenericLifecycleObserv
         }
         if (this.height != WindowManager.LayoutParams.WRAP_CONTENT) {
             lp.height = height;
+        }
+        if(ignoreStatusBarHeight()){
+            lp.y-=getStatusBarHeight(getContext())/2;
         }
         if (width != WindowManager.LayoutParams.WRAP_CONTENT || height != WindowManager.LayoutParams.WRAP_CONTENT) {
             window.setAttributes(lp);
@@ -332,7 +338,7 @@ public class TheDialog extends AppCompatDialog implements GenericLifecycleObserv
         try {
             int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
             if (resourceId > 0) {
-                statusBarHeight = context.getResources().getDimensionPixelSize(resourceId);
+                statusBarHeight = context.getResources().getDimensionPixelOffset(resourceId);
             }
         } catch (Exception e) {
             e.printStackTrace();
