@@ -55,6 +55,7 @@ public class TestAttrActivity extends AppCompatActivity implements View.OnClickL
     private AppCompatCheckBox cbCanMove;
     private AppCompatCheckBox cbHiddenNavigation;
     private AppCompatCheckBox cbHiddenStatusBar;
+    private AppCompatCheckBox cbDialogStatusBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +125,7 @@ public class TestAttrActivity extends AppCompatActivity implements View.OnClickL
 
         cbCanMove = findViewById(R.id.cbCanMove);
         cbHiddenNavigation = findViewById(R.id.cbHiddenNavigation);
+        cbDialogStatusBar = findViewById(R.id.cbDialogStatusBar);
         cbHiddenStatusBar = findViewById(R.id.cbHiddenStatusBar);
         cbHiddenStatusBar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -192,6 +194,7 @@ public class TestAttrActivity extends AppCompatActivity implements View.OnClickL
             dialog.show();
             return;
         }
+        dialog.setTranslucentStatus(cbDialogStatusBar.isChecked());
         if (directId == R.id.rbShowLeft) {
             dialog.showAsLeft(rbCenterTop, 0, 0, leftAndRight);
         } else if (directId == R.id.rbShowTop) {

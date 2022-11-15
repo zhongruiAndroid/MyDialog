@@ -195,6 +195,8 @@ public class TheDialog extends AppCompatDialog implements GenericLifecycleObserv
         this.translucentStatus = translucentStatus;
         if (this.translucentStatus) {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }else{
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
         return this;
     }

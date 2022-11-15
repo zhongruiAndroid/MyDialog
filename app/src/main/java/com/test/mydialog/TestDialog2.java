@@ -7,8 +7,6 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
-import com.github.mydialog.BaseDialog;
-
 public class TestDialog2 extends BaseDialog {
 
 
