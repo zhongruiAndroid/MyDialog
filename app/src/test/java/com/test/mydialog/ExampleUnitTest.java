@@ -21,6 +21,47 @@ public class ExampleUnitTest {
         assertEquals(4, 2 + 2);
     }
     @Test
+    public void additsdfion_isCorrect() throws Exception {
+        System.out.println("=="+getVideoDurationStrFormat(0));
+        System.out.println("=="+getVideoDurationStrFormat(9));
+        System.out.println("=="+getVideoDurationStrFormat(10));
+        System.out.println("=="+getVideoDurationStrFormat(59));
+        System.out.println("=="+getVideoDurationStrFormat(60));
+        System.out.println("=="+getVideoDurationStrFormat(63));
+        System.out.println("=="+getVideoDurationStrFormat(3600-1));
+        System.out.println("=="+getVideoDurationStrFormat(3600));
+        System.out.println("=="+getVideoDurationStrFormat(3600+1));
+        System.out.println("=="+getVideoDurationStrFormat(3600*60));
+        System.out.println("=="+getVideoDurationStrFormat(3600*60-1));
+    }
+    public String getVideoDurationStrFormat(long videoDuration) {
+        if(videoDuration<60){
+            return "00:"+ timePrefix(videoDuration);
+        }else if(videoDuration<3600){
+            long min = videoDuration / 60;
+            long second = videoDuration % 60;
+            return timePrefix(min)+":"+ timePrefix(second);
+        }else{
+            long hour = videoDuration / 3600;
+            long hourMod = videoDuration % 3600;
+            long min = hourMod / 60;
+            long second = hourMod % 60;
+
+            return timePrefix(hour)+":"+ timePrefix(min)+":"+ timePrefix(second);
+        }
+    }
+
+    private String timePrefix(long time){
+        return time<10?"0"+time:time+"";
+    }
+    @Test
+    public void asfd() throws Exception {
+        String b="";
+        String a=" ";
+        System.out.println(a.toLowerCase()+"====");
+        System.out.println(b.toLowerCase()+"====");
+    }
+    @Test
     public void a2sdf() throws Exception {
         String atr="1,2,3,4,5,6";
         String[] split = atr.split(",");

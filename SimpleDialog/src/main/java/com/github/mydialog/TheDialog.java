@@ -37,6 +37,7 @@ public class TheDialog extends AppCompatDialog implements GenericLifecycleObserv
     //    private int titleViewHeight = -1;
 //    private int titleViewColor = -1;
     private boolean translucentStatus = false;
+    private boolean useActStatusBarFontColor =false;
     private int backgroundColor = Color.WHITE;
     private int backgroundDrawableResId = -1;
     private Drawable backgroundDrawable;
@@ -199,6 +200,19 @@ public class TheDialog extends AppCompatDialog implements GenericLifecycleObserv
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
         return this;
+    }
+
+    public boolean isUseActStatusBarFontColor() {
+        return useActStatusBarFontColor;
+    }
+
+    public void setUseActStatusBarFontColor(boolean useActStatusBarFontColor) {
+        this.useActStatusBarFontColor = useActStatusBarFontColor;
+        if (useActStatusBarFontColor) {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        }else{
+            window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        }
     }
 
     public TheDialog setPadding(int paddingLeft, int paddingTop, int paddingRight, int paddingBottom) {

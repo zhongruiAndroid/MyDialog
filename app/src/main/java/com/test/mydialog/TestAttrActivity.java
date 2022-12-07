@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -56,6 +57,7 @@ public class TestAttrActivity extends AppCompatActivity implements View.OnClickL
     private AppCompatCheckBox cbHiddenNavigation;
     private AppCompatCheckBox cbHiddenStatusBar;
     private AppCompatCheckBox cbDialogStatusBar;
+    private CheckBox cbUseWindowFontColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +67,15 @@ public class TestAttrActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_test_attr);
         initView();
     }
-    public   void test1(){
+
+    public void test1() {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         // 隐藏标题栏
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         // 隐藏状态栏
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
+
     private void initView() {
         final TextView tv = findViewById(R.id.tv);
         tv.post(new Runnable() {
@@ -137,15 +141,30 @@ public class TestAttrActivity extends AppCompatActivity implements View.OnClickL
                     nowFlags&=~WindowManager.LayoutParams.FLAG_FULLSCREEN;
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
                 }*/
-                if(isChecked){
+                if (isChecked) {
 //                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
                     getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                }else{
+                } else {
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 //                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
                 }
             }
         });
+
+        CheckBox cbWindowFontColor = findViewById(R.id.cbWindowFontColor);
+        cbWindowFontColor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                int systemUiVisibility = getWindow().getDecorView().getSystemUiVisibility();
+                if(isChecked){
+                    getWindow().getDecorView().setSystemUiVisibility(systemUiVisibility|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                }else{
+                    getWindow().getDecorView().setSystemUiVisibility(systemUiVisibility&~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                }
+            }
+        });
+        cbUseWindowFontColor = findViewById(R.id.cbUseWindowFontColor);
+
     }
 
     @Override
@@ -164,6 +183,7 @@ public class TestAttrActivity extends AppCompatActivity implements View.OnClickL
 
     private void showDialog() {
         TestDialog2 dialog = new TestDialog2(this);
+        dialog.setUseActStatusBarFontColor(cbUseWindowFontColor.isChecked());
         dialog.getWindow().getDecorView().setBackgroundColor(Color.BLUE);
         ViewGroup decorView = (ViewGroup) dialog.getWindow().getDecorView();
         View viewById = decorView.findViewById(android.R.id.content);
@@ -174,22 +194,22 @@ public class TestAttrActivity extends AppCompatActivity implements View.OnClickL
         textView.setGravity(Gravity.CENTER);
         textView.setText("test");
 //        dialog.setContentView(textView);
-        dialog.setDimAmount(0.2f);
+        dialog.setDimAmount(0.7f);
         dialog.setCanceledOnTouchOutside(true);
         dialog.setWidth(200);
         dialog.setHeight(200);
         dialog.setFullWidth();
-        if(rbTop.isChecked()){
+        if (rbTop.isChecked()) {
             dialog.setGravity(Gravity.TOP);
             dialog.show();
             return;
         }
-        if(rbCenter.isChecked()){
+        if (rbCenter.isChecked()) {
             dialog.setGravity(Gravity.CENTER);
             dialog.show();
             return;
         }
-        if(rbBottom.isChecked()){
+        if (rbBottom.isChecked()) {
             dialog.setGravity(Gravity.BOTTOM);
             dialog.show();
             return;

@@ -2,6 +2,7 @@ package com.github.mydialog;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,16 +18,16 @@ public abstract class BaseDialog extends TheDialog implements View.OnClickListen
 
     public BaseDialog(@NonNull Context context) {
         super(context);
-        init();
     }
-
     public BaseDialog(@NonNull Context context, int themeResId) {
         super(context, themeResId);
-        init();
     }
-
     public BaseDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
+    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         init();
     }
 

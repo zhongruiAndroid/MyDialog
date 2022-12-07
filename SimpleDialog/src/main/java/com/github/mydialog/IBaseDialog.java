@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.ColorRes;
@@ -33,16 +34,19 @@ public abstract class IBaseDialog extends TheDialog implements View.OnClickListe
 
     public IBaseDialog(@NonNull Context context) {
         super(context);
-        init();
     }
 
     public IBaseDialog(@NonNull Context context, int themeResId) {
         super(context, themeResId);
-        init();
     }
 
     public IBaseDialog(@NonNull Context context, boolean cancelable, @Nullable DialogInterface.OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         init();
     }
 
