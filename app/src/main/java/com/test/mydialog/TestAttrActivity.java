@@ -199,6 +199,8 @@ public class TestAttrActivity extends AppCompatActivity implements View.OnClickL
         dialog.setWidth(200);
         dialog.setHeight(200);
 //        dialog.setFullWidth();
+//        dialog.setFullHeight();
+        dialog.setTranslucentStatus(cbDialogStatusBar.isChecked());
         if (rbTop.isChecked()) {
             dialog.setGravity(Gravity.TOP);
             dialog.show();
@@ -214,7 +216,6 @@ public class TestAttrActivity extends AppCompatActivity implements View.OnClickL
             dialog.show();
             return;
         }
-        dialog.setTranslucentStatus(cbDialogStatusBar.isChecked());
         if (directId == R.id.rbShowLeft) {
             dialog.showAsLeft(rbCenterTop, 0, 0, leftAndRight);
         } else if (directId == R.id.rbShowTop) {
