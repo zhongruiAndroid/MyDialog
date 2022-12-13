@@ -394,7 +394,7 @@ public class TheDialog extends AppCompatDialog implements GenericLifecycleObserv
         anchor.getLocationOnScreen(location);
         int x = location[0] + xOffset;
         int y = location[1] + yOffset;
-        if (!isFullScreen(anchor) || onCalculateStatusBarHeight()) {
+        if (/*!isFullScreen(anchor) || */onCalculateStatusBarHeight()) {
             y -= getStatusBarHeight(getContext());
         }
         if (isLeft) {
@@ -456,7 +456,7 @@ public class TheDialog extends AppCompatDialog implements GenericLifecycleObserv
         anchor.getLocationOnScreen(location);
         int x = location[0] + xOffset;
         int y = location[1] + yOffset;
-        if (!isFullScreen(anchor) || onCalculateStatusBarHeight()) {
+        if (/*!isFullScreen(anchor) ||*/ onCalculateStatusBarHeight()) {
             y -= getStatusBarHeight(getContext());
         }
         int anchorWidth;
