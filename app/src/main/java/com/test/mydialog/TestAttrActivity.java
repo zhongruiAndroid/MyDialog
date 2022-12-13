@@ -198,7 +198,7 @@ public class TestAttrActivity extends AppCompatActivity implements View.OnClickL
         dialog.setCanceledOnTouchOutside(true);
         dialog.setWidth(200);
         dialog.setHeight(200);
-        dialog.setFullWidth();
+//        dialog.setFullWidth();
         if (rbTop.isChecked()) {
             dialog.setGravity(Gravity.TOP);
             dialog.show();

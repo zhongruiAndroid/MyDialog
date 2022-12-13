@@ -315,6 +315,20 @@ public class TheDialog extends AppCompatDialog implements GenericLifecycleObserv
     private int viewXOffset;
     private int viewYOffset;
 
+    public void setXOffset(int xOffset) {
+        this.viewXOffset = xOffset;
+    }
+
+    public void setYOffset(int yOffset) {
+        this.viewYOffset = yOffset;
+    }
+    public void addXOffset(int xOffset) {
+        this.viewXOffset += xOffset;
+    }
+
+    public void addYOffset(int yOffset) {
+        this.viewYOffset += yOffset;
+    }
     public static final int left_left = 1;
     public static final int left_right = 2;
     public static final int center = 3;
