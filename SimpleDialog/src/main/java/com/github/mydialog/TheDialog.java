@@ -143,6 +143,7 @@ public class TheDialog extends AppCompatDialog implements GenericLifecycleObserv
     }
 
     public TheDialog setDimAmount(float dimAmount) {
+        /*window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);全透明(包括状态栏)*/
         this.dimAmount = dimAmount;
         window.setDimAmount(this.dimAmount);
         return this;
