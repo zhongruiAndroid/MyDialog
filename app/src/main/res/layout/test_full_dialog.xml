@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#60F33143"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:background="@color/black"
+        android:text="测试全屏"
+        android:textColor="@color/white" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="right"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/cbDialogFull0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="视图伸入状态栏" />
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/cbDialogFull1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="全屏进入状态栏" />
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/cbDialogFull2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="全屏进入刘海" />
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/cbDialogUseActStatus3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="视图伸入状态栏V1" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:background="@color/black"
+        android:text="测试全屏"
+        android:gravity="bottom"
+        android:layout_gravity="bottom"
+        android:textColor="@color/white" />
+</FrameLayout>

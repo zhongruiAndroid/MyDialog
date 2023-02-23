@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         findViewById(R.id.btTest).setOnClickListener(this);
+        findViewById(R.id.btTestFull).setOnClickListener(this);
         findViewById(R.id.tv_mydialog_top).setOnClickListener(this);
         findViewById(R.id.tv_mydialog_center).setOnClickListener(this);
         findViewById(R.id.tv_mydialog_bottom).setOnClickListener(this);
@@ -58,6 +59,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.btTest:
                 startActivity(new Intent(this, TestAttrActivity.class));
+                break;
+            case R.id.btTestFull:
+
+                startActivity(new Intent(this, TestFullDialogActivity.class));
                 break;
             case R.id.btTestShowAndDismiss:
                 startActivity(new Intent(this, TestFinishActivity.class));

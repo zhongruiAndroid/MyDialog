@@ -27,7 +27,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @SuppressLint("RestrictedApi")
-public class TheDialog extends AppCompatDialog implements GenericLifecycleObserver{
+public class TheDialog extends AppCompatDialog implements GenericLifecycleObserver {
 
 
     private int width = WindowManager.LayoutParams.WRAP_CONTENT; //(int) (getScreenWidth() * 0.7);
@@ -37,7 +37,7 @@ public class TheDialog extends AppCompatDialog implements GenericLifecycleObserv
     //    private int titleViewHeight = -1;
 //    private int titleViewColor = -1;
     private boolean translucentStatus = false;
-    private boolean useActStatusBarFontColor =false;
+    private boolean useActStatusBarFontColor = false;
     private int backgroundColor = Color.WHITE;
     private int backgroundDrawableResId = -1;
     private Drawable backgroundDrawable;
@@ -197,7 +197,7 @@ public class TheDialog extends AppCompatDialog implements GenericLifecycleObserv
         this.translucentStatus = translucentStatus;
         if (this.translucentStatus) {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }else{
+        } else {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
         return this;
@@ -211,7 +211,7 @@ public class TheDialog extends AppCompatDialog implements GenericLifecycleObserv
         this.useActStatusBarFontColor = useActStatusBarFontColor;
         if (useActStatusBarFontColor) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        }else{
+        } else {
             window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         }
     }
@@ -292,9 +292,11 @@ public class TheDialog extends AppCompatDialog implements GenericLifecycleObserv
         return this;
     }
 
-    public boolean ignoreStatusBarHeight(){
+    /*dialog整体居中时，是否考虑状态栏高度*/
+    public boolean onDialogCenterCalculateStatusBarHeight() {
         return false;
     }
+
     public void show() {
         WindowManager.LayoutParams lp = window.getAttributes();
         if (this.width != WindowManager.LayoutParams.WRAP_CONTENT) {
@@ -303,8 +305,8 @@ public class TheDialog extends AppCompatDialog implements GenericLifecycleObserv
         if (this.height != WindowManager.LayoutParams.WRAP_CONTENT) {
             lp.height = height;
         }
-        if(ignoreStatusBarHeight()){
-            lp.y-=getStatusBarHeight(getContext())/2;
+        if (onDialogCenterCalculateStatusBarHeight()) {
+            lp.y -= getStatusBarHeight(getContext()) / 2;
         }
         if (width != WindowManager.LayoutParams.WRAP_CONTENT || height != WindowManager.LayoutParams.WRAP_CONTENT) {
             window.setAttributes(lp);
@@ -323,6 +325,7 @@ public class TheDialog extends AppCompatDialog implements GenericLifecycleObserv
     public void setYOffset(int yOffset) {
         this.viewYOffset = yOffset;
     }
+
     public void addXOffset(int xOffset) {
         this.viewXOffset += xOffset;
     }
@@ -330,6 +333,7 @@ public class TheDialog extends AppCompatDialog implements GenericLifecycleObserv
     public void addYOffset(int yOffset) {
         this.viewYOffset += yOffset;
     }
+
     public static final int left_left = 1;
     public static final int left_right = 2;
     public static final int center = 3;
@@ -355,7 +359,8 @@ public class TheDialog extends AppCompatDialog implements GenericLifecycleObserv
     public @interface showMode {
     }
 
-    public boolean onCalculateStatusBarHeight() {
+    /*dialog相对某个view的位置显示时，是否需要考虑状态栏高度，true:dialogY轴偏移量整体上移*/
+    public boolean onDialogShowCalculateStatusBarHeight() {
         return false;
     }
 
@@ -395,7 +400,7 @@ public class TheDialog extends AppCompatDialog implements GenericLifecycleObserv
         anchor.getLocationOnScreen(location);
         int x = location[0] + xOffset;
         int y = location[1] + yOffset;
-        if (!isFullScreen(anchor) || onCalculateStatusBarHeight()) {
+        if (!isFullScreen(anchor) || onDialogShowCalculateStatusBarHeight()) {
             y -= getStatusBarHeight(getContext());
         }
         if (isLeft) {
@@ -457,7 +462,7 @@ public class TheDialog extends AppCompatDialog implements GenericLifecycleObserv
         anchor.getLocationOnScreen(location);
         int x = location[0] + xOffset;
         int y = location[1] + yOffset;
-        if (!isFullScreen(anchor) || onCalculateStatusBarHeight()) {
+        if (!isFullScreen(anchor) || onDialogShowCalculateStatusBarHeight()) {
             y -= getStatusBarHeight(getContext());
         }
         int anchorWidth;
@@ -540,7 +545,7 @@ public class TheDialog extends AppCompatDialog implements GenericLifecycleObserv
         try {
             lifecycleAddObserver();
             super.show();
-        }catch (Exception e){
+        } catch (Exception e) {
         }
         if (isHideNavigation()) {
             if (getWindow() != null) {
@@ -548,27 +553,29 @@ public class TheDialog extends AppCompatDialog implements GenericLifecycleObserv
             }
         }
     }
+
     @SuppressLint("RestrictedApi")
     @Override
     public void onStateChanged(LifecycleOwner source, Lifecycle.Event event) {
-        if(event==Lifecycle.Event.ON_DESTROY){
+        if (event == Lifecycle.Event.ON_DESTROY) {
             try {
                 source.getLifecycle().removeObserver(TheDialog.this);
                 super.dismiss();
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public  void lifecycleAddObserver(){
+    public void lifecycleAddObserver() {
         Activity activity = findActivity(getContext());
-        if(activity instanceof FragmentActivity){
+        if (activity instanceof FragmentActivity) {
             FragmentActivity fragmentActivity = (FragmentActivity) activity;
             fragmentActivity.getLifecycle().removeObserver(this);
             fragmentActivity.getLifecycle().addObserver(this);
         }
     }
+
     @Override
     public void dismiss() {
         if (isDestroyed(getContext())) {
@@ -576,7 +583,7 @@ public class TheDialog extends AppCompatDialog implements GenericLifecycleObserv
         }
         try {
             super.dismiss();
-        }catch (Exception e){
+        } catch (Exception e) {
         }
     }
 
@@ -690,5 +697,96 @@ public class TheDialog extends AppCompatDialog implements GenericLifecycleObserv
             return true;
         }
         return false;
+    }
+
+
+    public void setFullScreen(boolean intoFull, boolean intoCutout) {
+        if (window == null) {
+            return;
+        }
+        setIntoCutout(intoCutout);
+        setFullScreen(window.getDecorView(), intoFull);
+    }
+
+    public void setIntoCutout(boolean intoCutout) {
+        if (window == null) {
+            return;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            WindowManager.LayoutParams lp = window.getAttributes();
+            if (intoCutout) {
+                lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+            } else {
+                lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_DEFAULT;
+            }
+            window.setAttributes(lp);
+        }
+    }
+
+    public void setFullScreen(View view, boolean intoFull) {
+        if (view == null) {
+            return;
+        }
+        if (intoFull) { //全屏
+            view.setSystemUiVisibility(
+                    view.getSystemUiVisibility()
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+            );
+        } else { //非全屏
+            int systemUiVisibility = view.getSystemUiVisibility();
+            systemUiVisibility &= ~View.SYSTEM_UI_FLAG_FULLSCREEN;
+            systemUiVisibility &= ~View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            systemUiVisibility &= ~View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            systemUiVisibility &= ~View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+            systemUiVisibility &= ~View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+            systemUiVisibility &= ~View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+            view.setSystemUiVisibility(systemUiVisibility);
+        }
+    }
+
+    public void setFullScreenCompat(boolean intoFull, boolean intoCutout) {
+        if (window == null) {
+            return;
+        }
+        setIntoCutout(intoCutout);
+        if (intoFull) {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+            window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        } else {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            window.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+        }
+    }
+
+    public void setIntoStatusBarV1(boolean isInto) {
+        setIntoCutout(isInto);
+        setTranslucentStatus(isInto);
+    }
+
+    public void setIntoStatusBar(boolean isInto) {
+        setIntoCutout(isInto);
+        if (window == null) {
+            return;
+        }
+        int systemUiVisibility = window.getDecorView().getSystemUiVisibility();
+        if (isInto) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.getDecorView().setSystemUiVisibility(systemUiVisibility | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                window.setStatusBarColor(Color.TRANSPARENT);
+            }
+        } else {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            systemUiVisibility &= ~View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+            window.clearFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.getDecorView().setSystemUiVisibility(systemUiVisibility);
+
+        }
     }
 }

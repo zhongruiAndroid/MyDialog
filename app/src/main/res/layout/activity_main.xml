@@ -150,6 +150,12 @@
             android:layout_height="wrap_content"
             android:text="testDialogShowAndDismiss"
             android:textAllCaps="false" />
+        <Button
+            android:id="@+id/btTestFull"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="测试全屏dialog"
+            android:textAllCaps="false" />
 
         <LinearLayout
             android:layout_width="match_parent"
